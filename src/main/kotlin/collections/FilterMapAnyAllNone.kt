@@ -17,6 +17,8 @@ val allLT6 = numbers.all { it < 6 }
 val allOdd = numbers.none { it % 2 == 1 }
 val allLT5 = numbers.none { it > 5 }
 
+val evenOdd = numbers.partition { it % 2 == 0 }
+
 
 fun main() {
     println(positives)
@@ -29,4 +31,9 @@ fun main() {
     println(allLT6)
     println(allOdd)
     println(allLT5)
+    println(evenOdd)
+
+    val (positive, negative) = numbers.partition { it > 0 }
+    print(positive)
+    println(negative)
 }
