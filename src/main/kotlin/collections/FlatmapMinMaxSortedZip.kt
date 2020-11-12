@@ -13,6 +13,13 @@ val inverted = shuffled.sortedBy { -it }
 val descending = shuffled.sortedDescending()
 val descendingBy = shuffled.sortedByDescending { abs(it)  }
 
+val A = listOf("a", "b", "c")
+val B = listOf(1, 2, 3, 4)
+
+val resultPair = A zip B
+val resultReduce = A.zip(B) {a, b -> "$a$b"}
+
+
 fun main() {
     println(tripled3)
     println("Numbers: $numbers3, min = ${numbers3.min()} max = ${numbers3.max()}") // 1
@@ -22,4 +29,7 @@ fun main() {
     println(inverted)
     println(descending)
     println(descendingBy)
+
+    println(resultPair)
+    println(resultReduce)
 }

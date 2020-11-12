@@ -7,7 +7,8 @@ val people = listOf(
     Person("Sarah", "Munich", "+49-777-789123"),
     Person("Svyatoslav", "Saint-Petersburg", "+7-999-456789"),
     Person("Vasilisa", "Saint-Petersburg", "+7-999-123456"),
-    Person("John", "London", "+7-999-456789"))
+    Person("John", "London", "+7-999-456789")
+)
 
 // The difference between associateBy and groupBy is how they process objects with the same key:
 // - associateBy uses the last suitable element as the value.
@@ -24,6 +25,9 @@ val cityPeople = people.groupBy(Person::name, Person::city)
 val phonePeople = people.groupBy(Person::name, Person::phone)
 val peoplePhone = people.groupBy(Person::phone, Person::name)
 
+val list1 = listOf(0, 10, 20)
+val map1 = mutableMapOf<String, Int?>()
+
 fun main() {
     println(phoneBook)
     println(cityBook)
@@ -32,4 +36,11 @@ fun main() {
     println(cityPeople)
     println(phonePeople)
     println(peoplePhone)
+
+    println(list1.getOrElse(1) { 42 })
+    println(list1.getOrElse(10) { 42 })
+    map1["x"] = 3
+    println(map1.getOrElse("x") { 42 })
+    map1["x"] = null
+    println(map1.getOrElse("x") { 42 })
 }
