@@ -1,4 +1,4 @@
-package collections
+package examples.collections
 
 val map = mapOf("key" to 42)
 

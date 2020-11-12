@@ -1,4 +1,4 @@
-package functional
+package examples.functional
 
 fun calculate(x: Int, y: Int, operation: (Int, Int) -> Int): Int {
     return operation(x, y)

@@ -1,4 +1,4 @@
-package collections
+package examples.collections
 
 val words = listOf("Lets", "find", "something", "in", "collection", "somehow")
 

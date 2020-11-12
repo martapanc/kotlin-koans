@@ -1,4 +1,4 @@
-package intro
+package examples.intro
 var mutableVariable: String = "initial"
 val immutable: Int = 1
 val immutableWithTypeInference = 2

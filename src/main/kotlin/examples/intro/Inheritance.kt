@@ -1,4 +1,4 @@
-package intro
+package examples.intro
 
 open class Dog {
     open fun sayHello() {

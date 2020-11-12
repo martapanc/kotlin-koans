@@ -1,4 +1,4 @@
-package intro
+package examples.intro
 // https://kotlinlang.org/docs/reference/generics.html
 class MutableStack<E>(vararg items: E) {
     private val elements = items.toMutableList()
@@ -14,7 +14,7 @@ class MutableStack<E>(vararg items: E) {
     fun size() = elements.size
 
     override fun toString(): String {
-        return "intro.MutableStack(${elements.joinToString()})"
+        return "examples.intro.MutableStack(${elements.joinToString()})"
     }
 }
 

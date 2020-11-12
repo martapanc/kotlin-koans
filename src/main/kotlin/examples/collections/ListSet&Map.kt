@@ -1,4 +1,4 @@
-package collections
+package examples.collections
 val systemUsers: MutableList<Int> = mutableListOf(1, 2, 3)
 val sudoers: List<Int> = systemUsers
 
@@ -44,11 +44,11 @@ fun accountsReport() {
 
 fun main() {
     addSudoer(4)
-    println("Tot collections.getSudoers: ${getSysSudoers().size}")
+    println("Tot examples.collections.getSudoers: ${getSysSudoers().size}")
     getSysSudoers().forEach { i ->
         println("Some useful info on user $i")
     }
-    // collections.getSysSudoers().add(5) <- Error!
+    // examples.collections.getSysSudoers().add(5) <- Error!
 
 
     val aNewIssue: String = "uniqueDescr4"

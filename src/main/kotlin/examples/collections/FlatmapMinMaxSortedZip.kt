@@ -1,4 +1,4 @@
-package collections
+package examples.collections
 
 import kotlin.math.abs
 

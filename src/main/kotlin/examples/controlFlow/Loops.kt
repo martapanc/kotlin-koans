@@ -1,4 +1,4 @@
-package controlFlow
+package examples.controlFlow
 
 val cakes = listOf("Carrot", "Cheese", "Chocolate")
 

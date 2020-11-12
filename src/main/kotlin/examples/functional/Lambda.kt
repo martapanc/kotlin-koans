@@ -1,4 +1,4 @@
-package functional
+package examples.functional
 
 val upperCase1: (String) -> String = { str: String -> str.toUpperCase() }   //1
 

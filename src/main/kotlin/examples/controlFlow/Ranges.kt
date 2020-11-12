@@ -1,4 +1,4 @@
-package controlFlow
+package examples.controlFlow
 
 fun main() {
     for(i in 0..3) {

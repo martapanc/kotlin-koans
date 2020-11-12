@@ -1,4 +1,4 @@
-package controlFlow
+package examples.controlFlow
 
 val authors = setOf("Shakespeare", "Hemingway", "Twain")
 val writers = setOf("Twain", "Shakespeare", "Hemingway")

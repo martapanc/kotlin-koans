@@ -1,6 +1,6 @@
-package controlFlow
+package examples.controlFlow
 
-import intro.Customer
+import examples.intro.Customer
 
 
 fun main() {

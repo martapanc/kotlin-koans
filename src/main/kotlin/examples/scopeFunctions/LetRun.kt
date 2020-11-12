@@ -1,4 +1,4 @@
-package scopeFunctions
+package examples.scopeFunctions
 
 // When called on an object, let executes the given block of code and returns the result of its last expression.
 // The object is accessible inside the block by the reference it.
