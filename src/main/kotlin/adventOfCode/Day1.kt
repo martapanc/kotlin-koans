@@ -21,8 +21,22 @@ fun readInputFileToList(path: String): List<Int> {
     return inputList;
 }
 
+fun computerRecursiveTotalFuel(massList: List<Int>): Int {
+    var recursiveTotalFuel = 0;
+
+    var computedFuel = computeTotalFuel(massList)
+    while (computedFuel >= 0) {
+        recursiveTotalFuel += computedFuel;
+        computedFuel = computeFuel(computedFuel)
+    }
+    return recursiveTotalFuel;
+}
+
 fun main() {
-    print(computeTotalFuel(readInputFileToList("src/main/kotlin/adventOfCode/input.txt")))
+    val massList = readInputFileToList("src/main/kotlin/adventOfCode/input.txt")
+
+    println("Part 1: " + computeTotalFuel(massList))
+    println("Part 2: " + computerRecursiveTotalFuel(massList))
 }
 
 

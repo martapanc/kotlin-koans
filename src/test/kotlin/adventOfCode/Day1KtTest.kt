@@ -10,8 +10,14 @@ internal class Day1KtTest {
     fun testComputeFuel() {
         assertEquals(2, computeFuel(12))
         assertEquals(2, computeFuel(14))
+        assertEquals(-1, computeFuel(5))
+        assertEquals(0, computeFuel(6))
+        assertEquals(1, computeFuel(9))
+        assertEquals(9, computeFuel(35))
         assertEquals(654, computeFuel(1969))
         assertEquals(33583, computeFuel(100756))
+        assertEquals(1049008, computeFuel(3147032))
+        assertEquals(349667, computeFuel(1049008))
     }
 
     @Test
@@ -24,5 +30,13 @@ internal class Day1KtTest {
     @Test
     fun testReadInputFileToList() {
         print(readInputFileToList("src/main/kotlin/adventOfCode/input.txt"))
+    }
+
+    @Test
+    fun testComputeRecursiveTotalFuel() {
+        assertEquals(2, computerRecursiveTotalFuel(listOf(12)))
+        assertEquals(10, computerRecursiveTotalFuel(listOf(35)))
+        assertEquals(966, computerRecursiveTotalFuel(listOf(1969)))
+        assertEquals(50346, computerRecursiveTotalFuel(listOf(100756)))
     }
 }
