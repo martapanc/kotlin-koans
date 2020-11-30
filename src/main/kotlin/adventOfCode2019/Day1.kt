@@ -1,4 +1,4 @@
-package adventOfCode
+package adventOfCode2019
 
 import java.io.File
 import java.io.InputStream

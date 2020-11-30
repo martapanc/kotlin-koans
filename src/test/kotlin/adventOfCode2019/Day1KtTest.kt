@@ -1,4 +1,4 @@
-package adventOfCode
+package adventOfCode2019
 
 import org.junit.jupiter.api.Test
 
