@@ -21,15 +21,20 @@ fun readInputFileToList(path: String): List<Int> {
     return inputList;
 }
 
-fun computerRecursiveTotalFuel(massList: List<Int>): Int {
-    var recursiveTotalFuel = 0;
+fun computeRecursiveFuel(mass: Int): Int {
+    var recursiveFuel = 0
 
-    var computedFuel = computeTotalFuel(massList)
+    var computedFuel = computeFuel(mass)
     while (computedFuel >= 0) {
-        recursiveTotalFuel += computedFuel;
+        recursiveFuel += computedFuel;
         computedFuel = computeFuel(computedFuel)
     }
-    return recursiveTotalFuel;
+
+    return recursiveFuel
+}
+
+fun computerRecursiveTotalFuel(massList: List<Int>): Int {
+    return massList.sumBy { computeRecursiveFuel(it) }
 }
 
 fun main() {
