@@ -18,45 +18,23 @@ fun readInputFileToMap(path: String): Map<Int, Int> {
 }
 
 fun findPairAndMultiply(inputMap: Map<Int, Int>) : Int {
-    var first = 0
-    var second = 0
-
-    for (input in inputMap) {
+    inputMap.forEach { input ->
         if (inputMap.containsKey(input.value)) {
-            first = input.key
-            second = input.value
-            break
+            return input.key * input.value
         }
     }
-
-    return first * second
+    return 0
 }
 
 fun findTripletAndMultiply(inputMap: Map<Int, Int>) : Int {
-    var first = 0
-    var second = 0
-    var third = 0
-
-    for (input1 in inputMap) {
-        val diff = input1.value
-
-        for (input2 in inputMap) {
+    inputMap.forEach { input1 ->
+        inputMap.forEach { input2 ->
             val candidateSecond = input2.key
-            if (candidateSecond < diff) {
-                val candidateThird = diff - candidateSecond
-                if (inputMap.containsKey(candidateThird)) {
-                    first = input1.key
-                    second = candidateSecond
-                    third = candidateThird
-                    break
-                }
+            val candidateThird = input1.value - candidateSecond
+            if (inputMap.containsKey(candidateThird)) {
+                return input1.key * candidateSecond * candidateThird
             }
         }
-
-        if (first != 0) {
-            break
-        }
     }
-
-    return first * second * third
+    return 0
 }
