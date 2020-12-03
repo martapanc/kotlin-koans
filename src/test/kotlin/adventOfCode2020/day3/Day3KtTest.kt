@@ -1,0 +1,17 @@
+package adventOfCode2020.day3
+
+import org.junit.jupiter.api.Test
+
+import org.junit.jupiter.api.Assertions.*
+
+internal class Day3KtTest {
+
+    private val testInput = readInputFileToMap("src/main/kotlin/adventOfCode2020/day3/input0")
+    private val input = readInputFileToMap("src/main/kotlin/adventOfCode2020/day3/input")
+
+    @Test
+    fun testReadInputFileToMap() {
+        println(testInput)
+        println(input)
+    }
+}
