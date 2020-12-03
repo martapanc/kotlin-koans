@@ -14,4 +14,9 @@ internal class Day3KtTest {
         println(testInput)
         println(input)
     }
+
+    @Test
+    fun testCountTreesInMap() {
+        assertEquals(7, countTreesInMap(testInput))
+    }
 }
