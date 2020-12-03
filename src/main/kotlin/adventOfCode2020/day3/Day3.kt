@@ -2,7 +2,6 @@ package adventOfCode2020.day3
 
 import java.io.File
 import java.io.InputStream
-import java.util.stream.IntStream.range
 
 // 11x11 area, (3r, 1d) = 33x = repeat 3 times
 // 31x323 area, (3r, 1d) = 11x
@@ -25,13 +24,26 @@ fun readInputFileToMap(path: String): Map<Pair<Int, Int>, Boolean> {
     return inputMap;
 }
 
-fun countTreesInMap(inputMap: Map<Pair<Int, Int>, Boolean>): Int {
+fun countTreesInMap(inputMap: Map<Pair<Int, Int>, Boolean>, maxX: Int, maxY: Int): Int {
     var count = 0
+    var x = 0
+    var y = 0
 
-    val (maxX, maxY) = inputMap.keys.unzip();
-
-//    for (x in range(0, maxX)) {
-//
-//    }
+    while (x < maxX) {
+        if (inputMap.containsKey(Pair(x, y))) {
+            if (inputMap[Pair(x, y)] == true) {
+                count++
+            }
+        }
+        x += 3
+        y++
+    }
     return count
 }
+
+//fun main() {
+////    println(countTreesInMap(readInputFileToMap("src/main/kotlin/adventOfCode2020/day3/input0"), 33, 11))
+//    val inputMap = readInputFileToMap("src/main/kotlin/adventOfCode2020/day3/input")
+////    println(inputMap)
+//    println(countTreesInMap(inputMap, 450, 324))
+//}
