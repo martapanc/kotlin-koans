@@ -26,12 +26,25 @@ internal class Day4KtTest {
     @Test
     fun testIsPassportDataValid() {
         assertTrue(isPassportDataValid("pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+        assertTrue(isPassportDataValid("pid:087499704 hgt:155cm ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+        assertTrue(isPassportDataValid("pid:087499704 hgt:155cm ecl:oth iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+        assertTrue(isPassportDataValid("pid:087499704 hgt:155cm ecl:oth iyr:2012 eyr:2025 byr:1995 hcl:#623a2f"))
+        assertTrue(isPassportDataValid("pid:087499704 hgt:155cm ecl:oth iyr:2012 eyr:2025 byr:1995 hcl:#1235ad"))
+
         assertFalse(isPassportDataValid("pid:08749970 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+        assertFalse(isPassportDataValid("pid:0874997011 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+
         assertFalse(isPassportDataValid("pid:087499704 hgt:74 ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+        assertFalse(isPassportDataValid("pid:087499704 hgt:0cm ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+        assertFalse(isPassportDataValid("pid:087499704 hgt:74cm ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+        assertFalse(isPassportDataValid("pid:087499704 hgt:100in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+
         assertFalse(isPassportDataValid("pid:087499704 hgt:74in ecl:red iyr:2012 eyr:2030 byr:1980 hcl:#623a2f"))
+
         assertFalse(isPassportDataValid("pid:087499704 hgt:74in ecl:grn iyr:2009 eyr:2030 byr:1980 hcl:#623a2f"))
         assertFalse(isPassportDataValid("pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2031 byr:1980 hcl:#623a2f"))
         assertFalse(isPassportDataValid("pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1919 hcl:#623a2f"))
+
         assertFalse(isPassportDataValid("pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980 hcl:#623a2g"))
     }
 
