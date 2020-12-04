@@ -11,6 +11,7 @@ repositories {
 }
 dependencies {
     testImplementation(kotlin("test-junit5"))
+    implementation(kotlin("kotlin-stdlib"))
 }
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
