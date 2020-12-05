@@ -42,3 +42,39 @@ fun findHighestSeatId(inputList: List<String>): Int? {
         .map { it[2] }
     return idList.maxOrNull()
 }
+
+fun mapSeats(inputList: List<String>) {
+    val seatMap = mutableMapOf<Pair<Int, Int>, String>()
+    for (y in 0..127) {
+        for (x in 0..7) {
+            seatMap[Pair(x, y)] = "\uD83D\uDCBA"
+        }
+    }
+    for (seat in inputList.map { fromStringToRowAndColumn(it) }) {
+        seatMap[Pair(seat[1], seat[0])] = "☃️"
+    }
+    seatMap[Pair(7, 83)] = "\uD83D\uDC22️" // My seat
+
+    printSeatMap(seatMap)
+}
+
+private fun printSeatMap(seatMap: MutableMap<Pair<Int, Int>, String>) {
+    print("     ")
+    for (x in 0..7) {
+        print("$x ")
+    }
+    println()
+    for (y in 0..127) {
+        if (y < 10) {
+            print(" ")
+        }
+        if (y < 100) {
+            print(" ")
+        }
+        print("$y ")
+        for (x in 0..7) {
+            print(seatMap[Pair(x, y)])
+        }
+        println()
+    }
+}

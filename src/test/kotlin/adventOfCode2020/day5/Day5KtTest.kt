@@ -23,6 +23,11 @@ internal class Day5KtTest {
 
     @Test
     fun testFindHighestSeatId() {
-        assertEquals(1, findHighestSeatId(input))
+        assertEquals(996, findHighestSeatId(input))
+    }
+
+    @Test
+    fun testMapSeats() {
+        mapSeats(input)
     }
 }
