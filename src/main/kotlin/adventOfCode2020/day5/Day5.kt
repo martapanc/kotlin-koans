@@ -51,7 +51,7 @@ fun mapSeats(inputList: List<String>) {
         }
     }
     for (seat in inputList.map { fromStringToRowAndColumn(it) }) {
-        seatMap[Pair(seat[1], seat[0])] = "☃️"
+        seatMap[Pair(seat[1], seat[0])] = "⛄️️"
     }
     seatMap[Pair(7, 83)] = "\uD83D\uDC22️" // My seat
 
