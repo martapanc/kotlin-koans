@@ -18,7 +18,7 @@ fun readInputFile(path: String): List<String> {
             passportData = ""
         }
     }
-    return passportDataList;
+    return passportDataList
 }
 
 fun arePassportKeysValid(passportData: String): Boolean {
