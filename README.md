@@ -2,7 +2,7 @@
 
 [Learn Kotlin by example](https://play.kotlinlang.org/byExample/overview?_ga=2.185933865.1666331684.1604597595-1007222991.1603743628)
 
-## AoC 2020
+## 🎄 AoC 2020 🎅
 - Day 1: [code](src/main/kotlin/adventOfCode2020/day1/Day1.kt) - [tests](src/test/kotlin/adventOfCode2020/day1/Day1KtTest.kt)
 - Day 2: [code](src/main/kotlin/adventOfCode2020/day2/Day2.kt) - [tests](src/test/kotlin/adventOfCode2020/day2/Day2KtTest.kt)
 - Day 3: [code](src/main/kotlin/adventOfCode2020/day3/Day3.kt) - [tests](src/test/kotlin/adventOfCode2020/day3/Day3KtTest.kt)
