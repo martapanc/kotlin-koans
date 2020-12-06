@@ -18,29 +18,29 @@ internal class Day6KtTest {
 
     @Test
     fun testCountUniqueLetters() {
-        assertEquals(2, countUniqueLetters("i x i i"))
-        assertEquals(3, countUniqueLetters("ab ac"))
-        assertEquals(3, countUniqueLetters("abc"))
-        assertEquals(6, countUniqueLetters("abcx abcy abcz"))
+        assertEquals(2, countUniqueChars("i x i i"))
+        assertEquals(3, countUniqueChars("ab ac"))
+        assertEquals(3, countUniqueChars("abc"))
+        assertEquals(6, countUniqueChars("abcx abcy abcz"))
     }
 
     @Test
     fun testCountCommonLetters() {
-        assertEquals(0, countCommonLetters("i x i i"))
-        assertEquals(1, countCommonLetters("ab ac"))
-        assertEquals(3, countCommonLetters("abc"))
-        assertEquals(3, countCommonLetters("abcx abcy abcz"))
+        assertEquals(0, countCommonChars("i x i i"))
+        assertEquals(1, countCommonChars("ab ac"))
+        assertEquals(3, countCommonChars("abc"))
+        assertEquals(3, countCommonChars("abcx abcy abcz"))
     }
 
     @Test
     fun testCountTotalAnswers() {
-        assertEquals(17, countTotalAnswers(input0, ::countUniqueLetters))
-        assertEquals(6768, countTotalAnswers(input, ::countUniqueLetters))
+        assertEquals(17, countTotalAnswers(input0, ::countUniqueChars))
+        assertEquals(6768, countTotalAnswers(input, ::countUniqueChars))
     }
 
     @Test
     fun testCountCommonAnswers() {
-        assertEquals(9, countTotalAnswers(input0, ::countCommonLetters))
-        assertEquals(3489, countTotalAnswers(input, ::countCommonLetters))
+        assertEquals(9, countTotalAnswers(input0, ::countCommonChars))
+        assertEquals(3489, countTotalAnswers(input, ::countCommonChars))
     }
 }
