@@ -40,9 +40,26 @@ fun countCommonLetters(answersString: String): Int {
     if (answerGroupList.size == 1) {
         return answerGroupList[0].length
     }
+
+    val setOfLetters = mutableSetOf<Char>()
+    val setOfLettersCopy = mutableSetOf<Char>()
     for (answers in answerGroupList) {
-        if (answers.length == 1) {
+        for (char in answers) {
+            setOfLetters.add(char)
+            setOfLettersCopy.add(char)
         }
     }
-    return 0
+
+    for (answer in answerGroupList) {
+        for (char in setOfLetters) {
+            if (!answer.contains(char)) {
+                setOfLettersCopy.remove(char)
+            }
+        }
+    }
+    return setOfLettersCopy.size
+}
+
+fun countTotalCommonAnswers(list: List<String>): Int {
+    return list.sumBy { countCommonLetters(it) }
 }
