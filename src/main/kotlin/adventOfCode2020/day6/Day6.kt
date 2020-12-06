@@ -3,9 +3,7 @@ package adventOfCode2020.day6
 fun countUniqueChars(answers: String): Int {
     val set = mutableSetOf<Char>()
     for (answer in answers.split(" ")) {
-        for (char in answer) {
-            set.add(char)
-        }
+        set.addAll(answer.toList())
     }
     return set.size
 }
@@ -17,10 +15,10 @@ fun countCommonChars(answersString: String): Int {
     }
 
     val setOfUniqueCharsCopy = setOfUniqueChars.toMutableList()
-    for (answer in answersString.split(" ")) {
+    for (answers in answersString.split(" ")) {
         setOfUniqueChars
             .asSequence()
-            .filterNot { answer.contains(it) }
+            .filterNot { answers.contains(it) }
             .forEach { setOfUniqueCharsCopy.remove(it) }
     }
     return setOfUniqueCharsCopy.size
