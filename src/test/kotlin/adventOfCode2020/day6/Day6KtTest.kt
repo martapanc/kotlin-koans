@@ -24,6 +24,14 @@ internal class Day6KtTest {
     }
 
     @Test
+    fun testCountCommonLetters() {
+        assertEquals(0, countCommonLetters("i x i i"))
+        assertEquals(1, countCommonLetters("ab ac"))
+        assertEquals(3, countCommonLetters("abc"))
+        assertEquals(3, countCommonLetters("abcx abcy abcz"))
+    }
+
+    @Test
     fun testCountTotalAnswers() {
         assertEquals(17, countTotalAnswers(input0))
         assertEquals(17, countTotalAnswers(input))

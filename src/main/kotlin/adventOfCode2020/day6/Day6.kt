@@ -34,3 +34,15 @@ fun countUniqueLetters(answers: String): Int {
 fun countTotalAnswers(list: List<String>): Int {
     return list.sumBy { countUniqueLetters(it) }
 }
+
+fun countCommonLetters(answersString: String): Int {
+    val answerGroupList = answersString.split(" ")
+    if (answerGroupList.size == 1) {
+        return answerGroupList[0].length
+    }
+    for (answers in answerGroupList) {
+        if (answers.length == 1) {
+        }
+    }
+    return 0
+}
