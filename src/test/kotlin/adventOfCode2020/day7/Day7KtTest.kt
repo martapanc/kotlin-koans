@@ -12,7 +12,12 @@ internal class Day7KtTest {
 
     @Test
     fun readInputToList() {
-        println(input)
         println(input0)
+        println(input)
+    }
+
+    @Test
+    fun testFindContainingBags() {
+        assertEquals(4, findContainingBags(input0))
     }
 }
