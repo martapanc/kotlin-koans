@@ -17,9 +17,8 @@ fun readInputToMap(path: String): Map<String, List<BagQuantity>> {
             .replace(" bags", "")
             .replace(" bag", "")
             .split(" contain ")
-        val bagListAsStrings: List<String> = data[1].split(", ")
         val bagList = mutableListOf<BagQuantity>()
-        for (bagString in bagListAsStrings) {
+        for (bagString in data[1].split(", ")) {
             if (bagString == "no other") {
                 bagList.add(BagQuantity(0, "None"))
             } else {
@@ -66,13 +65,11 @@ fun findContainingBags(bagMap: Map<String, List<String>?>, start: String): Int {
             .forEach { tempBagList.addAll(it) }
         bagList = tempBagList.toMutableSet()
     }
-
     return bagList.size
 }
 
 fun findContainedIndividualBags(bagMap: Map<String, List<BagQuantity>>, start: String): Int {
     var count = 0
-
     var bagQuantitiesMap = mutableMapOf<String, Int>()
     for (bag in bagMap[start] ?: error("")) {
         bagQuantitiesMap[bag.color] = bag.quantity
@@ -96,6 +93,5 @@ fun findContainedIndividualBags(bagMap: Map<String, List<BagQuantity>>, start: S
         bagQuantitiesMap = newBagQuantitiesMap.toMutableMap()
         newBagQuantitiesMap = mutableMapOf()
     }
-
     return count
 }

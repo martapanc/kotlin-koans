@@ -7,5 +7,6 @@
 - Day 2: [code](src/main/kotlin/adventOfCode2020/day2/Day2.kt) - [tests](src/test/kotlin/adventOfCode2020/day2/Day2KtTest.kt)
 - Day 3: [code](src/main/kotlin/adventOfCode2020/day3/Day3.kt) - [tests](src/test/kotlin/adventOfCode2020/day3/Day3KtTest.kt)
 - Day 4: [code](src/main/kotlin/adventOfCode2020/day4/Day4.kt) - [tests](src/test/kotlin/adventOfCode2020/day4/Day4KtTest.kt)
-- Day 5: [code](src/main/kotlin/adventOfCode2020/day5/Day5.kt) - [tests](src/test/kotlin/adventOfCode2020/day5/Day5KtTest.kt)
+- Day 5: [code](src/main/kotlin/adventOfCode2020/day5/Day5.kt) - [tests](src/test/kotlin/adventOfCode2020/day5/Day5KtTest.kt) - [seat map](src/main/kotlin/adventOfCode2020/day5/seatMap)
 - Day 6: [code](src/main/kotlin/adventOfCode2020/day6/Day6.kt) - [tests](src/test/kotlin/adventOfCode2020/day6/Day6KtTest.kt)
+- Day 7: [code](src/main/kotlin/adventOfCode2020/day7/Day7.kt) - [tests](src/test/kotlin/adventOfCode2020/day7/Day7KtTest.kt)
