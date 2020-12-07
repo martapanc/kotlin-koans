@@ -69,3 +69,33 @@ fun findContainingBags(bagMap: Map<String, List<String>?>, start: String): Int {
 
     return bagList.size
 }
+
+fun findContainedIndividualBags(bagMap: Map<String, List<BagQuantity>>, start: String): Int {
+    var count = 0
+
+    var bagQuantitiesMap = mutableMapOf<String, Int>()
+    for (bag in bagMap[start] ?: error("")) {
+        bagQuantitiesMap[bag.color] = bag.quantity
+        count += bag.quantity
+    }
+
+    var newBagQuantitiesMap = mutableMapOf<String, Int>()
+    while (bagQuantitiesMap.isNotEmpty()) {
+        for (bag in bagQuantitiesMap.entries) {
+            val containedBags: List<BagQuantity>? = bagMap[bag.key]
+            for (containedBag in containedBags!!) {
+                if (newBagQuantitiesMap.containsKey(containedBag.color)) {
+                    val qnt = newBagQuantitiesMap[containedBag.color]!!
+                    newBagQuantitiesMap[containedBag.color] = qnt + (containedBag.quantity * bag.value)
+                } else if (containedBag.quantity != 0) {
+                    newBagQuantitiesMap[containedBag.color] = containedBag.quantity * bag.value
+                }
+            }
+        }
+        for (bagQuantity in newBagQuantitiesMap.values) count += bagQuantity
+        bagQuantitiesMap = newBagQuantitiesMap.toMutableMap()
+        newBagQuantitiesMap = mutableMapOf()
+    }
+
+    return count
+}
