@@ -33,7 +33,7 @@ fun readInputToMap(path: String): Map<String, List<BagQuantity>> {
 }
 
 fun buildMapFromContainedBags(inputMap: Map<String, List<BagQuantity>>): Map<String, List<String>?> {
-    val outputMap : MutableMap<String, MutableList<String>?> = HashMap()
+    val outputMap: MutableMap<String, MutableList<String>?> = HashMap()
     for (entry in inputMap.entries) {
         entry.value
             .filter { it.color != "None" }
@@ -54,10 +54,8 @@ fun buildMapFromContainedBags(inputMap: Map<String, List<BagQuantity>>): Map<Str
 fun findContainingBags(bagMap: Map<String, List<String>?>, start: String): Int {
     var bagList = mutableSetOf<String>()
 
-    val startList : List<String>? = bagMap[start]
-    if (startList != null) {
-        bagList.addAll(startList)
-    }
+    val startList: List<String>? = bagMap[start]
+    if (startList != null) bagList.addAll(startList)
 
     var copyBagList = mutableSetOf<String>()
     while (copyBagList != bagList) {
