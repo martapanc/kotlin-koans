@@ -5,7 +5,7 @@ import java.io.InputStream
 
 data class BagQuantity(var quantity: Int, var color: String)
 
-fun readInputToList(path: String): Map<String, List<BagQuantity>> {
+fun readInputToMap(path: String): Map<String, List<BagQuantity>> {
     val inputStream: InputStream = File(path).inputStream()
     val lineList = mutableListOf<String>()
     inputStream.bufferedReader().forEachLine { lineList.add(it) }
@@ -30,6 +30,26 @@ fun readInputToList(path: String): Map<String, List<BagQuantity>> {
         inputMap[data[0]] = bagList
     }
     return inputMap
+}
+
+fun buildMapFromContainedBags(inputMap: Map<String, List<BagQuantity>>): Map<String, List<String>?> {
+    val outputMap : MutableMap<String, MutableList<String>?> = HashMap()
+
+    for (entry in inputMap.entries) {
+        entry.value
+            .filter { it.color != "None" }
+            .forEach {
+                if (outputMap.containsKey(it.color)) {
+                    val list = outputMap[it.color]?.toMutableList()
+                    list?.add(entry.key)
+                    outputMap[it.color] = list?.toMutableList()
+                } else {
+                    val newList = mutableListOf(entry.key)
+                    outputMap[it.color] = newList
+                }
+            }
+    }
+    return outputMap
 }
 
 fun findContainingBags(bagMap: Map<String, List<BagQuantity>>): List<String> {
