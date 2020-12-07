@@ -20,6 +20,7 @@ internal class Day7KtTest {
 
     @Test
     fun testFindContainingBags() {
-        assertEquals(4, findContainingBags(input0))
+        assertEquals(4, findContainingBags(buildMapFromContainedBags(input0), "shiny gold"))
+        assertEquals(179, findContainingBags(buildMapFromContainedBags(input), "shiny gold"))
     }
 }

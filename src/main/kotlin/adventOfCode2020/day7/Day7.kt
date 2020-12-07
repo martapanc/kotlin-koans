@@ -34,7 +34,6 @@ fun readInputToMap(path: String): Map<String, List<BagQuantity>> {
 
 fun buildMapFromContainedBags(inputMap: Map<String, List<BagQuantity>>): Map<String, List<String>?> {
     val outputMap : MutableMap<String, MutableList<String>?> = HashMap()
-
     for (entry in inputMap.entries) {
         entry.value
             .filter { it.color != "None" }
@@ -52,29 +51,23 @@ fun buildMapFromContainedBags(inputMap: Map<String, List<BagQuantity>>): Map<Str
     return outputMap
 }
 
-fun findContainingBags(bagMap: Map<String, List<BagQuantity>>): List<String> {
-    val bagList = mutableListOf<String>()
-    val tempBagList = mutableListOf<String>()
+fun findContainingBags(bagMap: Map<String, List<String>?>, start: String): Int {
+    var bagList = mutableSetOf<String>()
 
-    for (bagEntry in bagMap.entries) {
-        val entryValue: List<BagQuantity> = bagEntry.value
-        for (bag in entryValue) {
-            if (bag.color == "shiny gold") {
-                bagList.add(bagEntry.key)
-            }
-        }
+    val startList : List<String>? = bagMap[start]
+    if (startList != null) {
+        bagList.addAll(startList)
     }
 
-    for (bag in bagList) {
-        for (bagEntry in bagMap.entries) {
-            val entryValue: List<BagQuantity> = bagEntry.value
-            for (bagVal in entryValue) {
-                if (bagVal.color == bag) {
-                    bagList.add(bagEntry.key)
-                }
-            }
-        }
+    var copyBagList = mutableSetOf<String>()
+    while (copyBagList != bagList) {
+        val tempBagList = bagList.toMutableSet()
+        copyBagList = bagList.toMutableSet()
+        bagList
+            .mapNotNull { bagMap[it] }
+            .forEach { tempBagList.addAll(it) }
+        bagList = tempBagList.toMutableSet()
     }
 
-    return bagList
+    return bagList.size
 }
