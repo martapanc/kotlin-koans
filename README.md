@@ -9,5 +9,5 @@
 - Day 4: [code](src/main/kotlin/adventOfCode2020/day4/Day4.kt) - [tests](src/test/kotlin/adventOfCode2020/day4/Day4KtTest.kt)
 - Day 5: [code](src/main/kotlin/adventOfCode2020/day5/Day5.kt) - [tests](src/test/kotlin/adventOfCode2020/day5/Day5KtTest.kt) - [seat map](src/main/kotlin/adventOfCode2020/day5/seatMap)
 - Day 6: [code](src/main/kotlin/adventOfCode2020/day6/Day6.kt) - [tests](src/test/kotlin/adventOfCode2020/day6/Day6KtTest.kt)
-- Day 7: [code](src/main/kotlin/adventOfCode2020/day7/Day7.kt) - [tests](src/test/kotlin/adventOfCode2020/day7/Day7KtTest.kt)   <img src="https://i.redd.it/gx6l9oavzp361.jpg" alt="Visualisation of Day 7" width="80"/>
+- Day 7: [code](src/main/kotlin/adventOfCode2020/day7/Day7.kt) - [tests](src/test/kotlin/adventOfCode2020/day7/Day7KtTest.kt) - visualisation of today's problem: <img src="https://i.redd.it/gx6l9oavzp361.jpg" alt="Visualisation of Day 7" width="80"/>
 - Day 8: [code](src/main/kotlin/adventOfCode2020/day8/Day8.kt) - [tests](src/test/kotlin/adventOfCode2020/day8/Day8KtTest.kt)   
