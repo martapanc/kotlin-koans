@@ -16,12 +16,12 @@ fun readInputToMap(path: String): Map<Int, GameData> {
     return inputMap
 }
 
-fun playTheGame(inputMap: Map<Int, GameData>): Int {
+fun playTheGame(inputMap: Map<Int, GameData>): GameOver {
     var accumulator = 0
     var index = 0
     while (true) {
         val current: GameData? = inputMap[index]
-        if (current!!.executed) {
+        if (current == null || current.executed) {
             break
         }
         when (current.command) {
@@ -40,7 +40,9 @@ fun playTheGame(inputMap: Map<Int, GameData>): Int {
         current.executed = true
     }
 
-    return accumulator
+    return GameOver(accumulator, index >= inputMap.size)
 }
 
 data class GameData(var command: String, var amount: Int, var executed: Boolean) {}
+
+data class GameOver(var accumulator: Int, var terminated: Boolean)
