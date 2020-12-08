@@ -43,6 +43,22 @@ fun playTheGame(inputMap: Map<Int, GameData>): GameOver {
     return GameOver(accumulator, index >= inputMap.size)
 }
 
+fun fixInstructionAndPlay(map: Map<Int, GameData>): Int {
+    for (entry in map.entries) {
+        if (entry.value.command == "acc") continue
+        val copyInputMap = HashMap(map)
+        for (copyEntry in copyInputMap.values) copyEntry.executed = false
+        val newCommand: String = if (entry.value.command == "nop") { "jmp" } else { "nop" }
+        copyInputMap[entry.key] = GameData(newCommand, entry.value.amount, false)
+
+        val gameOver = playTheGame(copyInputMap)
+        if (gameOver.terminated) {
+            return gameOver.accumulator
+        }
+    }
+    return -1
+}
+
 data class GameData(var command: String, var amount: Int, var executed: Boolean) {}
 
 data class GameOver(var accumulator: Int, var terminated: Boolean)

@@ -22,4 +22,10 @@ internal class Day8KtTest {
         assertEquals(GameOver(8, true), playTheGame(input0_modif))
         assertEquals(GameOver(1200, false), playTheGame(input))
     }
+
+    @Test
+    fun fixInstructionAndPlay() {
+        assertEquals(8, fixInstructionAndPlay(input0))
+        assertEquals(1023, fixInstructionAndPlay(input))
+    }
 }
