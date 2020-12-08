@@ -21,42 +21,37 @@ fun playTheGame(inputMap: Map<Int, GameData>): GameOver {
     var index = 0
     while (true) {
         val current: GameData? = inputMap[index]
-        if (current == null || current.executed) {
-            break
-        }
+        if (current == null || current.executed) { break }
         when (current.command) {
-            "nop" -> {
-                index++
-            }
+            "nop" -> { index++ }
             "acc" -> {
                 accumulator += current.amount
                 index++
             }
-            "jmp" -> {
-                index += current.amount
-            }
-            else -> println("error")
+            "jmp" -> { index += current.amount }
         }
         current.executed = true
     }
-
     return GameOver(accumulator, index >= inputMap.size)
 }
 
 fun fixInstructionAndPlay(map: Map<Int, GameData>): Int {
     for (entry in map.entries) {
-        if (entry.value.command == "acc") continue
-        val copyInputMap = HashMap(map)
-        for (copyEntry in copyInputMap.values) copyEntry.executed = false
-        val newCommand: String = if (entry.value.command == "nop") { "jmp" } else { "nop" }
-        copyInputMap[entry.key] = GameData(newCommand, entry.value.amount, false)
-
-        val gameOver = playTheGame(copyInputMap)
+        if (entry.value.command == "acc") { continue }
+        val gameOver = playTheGame(createMapCopyWithFixedInstruction(map, entry))
         if (gameOver.terminated) {
             return gameOver.accumulator
         }
     }
     return -1
+}
+
+private fun createMapCopyWithFixedInstruction(map: Map<Int, GameData>, entry: Map.Entry<Int, GameData>): HashMap<Int, GameData> {
+    val copyInputMap = HashMap(map)
+    for (copyEntry in copyInputMap.values) { copyEntry.executed = false }
+    val newCommand: String = if (entry.value.command == "nop") { "jmp" } else { "nop" }
+    copyInputMap[entry.key] = GameData(newCommand, entry.value.amount, false)
+    return copyInputMap
 }
 
 data class GameData(var command: String, var amount: Int, var executed: Boolean) {}

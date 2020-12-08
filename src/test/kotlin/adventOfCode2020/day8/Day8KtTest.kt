@@ -7,19 +7,19 @@ internal class Day8KtTest {
 
     private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input")
     private val input0 = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input0")
-    private val input0_modif = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input0_modif")
+    private val input0Modif = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input0_modif")
 
     @Test
     fun readInputToMap() {
         println(input0)
         println(input)
-        println(input0_modif)
+        println(input0Modif)
     }
 
     @Test
     fun playTheGame() {
         assertEquals(GameOver(5, false), playTheGame(input0))
-        assertEquals(GameOver(8, true), playTheGame(input0_modif))
+        assertEquals(GameOver(8, true), playTheGame(input0Modif))
         assertEquals(GameOver(1200, false), playTheGame(input))
     }
 
