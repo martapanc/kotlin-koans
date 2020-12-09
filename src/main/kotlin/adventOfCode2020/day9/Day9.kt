@@ -34,8 +34,25 @@ fun findFirstNumberNotTheSumOfPreviousN(list: List<Long>, previousN: Int): Long 
     return -1
 }
 
-fun findContiguousNumberGiving10884537(list: List<Long>): Int {
+fun findContiguousNumberGivingN(list: List<Long>, resultFromP1: Long): Long? {
+    var combinations = 4
+    val p1Result: Long = resultFromP1
 
+    while (combinations < list.size) {
+        for (i in 0 until list.size - combinations) {
+            var sum: Long = 0
+            val numList = mutableListOf<Long>()
+            for (j in i until i+combinations) {
+                sum += list[j]
+                numList.add(list[j])
+            }
+            if (sum == p1Result) {
+                println(sum)
+                return numList.minOrNull()!! + numList.maxOrNull()!!
+            }
+        }
+        combinations++
+    }
 
     return -1
 }
