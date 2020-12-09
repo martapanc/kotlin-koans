@@ -11,3 +11,4 @@
 - Day 6: [code](src/main/kotlin/adventOfCode2020/day6/Day6.kt) - [tests](src/test/kotlin/adventOfCode2020/day6/Day6KtTest.kt)
 - Day 7: [code](src/main/kotlin/adventOfCode2020/day7/Day7.kt) - [tests](src/test/kotlin/adventOfCode2020/day7/Day7KtTest.kt) - visualisation of today's problem: <img src="https://i.redd.it/gx6l9oavzp361.jpg" alt="Visualisation of Day 7" width="80"/>
 - Day 8: [code](src/main/kotlin/adventOfCode2020/day8/Day8.kt) - [tests](src/test/kotlin/adventOfCode2020/day8/Day8KtTest.kt)   
+- Day 9: [code](src/main/kotlin/adventOfCode2020/day9/Day9.kt) - [tests](src/test/kotlin/adventOfCode2020/day9/Day9KtTest.kt)   

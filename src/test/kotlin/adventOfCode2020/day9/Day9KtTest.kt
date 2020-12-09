@@ -18,8 +18,8 @@ internal class Day9KtTest {
 
     @Test
     fun findFirstNumberNotTheSumOfPreviousN() {
-        assertEquals(127, findFirstNumberNotTheSumOfPreviousN(input0, 5))
-        assertEquals(10884537, findFirstNumberNotTheSumOfPreviousN(input, 25))
+        assertEquals(127, findFirstNumberNotTheSumOfPreviousKNumbers(input0, 5))
+        assertEquals(10884537, findFirstNumberNotTheSumOfPreviousKNumbers(input, 25))
     }
 
     @Test

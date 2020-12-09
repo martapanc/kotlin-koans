@@ -10,23 +10,17 @@ fun readInputToList(path: String): List<Long> {
     return lineList.toList();
 }
 
-fun findFirstNumberNotTheSumOfPreviousN(list: List<Long>, previousN: Int): Long {
-    for (i in previousN until list.size - 1) {
+fun findFirstNumberNotTheSumOfPreviousKNumbers(list: List<Long>, previousK: Int): Long {
+    for (i in previousK until list.size - 1) {
         val number = list[i]
-        val mapOfPreviousFive = mutableMapOf<Long, Long>()
-        for (j in i - previousN until i) {
-            if (list[j] != number - list[j] && number - list[j] >= 0) {
-                mapOfPreviousFive[list[j]] = number - list[j]
-            }
-        }
+        val mapOfPreviousFive = buildMapFromNumberToDifference(i, previousK, list, number)
         var pairFound = false
         for (prevNum: Long in mapOfPreviousFive.keys) {
             if (mapOfPreviousFive.containsValue(prevNum)) {
                 pairFound = true
-                continue
+                break
             }
         }
-
         if (!pairFound) {
             return number
         }
@@ -34,7 +28,18 @@ fun findFirstNumberNotTheSumOfPreviousN(list: List<Long>, previousN: Int): Long 
     return -1
 }
 
-fun findContiguousNumberGivingN(list: List<Long>, resultFromP1: Long): Long? {
+// Exclude cases where key == difference (e.g. number=40 and with 20 in the previous K)
+// and where difference < 0, since the input has only positive integers
+private fun buildMapFromNumberToDifference(i: Int, previousK: Int, list: List<Long>, number: Long):
+        MutableMap<Long, Long> {
+    val mapOfPreviousFive = mutableMapOf<Long, Long>()
+    (i - previousK until i)
+        .filter { list[it] != number - list[it] && number - list[it] >= 0 }
+        .forEach { mapOfPreviousFive[list[it]] = number - list[it] }
+    return mapOfPreviousFive
+}
+
+fun findContiguousNumberGivingN(list: List<Long>, resultFromP1: Long): Long {
     var combinations = 4
     val p1Result: Long = resultFromP1
 
@@ -42,17 +47,15 @@ fun findContiguousNumberGivingN(list: List<Long>, resultFromP1: Long): Long? {
         for (i in 0 until list.size - combinations) {
             var sum: Long = 0
             val numList = mutableListOf<Long>()
-            for (j in i until i+combinations) {
+            for (j in i until i + combinations) {
                 sum += list[j]
                 numList.add(list[j])
             }
             if (sum == p1Result) {
-                println(sum)
                 return numList.minOrNull()!! + numList.maxOrNull()!!
             }
         }
         combinations++
     }
-
     return -1
 }
