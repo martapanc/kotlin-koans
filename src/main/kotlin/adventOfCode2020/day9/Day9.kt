@@ -1,27 +1,19 @@
 package adventOfCode2020.day9
 
 import java.io.File
-import java.io.InputStream
 
 fun readInputToList(path: String): List<Long> {
-    val inputStream: InputStream = File(path).inputStream()
     val lineList = mutableListOf<Long>()
-    inputStream.bufferedReader().forEachLine { lineList.add(it.toLong()) }
-    return lineList.toList();
+    File(path).inputStream().bufferedReader().forEachLine { lineList.add(it.toLong()) }
+    return lineList;
 }
 
 fun findFirstNumberNotTheSumOfPreviousKNumbers(list: List<Long>, previousK: Int): Long {
     for (i in previousK until list.size - 1) {
         val number = list[i]
         val mapOfPreviousFive = buildMapFromNumberToDifference(i, previousK, list, number)
-        var pairFound = false
-        for (prevNum: Long in mapOfPreviousFive.keys) {
-            if (mapOfPreviousFive.containsValue(prevNum)) {
-                pairFound = true
-                break
-            }
-        }
-        if (!pairFound) {
+        val pairIsFound = mapOfPreviousFive.keys.any { mapOfPreviousFive.containsValue(it) }
+        if (!pairIsFound) {
             return number
         }
     }

@@ -7,7 +7,7 @@ internal class Day9KtTest {
 
     private val input = readInputToList("src/main/kotlin/adventOfCode2020/day9/input")
     private val input0 = readInputToList("src/main/kotlin/adventOfCode2020/day9/input0")
-    //removed all numbers after N and some previous larger numbers
+    //removed all numbers after N and some previous larger numbers:
     private val inputEdit = readInputToList("src/main/kotlin/adventOfCode2020/day9/input_edit")
 
     @Test
@@ -17,13 +17,13 @@ internal class Day9KtTest {
     }
 
     @Test
-    fun findFirstNumberNotTheSumOfPreviousN() {
+    fun testFindFirstNumberNotTheSumOfPreviousN() {
         assertEquals(127, findFirstNumberNotTheSumOfPreviousKNumbers(input0, 5))
         assertEquals(10884537, findFirstNumberNotTheSumOfPreviousKNumbers(input, 25))
     }
 
     @Test
-    fun testFindContiguousNumberGiving10884537() {
+    fun testFindContiguousNumberGivingN() {
         assertEquals(62, findContiguousNumberGivingN(input0, 127))
         assertEquals(1261309, findContiguousNumberGivingN(inputEdit, 10884537))
     }
