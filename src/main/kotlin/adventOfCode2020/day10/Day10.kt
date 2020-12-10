@@ -32,11 +32,11 @@ fun findPermutations(list: List<Int>): Long {
     return product
 }
 
-private fun generateGroups(list: List<Int>): MutableList<List<Int>> {
+private fun generateGroups(list: List<Int>): List<List<Int>> {
     val groups = mutableListOf<List<Int>>()
     var group = mutableListOf(list[0])
-    for (i in 1 until list.size) {
-        if (list[i] - list[i - 1] == 3) {
+    for (i in 0 until list.size - 1) {
+        if (list[i + 1] - list[i] == 3) {
             groups.add(group)
             group = mutableListOf()
         }
@@ -67,7 +67,7 @@ fun generateValidSubsets(list: List<Int>): List<List<Int>> {
     return validSubsets
 }
 
-// (1<<j) is a number with jth bit 1 so when we 'and' them with the subset number we get which numbers are present in the subset and which are not
+// 1<<j (1 shl j) is a number with jth bit 1: when we 'and' them with the subset number we get which numbers are in the subset and which are not
 fun generateSubsets(list: List<Int>): List<List<Int>> {
     return (0 until (1 shl list.size)).map { i ->
         (list.indices)

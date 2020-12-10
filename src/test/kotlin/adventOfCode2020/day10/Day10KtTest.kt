@@ -12,6 +12,7 @@ internal class Day10KtTest {
     @Test
     fun testReadInputToList() {
         println(input0)
+        println(input1)
         println(input)
     }
 
@@ -34,11 +35,11 @@ internal class Day10KtTest {
     @Test
     fun testGenerateValidSubsets() {
         assertEquals(7, getNumberOfValidSubsets(listOf(1, 2, 3)))
-        assertEquals(7, generateValidSubsets((listOf(4, 5, 6))).size)
-        assertEquals(13, generateValidSubsets((listOf(4, 5, 6, 7))).size)
-        assertEquals(24, generateValidSubsets((listOf(4, 5, 6, 7, 8))).size)
-        assertEquals(44, generateValidSubsets((listOf(4, 5, 6, 7, 8, 9))).size)
-        assertEquals(81, generateValidSubsets((listOf(4, 5, 6, 7, 8, 9, 10))).size)
+        assertEquals(7, getNumberOfValidSubsets(listOf(4, 5, 6)))
+        assertEquals(13, getNumberOfValidSubsets((listOf(4, 5, 6, 7))))
+        assertEquals(24, getNumberOfValidSubsets((listOf(4, 5, 6, 7, 8))))
+        assertEquals(44, getNumberOfValidSubsets((listOf(4, 5, 6, 7, 8, 9))))
+        assertEquals(81, getNumberOfValidSubsets((listOf(4, 5, 6, 7, 8, 9, 10))))
     }
 
     @Test
