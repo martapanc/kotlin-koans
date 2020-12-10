@@ -49,6 +49,29 @@ fun generateValidSubsets(list: List<Int>): List<List<Int>> {
     return validSubsets
 }
 
+fun findPermutations(list: List<Int>): Long {
+    var product: Long = 1
+    generateGroups(list)
+        .asSequence()
+        .filter { it.size >= 3 }
+        .forEach { product *= getNumberOfValidSubsets(it.subList(1, it.size - 1)) }
+    return product
+}
+
+private fun generateGroups(list: List<Int>): MutableList<List<Int>> {
+    val groups = mutableListOf<List<Int>>()
+    var group = mutableListOf(list[0])
+    for (i in 1 until list.size) {
+        if (list[i] - list[i - 1] == 3) {
+            groups.add(group)
+            group = mutableListOf()
+        }
+        group.add(list[i])
+    }
+    groups.add(group)
+    return groups
+}
+
 fun getNumberOfValidSubsets(list: List<Int>): Int {
     return generateValidSubsets(list).size
 }

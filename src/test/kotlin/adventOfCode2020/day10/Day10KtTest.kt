@@ -41,4 +41,11 @@ internal class Day10KtTest {
         assertEquals(44, generateValidSubsets((listOf(4, 5, 6, 7, 8, 9))).size)
         assertEquals(81, generateValidSubsets((listOf(4, 5, 6, 7, 8, 9, 10))).size)
     }
+
+    @Test
+    fun findPermutations() {
+        assertEquals(8, findPermutations(input0))
+        assertEquals(19208, findPermutations(input1))
+        assertEquals(3543369523456, findPermutations(input))
+    }
 }
