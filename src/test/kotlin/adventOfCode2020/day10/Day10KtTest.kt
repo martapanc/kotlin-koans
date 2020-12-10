@@ -1,8 +1,7 @@
 package adventOfCode2020.day10
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class Day10KtTest {
 
@@ -11,20 +10,20 @@ internal class Day10KtTest {
     private val input1 = readInputToList("src/main/kotlin/adventOfCode2020/day10/input1")
 
     @Test
-    fun readInputToList() {
+    fun testReadInputToList() {
         println(input0)
         println(input)
     }
 
     @Test
-    fun findJoltsDifferences() {
-//        assertEquals(35, findJoltsDifferences(input0))
+    fun testFindJoltsDifferences() {
+        assertEquals(35, findJoltsDifferences(input0))
         assertEquals(220, findJoltsDifferences(input1))
         assertEquals(1984, findJoltsDifferences(input))
     }
 
     @Test
-    fun printSubsets() {
+    fun testPrintSubsets() {
         assertEquals(listOf(listOf<Int>()), generateSubsets(mutableListOf()))
         assertEquals(listOf(listOf(), listOf(1)), generateSubsets(mutableListOf(1)))
         assertEquals(4, generateSubsets(mutableListOf(1, 2)).size)
@@ -33,7 +32,7 @@ internal class Day10KtTest {
     }
 
     @Test
-    fun generateValidSubsets() {
+    fun testGenerateValidSubsets() {
         assertEquals(7, getNumberOfValidSubsets(listOf(1, 2, 3)))
         assertEquals(7, generateValidSubsets((listOf(4, 5, 6))).size)
         assertEquals(13, generateValidSubsets((listOf(4, 5, 6, 7))).size)
@@ -43,7 +42,7 @@ internal class Day10KtTest {
     }
 
     @Test
-    fun findPermutations() {
+    fun testFindPermutations() {
         assertEquals(8, findPermutations(input0))
         assertEquals(19208, findPermutations(input1))
         assertEquals(3543369523456, findPermutations(input))
