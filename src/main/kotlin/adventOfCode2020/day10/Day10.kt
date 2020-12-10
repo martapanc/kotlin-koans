@@ -23,32 +23,6 @@ fun findJoltsDifferences(list: List<Int>): Int {
     return diffOf1Count * diffOf3Count
 }
 
-// (1<<j) is a number with jth bit 1 so when we 'and' them with the subset number we get which numbers are present in the subset and which are not
-fun generateSubsets(list: List<Int>): List<List<Int>> {
-    return (0 until (1 shl list.size)).map { i ->
-        (list.indices)
-            .filter { i and (1 shl it) > 0 }
-            .map { list[it] }
-    }
-}
-
-fun generateValidSubsets(list: List<Int>): List<List<Int>> {
-    val validSubsets = mutableListOf<List<Int>>()
-    val subsetsList = generateSubsets(list)
-    val min = list[0] - 1
-    val max = list[list.size - 1] + 1
-
-    for (subset in subsetsList) {
-        val extendedSubset = subset.toMutableList()
-        extendedSubset.add(0, min)
-        extendedSubset.add(max)
-        if (isMaxDifferenceLessThan3(extendedSubset)) {
-            validSubsets.add(subset)
-        }
-    }
-    return validSubsets
-}
-
 fun findPermutations(list: List<Int>): Long {
     var product: Long = 1
     generateGroups(list)
@@ -74,6 +48,32 @@ private fun generateGroups(list: List<Int>): MutableList<List<Int>> {
 
 fun getNumberOfValidSubsets(list: List<Int>): Int {
     return generateValidSubsets(list).size
+}
+
+fun generateValidSubsets(list: List<Int>): List<List<Int>> {
+    val validSubsets = mutableListOf<List<Int>>()
+    val subsetsList = generateSubsets(list)
+    val min = list[0] - 1
+    val max = list[list.size - 1] + 1
+
+    for (subset in subsetsList) {
+        val extendedSubset = subset.toMutableList()
+        extendedSubset.add(0, min)
+        extendedSubset.add(max)
+        if (isMaxDifferenceLessThan3(extendedSubset)) {
+            validSubsets.add(subset)
+        }
+    }
+    return validSubsets
+}
+
+// (1<<j) is a number with jth bit 1 so when we 'and' them with the subset number we get which numbers are present in the subset and which are not
+fun generateSubsets(list: List<Int>): List<List<Int>> {
+    return (0 until (1 shl list.size)).map { i ->
+        (list.indices)
+            .filter { i and (1 shl it) > 0 }
+            .map { list[it] }
+    }
 }
 
 private fun isMaxDifferenceLessThan3(extendedSubset: MutableList<Int>): Boolean {
