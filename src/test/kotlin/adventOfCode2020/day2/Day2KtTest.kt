@@ -6,26 +6,32 @@ import org.junit.jupiter.api.Assertions.*
 
 internal class Day2KtTest {
 
+    private val ABCDE = "abcde"
+    private val AAAAA = "aaaaa"
+    private val AABCD = "aabcd"
+
     @Test
     fun testIsValidPassword() {
-        assertTrue(isValidPassword(1, 3, 'a', "abcde"))
-        assertTrue(isValidPassword(1, 1, 'b', "abcde"))
-        assertFalse(isValidPassword(1, 3, 'a', "aaaaa"))
-        assertFalse(isValidPassword(1, 1, 'a', "aabcd"))
+        assertTrue(isValidPassword(1, 3, 'a', ABCDE))
+        assertTrue(isValidPassword(1, 1, 'b', ABCDE))
+        assertFalse(isValidPassword(1, 3, 'a', AAAAA))
+        assertFalse(isValidPassword(1, 1, 'a', AABCD))
     }
 
     @Test
     fun testCountValidPasswords() {
-        assertEquals(2, countValidPasswords(readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input0"), ::isValidPassword))
-        assertEquals(569, countValidPasswords(readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input"), ::isValidPassword))
+        val input0 = readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input0")
+        val input = readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input")
+        assertEquals(2, countValidPasswords(input0, ::isValidPassword))
+        assertEquals(569, countValidPasswords(input, ::isValidPassword))
     }
 
     @Test
     fun testIsValidPassword2() {
-        assertTrue(isValidPassword2(1, 3, 'a', "abcde"))
-        assertTrue(isValidPassword2(1, 2, 'b', "abcde"))
-        assertFalse(isValidPassword2(1, 3, 'a', "aaaaa"))
-        assertFalse(isValidPassword2(1, 2, 'a', "aabcd"))
+        assertTrue(isValidPassword2(1, 3, 'a', ABCDE))
+        assertTrue(isValidPassword2(1, 2, 'b', ABCDE))
+        assertFalse(isValidPassword2(1, 3, 'a', AAAAA))
+        assertFalse(isValidPassword2(1, 2, 'a', AABCD))
     }
 
     @Test

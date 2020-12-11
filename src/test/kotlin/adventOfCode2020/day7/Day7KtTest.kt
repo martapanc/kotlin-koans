@@ -9,6 +9,7 @@ internal class Day7KtTest {
     private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day7/input")
     private val input0 = readInputToMap("src/main/kotlin/adventOfCode2020/day7/input0")
     private val input2= readInputToMap("src/main/kotlin/adventOfCode2020/day7/input2")
+    private val start = "shiny gold"
 
     @Test
     fun readInputToList() {
@@ -21,14 +22,14 @@ internal class Day7KtTest {
 
     @Test
     fun testFindContainingBags() {
-        assertEquals(4, findContainingBags(buildMapFromContainedBags(input0), "shiny gold"))
-        assertEquals(179, findContainingBags(buildMapFromContainedBags(input), "shiny gold"))
+        assertEquals(4, findContainingBags(buildMapFromContainedBags(input0), start))
+        assertEquals(179, findContainingBags(buildMapFromContainedBags(input), start))
     }
 
     @Test
     fun testFindContainedIndividualBags() {
-        assertEquals(32, findContainedIndividualBags(input0, "shiny gold"))
-        assertEquals(126, findContainedIndividualBags(input2, "shiny gold"))
-        assertEquals(18925, findContainedIndividualBags(input, "shiny gold"))
+        assertEquals(32, findContainedIndividualBags(input0, start))
+        assertEquals(126, findContainedIndividualBags(input2, start))
+        assertEquals(18925, findContainedIndividualBags(input, start))
     }
 }

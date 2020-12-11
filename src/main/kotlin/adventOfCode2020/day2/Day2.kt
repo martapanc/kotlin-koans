@@ -17,7 +17,7 @@ fun readInputFileToList(path: String): List<PasswordInfo> {
     return inputList;
 }
 
-class PasswordInfo(var min: Int, var max: Int, var char: Char, var password: String) {}
+class PasswordInfo(var min: Int, var max: Int, var char: Char, var password: String)
 
 fun isValidPassword(min: Int, max: Int, char: Char, password: String) : Boolean {
     val count = password.count {

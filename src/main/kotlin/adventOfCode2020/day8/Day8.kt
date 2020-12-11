@@ -54,6 +54,6 @@ private fun createMapCopyWithFixedInstruction(map: Map<Int, GameData>, entry: Ma
     return copyInputMap
 }
 
-data class GameData(var command: String, var amount: Int, var executed: Boolean) {}
+data class GameData(var command: String, var amount: Int, var executed: Boolean)
 
 data class GameOver(var accumulator: Int, var terminated: Boolean)
