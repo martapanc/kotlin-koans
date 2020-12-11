@@ -39,15 +39,16 @@ fun computeRound(map: Map<Pair<Int, Int>, Char>): Map<Pair<Int, Int>, Char> {
     return finalMap
 }
 
-fun runRounds(map: Map<Pair<Int, Int>, Char>): Int {
-    var finalMap = computeRound(map)
+fun runRounds(map: Map<Pair<Int, Int>, Char>,
+              computeMethod: (Map<Pair<Int, Int>, Char>) -> Map<Pair<Int, Int>, Char>): Int {
+    var finalMap = computeMethod(map)
     var mapString = mapToString(map)
     var finalMapString = mapToString(finalMap)
 
     while (mapString != finalMapString) {
         mapString = finalMapString
-//        printSeatMap(finalMap, 9, 9)
-        finalMap = computeRound(finalMap)
+        printSeatMap(finalMap, 9, 9)
+        finalMap = computeMethod(finalMap)
         finalMapString = mapToString(finalMap)
     }
     return finalMapString.count { it == '#' }
@@ -81,6 +82,53 @@ private fun getAdjacentSeatsContent(seat: Map.Entry<Pair<Int, Int>, Char>, map: 
         }
     }
     return adjacentSeatsContent
+}
+
+fun computeRound2(map: Map<Pair<Int, Int>, Char>): Map<Pair<Int, Int>, Char> {
+    val finalMap = mutableMapOf<Pair<Int, Int>, Char>()
+    for (entry in map.entries) {
+        when (entry.value) {
+            'L' -> {
+                if (areVisibleSeatsFree(entry, map))
+                    finalMap[entry.key] = '#'
+                else finalMap[entry.key] = 'L'
+            }
+            '#' -> {
+                if (areFiveOrMoreVisibleSeatsOccupied(entry, map))
+                    finalMap[entry.key] = 'L'
+                else finalMap[entry.key] = '#'
+            }
+            '.' -> finalMap[entry.key] = '.'
+        }
+    }
+    return finalMap
+}
+
+private fun areVisibleSeatsFree(seat: Map.Entry<Pair<Int, Int>, Char>, map: Map<Pair<Int, Int>, Char>): Boolean {
+    return getVisibleSeatsContent(seat, map).all { it == 'L' || it == '.' }
+}
+
+private fun areFiveOrMoreVisibleSeatsOccupied(seat: Map.Entry<Pair<Int, Int>, Char>, map: Map<Pair<Int, Int>, Char>): Boolean {
+    return getVisibleSeatsContent(seat, map).count { it == '#' } >= 5
+}
+
+private fun getVisibleSeatsContent(seat: Map.Entry<Pair<Int, Int>, Char>, map: Map<Pair<Int, Int>, Char>): MutableList<Char> {
+    val visibleSeatsContent = mutableListOf<Char>()
+    val directions = listOf(Pair(-1, -1), Pair(0, -1), Pair(1, -1),     // NW N NE
+                            Pair(-1, 0),               Pair(1, 0),      // W  .  E
+                            Pair(-1, 1),  Pair(0, 1),  Pair(1, 1))      // SW S SE
+    for (dir in directions) {
+        var currX = seat.key.first + dir.first
+        var currY = seat.key.second + dir.second
+        while (map[Pair(currX, currY)] != null && map[Pair(currX, currY)] == '.') {
+            currX += dir.first
+            currY += dir.second
+        }
+        if (map[Pair(currX, currY)] != null) {
+            visibleSeatsContent.add(map.getValue(Pair(currX, currY)))
+        }
+    }
+    return visibleSeatsContent
 }
 
 fun printSeatMap(map: Map<Pair<Int, Int>, Char>, maxX: Int, maxY: Int) {

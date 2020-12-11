@@ -19,9 +19,13 @@ internal class Day11KtTest {
 
     @Test
     fun testRunRounds() {
-        assertEquals(37, runRounds(input0))
-        assertEquals(2222, runRounds(input))
+        assertEquals(37, runRounds(input0, ::computeRound))
+        assertEquals(2222, runRounds(input, ::computeRound))
     }
 
-
+    @Test
+    fun testRunRounds2() {
+        assertEquals(26, runRounds(input0, ::computeRound2))
+        assertEquals(2032, runRounds(input, ::computeRound2))
+    }
 }
