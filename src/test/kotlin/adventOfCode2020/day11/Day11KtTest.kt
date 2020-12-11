@@ -10,7 +10,7 @@ internal class Day11KtTest {
 
 
     @Test
-    fun readInputToMap() {
+    fun testReadInputToMap() {
 //        println(input0)
 //        println(input)
         printSeatMap(input0, 9, 9)
@@ -19,13 +19,13 @@ internal class Day11KtTest {
 
     @Test
     fun testRunRounds() {
-        assertEquals(37, runRounds(input0, ::computeRound))
-        assertEquals(2222, runRounds(input, ::computeRound))
+        assertEquals(37, runRounds(input0, true))
+        assertEquals(2222, runRounds(input, true))
     }
 
     @Test
     fun testRunRounds2() {
-        assertEquals(26, runRounds(input0, ::computeRound2))
-        assertEquals(2032, runRounds(input, ::computeRound2))
+        assertEquals(26, runRounds(input0, false))
+        assertEquals(2032, runRounds(input, false))
     }
 }

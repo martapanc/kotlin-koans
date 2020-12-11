@@ -17,49 +17,46 @@ fun readInputToMap(path: String): Map<Pair<Int, Int>, Char> {
     return inputMap
 }
 
+fun runRounds(map: Map<Pair<Int, Int>, Char>, isPart1: Boolean): Int {
+    var finalMap = computeRound(map, isPart1)
+    var mapString = mapToString(map)
+    var finalMapString = mapToString(finalMap)
+
+    while (mapString != finalMapString) {
+        mapString = finalMapString
+        finalMap = computeRound(finalMap, isPart1)
+        finalMapString = mapToString(finalMap)
+    }
+    return finalMapString.count { it == '#' }
+}
+
 // If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
 // If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
-fun computeRound(map: Map<Pair<Int, Int>, Char>): Map<Pair<Int, Int>, Char> {
+fun computeRound(map: Map<Pair<Int, Int>, Char>, isPart1: Boolean): Map<Pair<Int, Int>, Char> {
+    val emptySeatMethod: (Map.Entry<Pair<Int, Int>, Char>, Map<Pair<Int, Int>, Char>) -> Boolean
+    val occupiedSeatMethod: (Map.Entry<Pair<Int, Int>, Char>, Map<Pair<Int, Int>, Char>) -> Boolean
+    if (isPart1) {
+        emptySeatMethod = ::areAdjacentSeatsFree
+        occupiedSeatMethod = ::areFourOrMoreAdjacentSeatsOccupied
+    } else {
+        emptySeatMethod = ::areVisibleSeatsFree
+        occupiedSeatMethod = ::areFiveOrMoreVisibleSeatsOccupied
+    }
     val finalMap = mutableMapOf<Pair<Int, Int>, Char>()
     for (entry in map.entries) {
         when (entry.value) {
             'L' -> {
-                if (areAdjacentSeatsFree(entry, map))
-                    finalMap[entry.key] = '#'
+                if (emptySeatMethod(entry, map)) finalMap[entry.key] = '#'
                 else finalMap[entry.key] = 'L'
             }
             '#' -> {
-                if (areFourOrMoreAdjacentSeatsOccupied(entry, map))
-                    finalMap[entry.key] = 'L'
+                if (occupiedSeatMethod(entry, map)) finalMap[entry.key] = 'L'
                 else finalMap[entry.key] = '#'
             }
             '.' -> finalMap[entry.key] = '.'
         }
     }
     return finalMap
-}
-
-fun runRounds(map: Map<Pair<Int, Int>, Char>,
-              computeMethod: (Map<Pair<Int, Int>, Char>) -> Map<Pair<Int, Int>, Char>): Int {
-    var finalMap = computeMethod(map)
-    var mapString = mapToString(map)
-    var finalMapString = mapToString(finalMap)
-
-    while (mapString != finalMapString) {
-        mapString = finalMapString
-        printSeatMap(finalMap, 9, 9)
-        finalMap = computeMethod(finalMap)
-        finalMapString = mapToString(finalMap)
-    }
-    return finalMapString.count { it == '#' }
-}
-
-private fun mapToString(finalMap: Map<Pair<Int, Int>, Char>): String {
-    var mapString = ""
-    for (value in finalMap.values) {
-        mapString += value
-    }
-    return mapString
 }
 
 private fun areAdjacentSeatsFree(seat: Map.Entry<Pair<Int, Int>, Char>, map: Map<Pair<Int, Int>, Char>): Boolean {
@@ -82,26 +79,6 @@ private fun getAdjacentSeatsContent(seat: Map.Entry<Pair<Int, Int>, Char>, map: 
         }
     }
     return adjacentSeatsContent
-}
-
-fun computeRound2(map: Map<Pair<Int, Int>, Char>): Map<Pair<Int, Int>, Char> {
-    val finalMap = mutableMapOf<Pair<Int, Int>, Char>()
-    for (entry in map.entries) {
-        when (entry.value) {
-            'L' -> {
-                if (areVisibleSeatsFree(entry, map))
-                    finalMap[entry.key] = '#'
-                else finalMap[entry.key] = 'L'
-            }
-            '#' -> {
-                if (areFiveOrMoreVisibleSeatsOccupied(entry, map))
-                    finalMap[entry.key] = 'L'
-                else finalMap[entry.key] = '#'
-            }
-            '.' -> finalMap[entry.key] = '.'
-        }
-    }
-    return finalMap
 }
 
 private fun areVisibleSeatsFree(seat: Map.Entry<Pair<Int, Int>, Char>, map: Map<Pair<Int, Int>, Char>): Boolean {
@@ -129,6 +106,14 @@ private fun getVisibleSeatsContent(seat: Map.Entry<Pair<Int, Int>, Char>, map: M
         }
     }
     return visibleSeatsContent
+}
+
+private fun mapToString(finalMap: Map<Pair<Int, Int>, Char>): String {
+    var mapString = ""
+    for (value in finalMap.values) {
+        mapString += value
+    }
+    return mapString
 }
 
 fun printSeatMap(map: Map<Pair<Int, Int>, Char>, maxX: Int, maxY: Int) {
