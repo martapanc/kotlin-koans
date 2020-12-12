@@ -9,7 +9,7 @@ fun readInputToList(path: String): List<Instruction> {
     return lineList.map { Instruction(it[0], it.substring(1).toInt()) }
 }
 
-fun navigate(instructions: List<Instruction>): Int {
+fun navigateShip(instructions: List<Instruction>): Int {
     var position = Pair(0, 0)
     var facingDirection = CardinalPoints.EAST
     for (instruct in instructions) {
@@ -93,6 +93,44 @@ fun navigate(instructions: List<Instruction>): Int {
         }
     }
     return abs(position.first) + abs(position.second)
+}
+
+fun navigateShipAndWaypoint(instructions: List<Instruction>): Int {
+    var shipPos = Pair(0, 0)
+    var wpPos = Pair(10, 1)
+
+    for (instruction in instructions) {
+        when (instruction.direction) {
+            'N' -> wpPos = Pair(wpPos.first, wpPos.second + instruction.value)
+            'S' -> wpPos = Pair(wpPos.first, wpPos.second - instruction.value)
+            'E' -> wpPos = Pair(wpPos.first + instruction.value, wpPos.second)
+            'W' -> wpPos = Pair(wpPos.first - instruction.value, wpPos.second)
+            'L' -> {
+                val relativeWpPos = Pair(wpPos.first - shipPos.first, wpPos.second - shipPos.second)
+                wpPos = when (instruction.value) {
+                    90 -> Pair(shipPos.first - relativeWpPos.second, shipPos.second + relativeWpPos.first)
+                    180 -> Pair(shipPos.first - relativeWpPos.first, shipPos.second - relativeWpPos.second)
+                    else -> Pair(shipPos.first + relativeWpPos.second, shipPos.second - relativeWpPos.first)
+                }
+            }
+            'R' -> {
+                val relativeWpPos = Pair(wpPos.first - shipPos.first, wpPos.second - shipPos.second)
+                wpPos = when (instruction.value) {
+                    90 -> Pair(shipPos.first + relativeWpPos.second, shipPos.second - relativeWpPos.first)
+                    180 -> Pair(shipPos.first - relativeWpPos.first, shipPos.second - relativeWpPos.second)
+                    else -> Pair(shipPos.first - relativeWpPos.second, shipPos.second + relativeWpPos.first)
+                }
+            }
+            'F' -> {
+                val relativeWpPos = Pair(wpPos.first - shipPos.first, wpPos.second - shipPos.second)
+                val newShipX = shipPos.first + relativeWpPos.first * instruction.value
+                val newShipY = shipPos.second + relativeWpPos.second * instruction.value
+                shipPos = Pair(newShipX, newShipY)
+                wpPos = Pair(shipPos.first + relativeWpPos.first, shipPos.second + relativeWpPos.second)
+            }
+        }
+    }
+    return abs(shipPos.first) + abs(shipPos.second)
 }
 
 data class Instruction(var direction: Char, var value: Int)

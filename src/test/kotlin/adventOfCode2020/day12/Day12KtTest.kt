@@ -15,8 +15,14 @@ internal class Day12KtTest {
     }
 
     @Test
-    fun testNavigate() {
-        assertEquals(25, navigate(input0))
-        assertEquals(882, navigate(input))
+    fun testNavigateShip() {
+        assertEquals(25, navigateShip(input0))
+        assertEquals(882, navigateShip(input))
+    }
+
+    @Test
+    fun testNavigateShipAndWaypoint() {
+        assertEquals(286, navigateShipAndWaypoint(input0))
+        assertEquals(28885, navigateShipAndWaypoint(input))
     }
 }
