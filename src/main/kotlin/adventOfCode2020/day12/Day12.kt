@@ -13,36 +13,36 @@ fun navigate(instructions: List<Instruction>): Int {
     var position = Pair(0, 0)
     var facingDirection = CardinalPoints.EAST
     for (instruct in instructions) {
-        when(instruct.direction) {
+        when (instruct.direction) {
             'N' -> position = Pair(position.first, position.second + instruct.value)
             'S' -> position = Pair(position.first, position.second - instruct.value)
             'E' -> position = Pair(position.first + instruct.value, position.second)
             'W' -> position = Pair(position.first - instruct.value, position.second)
             'L' -> {
-                facingDirection = when(facingDirection) {
+                facingDirection = when (facingDirection) {
                     CardinalPoints.EAST -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.NORTH
                             180 -> CardinalPoints.WEST
                             else -> CardinalPoints.SOUTH
                         }
                     }
                     CardinalPoints.SOUTH -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.EAST
                             180 -> CardinalPoints.NORTH
                             else -> CardinalPoints.WEST
                         }
                     }
                     CardinalPoints.WEST -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.SOUTH
                             180 -> CardinalPoints.EAST
                             else -> CardinalPoints.NORTH
                         }
                     }
                     CardinalPoints.NORTH -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.WEST
                             180 -> CardinalPoints.SOUTH
                             else -> CardinalPoints.EAST
@@ -51,30 +51,30 @@ fun navigate(instructions: List<Instruction>): Int {
                 }
             }
             'R' -> {
-                facingDirection = when(facingDirection) {
+                facingDirection = when (facingDirection) {
                     CardinalPoints.EAST -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.SOUTH
                             180 -> CardinalPoints.WEST
                             else -> CardinalPoints.NORTH
                         }
                     }
                     CardinalPoints.SOUTH -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.WEST
                             180 -> CardinalPoints.NORTH
                             else -> CardinalPoints.EAST
                         }
                     }
                     CardinalPoints.WEST -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.NORTH
                             180 -> CardinalPoints.EAST
                             else -> CardinalPoints.SOUTH
                         }
                     }
                     CardinalPoints.NORTH -> {
-                        when(instruct.value) {
+                        when (instruct.value) {
                             90 -> CardinalPoints.EAST
                             180 -> CardinalPoints.SOUTH
                             else -> CardinalPoints.WEST
@@ -83,7 +83,7 @@ fun navigate(instructions: List<Instruction>): Int {
                 }
             }
             'F' -> {
-                position = when(facingDirection) {
+                position = when (facingDirection) {
                     CardinalPoints.EAST -> Pair(position.first + instruct.value, position.second)
                     CardinalPoints.SOUTH -> Pair(position.first, position.second - instruct.value)
                     CardinalPoints.WEST -> Pair(position.first - instruct.value, position.second)
