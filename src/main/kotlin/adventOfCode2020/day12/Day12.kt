@@ -10,14 +10,14 @@ fun readInputToList(path: String): List<Instruction> {
 }
 
 fun navigateShip(instructions: List<Instruction>): Int {
-    var position = Pair(0, 0)
+    var position = CC(0, 0)
     var facingDirection = CardinalPoints.EAST
     for (instruct in instructions) {
         when (instruct.direction) {
-            'N' -> position = Pair(position.first, position.second + instruct.value)
-            'S' -> position = Pair(position.first, position.second - instruct.value)
-            'E' -> position = Pair(position.first + instruct.value, position.second)
-            'W' -> position = Pair(position.first - instruct.value, position.second)
+            'N' -> position = CC(position.x, position.y + instruct.value)
+            'S' -> position = CC(position.x, position.y - instruct.value)
+            'E' -> position = CC(position.x + instruct.value, position.y)
+            'W' -> position = CC(position.x - instruct.value, position.y)
             'L' -> {
                 facingDirection = when (facingDirection) {
                     CardinalPoints.EAST -> {
@@ -84,53 +84,51 @@ fun navigateShip(instructions: List<Instruction>): Int {
             }
             'F' -> {
                 position = when (facingDirection) {
-                    CardinalPoints.EAST -> Pair(position.first + instruct.value, position.second)
-                    CardinalPoints.SOUTH -> Pair(position.first, position.second - instruct.value)
-                    CardinalPoints.WEST -> Pair(position.first - instruct.value, position.second)
-                    CardinalPoints.NORTH -> Pair(position.first, position.second + instruct.value)
+                    CardinalPoints.EAST -> CC(position.x + instruct.value, position.y)
+                    CardinalPoints.SOUTH -> CC(position.x, position.y - instruct.value)
+                    CardinalPoints.WEST -> CC(position.x - instruct.value, position.y)
+                    CardinalPoints.NORTH -> CC(position.x, position.y + instruct.value)
                 }
             }
         }
     }
-    return abs(position.first) + abs(position.second)
+    return abs(position.x) + abs(position.y)
 }
 
 fun navigateShipAndWaypoint(instructions: List<Instruction>): Int {
-    var shipPos = Pair(0, 0)
-    var wpPos = Pair(10, 1)
+    var shipPos = CC(0, 0)
+    var wpPos = CC(10, 1)
 
     for (instruction in instructions) {
+        val relativeWpPos = CC(wpPos.x - shipPos.x, wpPos.y - shipPos.y)
         when (instruction.direction) {
-            'N' -> wpPos = Pair(wpPos.first, wpPos.second + instruction.value)
-            'S' -> wpPos = Pair(wpPos.first, wpPos.second - instruction.value)
-            'E' -> wpPos = Pair(wpPos.first + instruction.value, wpPos.second)
-            'W' -> wpPos = Pair(wpPos.first - instruction.value, wpPos.second)
+            'N' -> wpPos = CC(wpPos.x, wpPos.y + instruction.value)
+            'S' -> wpPos = CC(wpPos.x, wpPos.y - instruction.value)
+            'E' -> wpPos = CC(wpPos.x + instruction.value, wpPos.y)
+            'W' -> wpPos = CC(wpPos.x - instruction.value, wpPos.y)
             'L' -> {
-                val relativeWpPos = Pair(wpPos.first - shipPos.first, wpPos.second - shipPos.second)
                 wpPos = when (instruction.value) {
-                    90 -> Pair(shipPos.first - relativeWpPos.second, shipPos.second + relativeWpPos.first)
-                    180 -> Pair(shipPos.first - relativeWpPos.first, shipPos.second - relativeWpPos.second)
-                    else -> Pair(shipPos.first + relativeWpPos.second, shipPos.second - relativeWpPos.first)
+                    90 -> CC(shipPos.x - relativeWpPos.y, shipPos.y + relativeWpPos.x)
+                    180 -> CC(shipPos.x - relativeWpPos.x, shipPos.y - relativeWpPos.y)
+                    else -> CC(shipPos.x + relativeWpPos.y, shipPos.y - relativeWpPos.x)
                 }
             }
             'R' -> {
-                val relativeWpPos = Pair(wpPos.first - shipPos.first, wpPos.second - shipPos.second)
                 wpPos = when (instruction.value) {
-                    90 -> Pair(shipPos.first + relativeWpPos.second, shipPos.second - relativeWpPos.first)
-                    180 -> Pair(shipPos.first - relativeWpPos.first, shipPos.second - relativeWpPos.second)
-                    else -> Pair(shipPos.first - relativeWpPos.second, shipPos.second + relativeWpPos.first)
+                    90 -> CC(shipPos.x + relativeWpPos.y, shipPos.y - relativeWpPos.x)
+                    180 -> CC(shipPos.x - relativeWpPos.x, shipPos.y - relativeWpPos.y)
+                    else -> CC(shipPos.x - relativeWpPos.y, shipPos.y + relativeWpPos.x)
                 }
             }
             'F' -> {
-                val relativeWpPos = Pair(wpPos.first - shipPos.first, wpPos.second - shipPos.second)
-                val newShipX = shipPos.first + relativeWpPos.first * instruction.value
-                val newShipY = shipPos.second + relativeWpPos.second * instruction.value
-                shipPos = Pair(newShipX, newShipY)
-                wpPos = Pair(shipPos.first + relativeWpPos.first, shipPos.second + relativeWpPos.second)
+                val newShipX = shipPos.x + relativeWpPos.x * instruction.value
+                val newShipY = shipPos.y + relativeWpPos.y * instruction.value
+                shipPos = CC(newShipX, newShipY)
+                wpPos = CC(shipPos.x + relativeWpPos.x, shipPos.y + relativeWpPos.y)
             }
         }
     }
-    return abs(shipPos.first) + abs(shipPos.second)
+    return abs(shipPos.x) + abs(shipPos.y)
 }
 
 data class Instruction(var direction: Char, var value: Int)
@@ -138,3 +136,5 @@ data class Instruction(var direction: Char, var value: Int)
 enum class CardinalPoints(var char: Char) {
     NORTH('N'), SOUTH('S'), EAST('E'), WEST('W')
 }
+
+class CC(var x: Int, var y: Int)
