@@ -32,11 +32,19 @@ fun navigateShip(instructions: List<Instruction>): Int {
     return abs(position.x) + abs(position.y)
 }
 
+/**
+ * Compute new direction of the ship after a rotation
+ *
+ * @param facingDirection: the initial direction of the ship (NORTH, SOUTH, EAST, WEST)
+ * @param degrees: amount of rotation degrees (0, 90, 180, 270)
+ * @param direction: left or right
+ */
 fun rotateShip(facingDirection: CardinalPoints, degrees: Int, direction: Char): CardinalPoints {
     val clockwise = listOf(CardinalPoints.NORTH, CardinalPoints.EAST, CardinalPoints.SOUTH, CardinalPoints.WEST)
     var rotationAmount = listOf(0, 90, 180, 270).indexOf(degrees)
-    rotationAmount = if (direction == 'R') rotationAmount else - rotationAmount
+    rotationAmount = if (direction == 'R') rotationAmount else -rotationAmount
     var newDirectionIndex = clockwise.indexOf(facingDirection) + rotationAmount
+    // Sadly, Kotlin doesn't support negative indices for lists...
     newDirectionIndex = if (newDirectionIndex < 0) 4 + newDirectionIndex else newDirectionIndex % 4
     return clockwise[newDirectionIndex]
 }

@@ -36,5 +36,7 @@ internal class Day12KtTest {
         assertEquals(CardinalPoints.NORTH, rotateShip(CardinalPoints.WEST, 270, 'L'))
         assertEquals(CardinalPoints.WEST, rotateShip(CardinalPoints.NORTH, 90, 'L'))
         assertEquals(CardinalPoints.EAST, rotateShip(CardinalPoints.NORTH, 270, 'L'))
+        assertEquals(CardinalPoints.NORTH, rotateShip(CardinalPoints.NORTH, 0, 'L'))
+        assertEquals(CardinalPoints.WEST, rotateShip(CardinalPoints.WEST, 0, 'R'))
     }
 }
