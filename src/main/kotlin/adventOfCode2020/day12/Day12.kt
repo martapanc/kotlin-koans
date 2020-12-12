@@ -38,6 +38,7 @@ fun navigateShip(instructions: List<Instruction>): Int {
  * @param facingDirection: the initial direction of the ship (NORTH, SOUTH, EAST, WEST)
  * @param degrees: amount of rotation degrees (0, 90, 180, 270)
  * @param direction: left ('L') or right ('R')
+ * @return the new facing direction of the ship
  */
 fun rotateShip(facingDirection: CardinalPoints, degrees: Int, direction: Char): CardinalPoints {
     val clockwise = listOf(CardinalPoints.NORTH, CardinalPoints.EAST, CardinalPoints.SOUTH, CardinalPoints.WEST)
