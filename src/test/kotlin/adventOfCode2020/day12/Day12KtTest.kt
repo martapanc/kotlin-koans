@@ -25,4 +25,16 @@ internal class Day12KtTest {
         assertEquals(286, navigateShipAndWaypoint(input0))
         assertEquals(28885, navigateShipAndWaypoint(input))
     }
+
+    @Test
+    fun testRotateShip() {
+        assertEquals(CardinalPoints.SOUTH, rotateShip(CardinalPoints.EAST, 90, 'R'))
+        assertEquals(CardinalPoints.NORTH, rotateShip(CardinalPoints.EAST, 90, 'L'))
+        assertEquals(CardinalPoints.NORTH, rotateShip(CardinalPoints.SOUTH, 180, 'L'))
+        assertEquals(CardinalPoints.NORTH, rotateShip(CardinalPoints.SOUTH, 180, 'R'))
+        assertEquals(CardinalPoints.SOUTH, rotateShip(CardinalPoints.WEST, 270, 'R'))
+        assertEquals(CardinalPoints.NORTH, rotateShip(CardinalPoints.WEST, 270, 'L'))
+        assertEquals(CardinalPoints.WEST, rotateShip(CardinalPoints.NORTH, 90, 'L'))
+        assertEquals(CardinalPoints.EAST, rotateShip(CardinalPoints.NORTH, 270, 'L'))
+    }
 }

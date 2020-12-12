@@ -18,70 +18,7 @@ fun navigateShip(instructions: List<Instruction>): Int {
             'S' -> position = CC(position.x, position.y - instruct.value)
             'E' -> position = CC(position.x + instruct.value, position.y)
             'W' -> position = CC(position.x - instruct.value, position.y)
-            'L' -> {
-                facingDirection = when (facingDirection) {
-                    CardinalPoints.EAST -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.NORTH
-                            180 -> CardinalPoints.WEST
-                            else -> CardinalPoints.SOUTH
-                        }
-                    }
-                    CardinalPoints.SOUTH -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.EAST
-                            180 -> CardinalPoints.NORTH
-                            else -> CardinalPoints.WEST
-                        }
-                    }
-                    CardinalPoints.WEST -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.SOUTH
-                            180 -> CardinalPoints.EAST
-                            else -> CardinalPoints.NORTH
-                        }
-                    }
-                    CardinalPoints.NORTH -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.WEST
-                            180 -> CardinalPoints.SOUTH
-                            else -> CardinalPoints.EAST
-                        }
-                    }
-                }
-            }
-            'R' -> {
-                facingDirection = when (facingDirection) {
-                    CardinalPoints.EAST -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.SOUTH
-                            180 -> CardinalPoints.WEST
-                            else -> CardinalPoints.NORTH
-                        }
-                    }
-                    CardinalPoints.SOUTH -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.WEST
-                            180 -> CardinalPoints.NORTH
-                            else -> CardinalPoints.EAST
-                        }
-                    }
-                    CardinalPoints.WEST -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.NORTH
-                            180 -> CardinalPoints.EAST
-                            else -> CardinalPoints.SOUTH
-                        }
-                    }
-                    CardinalPoints.NORTH -> {
-                        when (instruct.value) {
-                            90 -> CardinalPoints.EAST
-                            180 -> CardinalPoints.SOUTH
-                            else -> CardinalPoints.WEST
-                        }
-                    }
-                }
-            }
+            'L', 'R' -> facingDirection = rotateShip(facingDirection, instruct.value, instruct.direction)
             'F' -> {
                 position = when (facingDirection) {
                     CardinalPoints.EAST -> CC(position.x + instruct.value, position.y)
@@ -93,6 +30,15 @@ fun navigateShip(instructions: List<Instruction>): Int {
         }
     }
     return abs(position.x) + abs(position.y)
+}
+
+fun rotateShip(facingDirection: CardinalPoints, degrees: Int, direction: Char): CardinalPoints {
+    val clockwise = listOf(CardinalPoints.NORTH, CardinalPoints.EAST, CardinalPoints.SOUTH, CardinalPoints.WEST)
+    var rotationAmount = listOf(0, 90, 180, 270).indexOf(degrees)
+    rotationAmount = if (direction == 'R') rotationAmount else - rotationAmount
+    var newDirectionIndex = clockwise.indexOf(facingDirection) + rotationAmount
+    newDirectionIndex = if (newDirectionIndex < 0) 4 + newDirectionIndex else newDirectionIndex % 4
+    return clockwise[newDirectionIndex]
 }
 
 fun navigateShipAndWaypoint(instructions: List<Instruction>): Int {
