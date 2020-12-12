@@ -88,8 +88,6 @@ fun navigateShipAndWaypoint(instructions: List<Instruction>): Int {
 
 data class Instruction(var direction: Char, var value: Int)
 
-enum class CardinalPoints(var char: Char) {
-    NORTH('N'), SOUTH('S'), EAST('E'), WEST('W')
-}
+enum class CardinalPoints { NORTH, SOUTH, EAST, WEST }
 
 class CC(var x: Int, var y: Int)
