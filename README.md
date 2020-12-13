@@ -15,3 +15,4 @@
 - Day 10: [code](src/main/kotlin/adventOfCode2020/day10/Day10.kt) - [tests](src/test/kotlin/adventOfCode2020/day10/Day10KtTest.kt) - visualisation of Day10: <img src="src/main/kotlin/adventOfCode2020/day10/day10.jpg" alt="Visualisation of Day 10" width="100" /> <img src="src/main/kotlin/adventOfCode2020/day10/day10_2.jpg" alt="Visualisation of Day 10" width="150" />
 - Day 11: [code](src/main/kotlin/adventOfCode2020/day11/Day11.kt) - [tests](src/test/kotlin/adventOfCode2020/day11/Day11KtTest.kt) 
 - Day 12: [code](src/main/kotlin/adventOfCode2020/day12/Day12.kt) - [tests](src/test/kotlin/adventOfCode2020/day12/Day12KtTest.kt) 
+- Day 13: [code](src/main/kotlin/adventOfCode2020/day13/Day13.kt) - [tests](src/test/kotlin/adventOfCode2020/day13/Day13KtTest.kt) 
