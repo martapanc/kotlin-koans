@@ -22,6 +22,12 @@ internal class Day13KtTest {
 
     @Test
     fun testFindEarliestTimestamp() {
-        assertEquals(1068781, findEarliestTimestamp(input0, 10000, 180000))
+        assertEquals(1068781, findEarliestTimestamp(input0, 10000, 180000, listOf(0, 1, 4, 6, 7)))
+        assertEquals(1068781, findEarliestTimestamp(input1, 10000, 180000, listOf(0, 2, 3)))
+    }
+
+    @Test
+    fun testFindEarliestTimestamp2() {
+        assertEquals(1068781, findEarliestTimestamp2(input))
     }
 }
