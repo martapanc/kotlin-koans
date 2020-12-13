@@ -21,13 +21,13 @@ internal class Day13KtTest {
     }
 
     @Test
-    fun testFindEarliestTimestamp() {
-        assertEquals(1068781, findEarliestTimestamp(input0, 10000, 180000, listOf(0, 1, 4, 6, 7)))
-        assertEquals(1068781, findEarliestTimestamp(input1, 10000, 180000, listOf(0, 2, 3)))
-    }
-
-    @Test
-    fun testFindEarliestTimestamp2() {
-        assertEquals(1068781, findEarliestTimestamp2(input))
+    fun findEarliestTimestampMathEdition() {
+        assertEquals(1068781, findEarliestTimestampMathEdition(input0))
+        assertEquals(3417, findEarliestTimestampMathEdition(input1))
+        assertEquals(754018, findEarliestTimestampMathEdition(input2))
+        assertEquals(779210, findEarliestTimestampMathEdition(input3))
+        assertEquals(1261476, findEarliestTimestampMathEdition(input4))
+        assertEquals(1202161486, findEarliestTimestampMathEdition(input5))
+        assertEquals(836024966345345, findEarliestTimestampMathEdition(input))
     }
 }

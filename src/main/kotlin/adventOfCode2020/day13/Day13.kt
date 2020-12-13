@@ -4,11 +4,7 @@ package adventOfCode2020.day13
 fun readInputToList(input: String): List<Int> {
     val list = mutableListOf<Int>()
     for (v in input.split(",")) {
-        if (v == "x") {
-            list.add(-1)
-        } else {
-            list.add(v.toInt())
-        }
+        if (v == "x") { list.add(-1) } else { list.add(v.toInt()) }
     }
     return list
 }
@@ -69,4 +65,36 @@ fun findEarliestTimestamp2(inputList: List<Int>): Long {
         }
     }
     return candidates[0]
+}
+
+fun findEarliestTimestampMathEdition(inputList: List<Int>): Long {
+    val busIndexAndIdList = mutableListOf<Pair<Int, Int>>()
+    inputList
+        .filter { it != -1 }
+        .mapTo(busIndexAndIdList) { Pair(inputList.indexOf(it), it) }
+
+    var index = busIndexAndIdList[0].first.toLong()
+    var step = busIndexAndIdList[0].second.toLong()
+
+    var temp = 0L
+    for (indexAndId in busIndexAndIdList.subList(1, busIndexAndIdList.size)) {
+        for (i in index until Long.MAX_VALUE step step) {
+            temp = i
+            if ((i + indexAndId.first) % indexAndId.second == 0L) {
+                break
+            }
+        }
+        step = lcm(step, indexAndId.second.toLong())
+        index = temp
+    }
+    return index
+}
+
+private fun lcm(a: Long, b: Long): Long {
+    return a * b / gcd(a, b)
+}
+
+private fun gcd(a: Long, b: Long): Long {
+    if (a == 0L) return b
+    return gcd(b % a, a)
 }
