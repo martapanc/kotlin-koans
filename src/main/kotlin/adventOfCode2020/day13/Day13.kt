@@ -68,23 +68,22 @@ fun findEarliestTimestamp2(inputList: List<Int>): Long {
 }
 
 fun findEarliestTimestampMathEdition(inputList: List<Int>): Long {
-    val busIndexAndIdList = mutableListOf<Pair<Int, Int>>()
+    val busIndexAndIdList = mutableListOf<Bus>()
     inputList
         .filter { it != -1 }
-        .mapTo(busIndexAndIdList) { Pair(inputList.indexOf(it), it) }
+        .mapTo(busIndexAndIdList) { Bus(inputList.indexOf(it).toLong(), it.toLong()) }
 
-    var index = busIndexAndIdList[0].first.toLong()
-    var step = busIndexAndIdList[0].second.toLong()
-
+    var index = busIndexAndIdList[0].index
+    var interval = busIndexAndIdList[0].departureInterval
     var temp = 0L
-    for (indexAndId in busIndexAndIdList.subList(1, busIndexAndIdList.size)) {
-        for (i in index until Long.MAX_VALUE step step) {
+    for (bus in busIndexAndIdList.subList(1, busIndexAndIdList.size)) {
+        for (i in index until Long.MAX_VALUE step interval) {
             temp = i
-            if ((i + indexAndId.first) % indexAndId.second == 0L) {
+            if ((i + bus.index) % bus.departureInterval == 0L) {
                 break
             }
         }
-        step = lcm(step, indexAndId.second.toLong())
+        interval = lcm(interval, bus.departureInterval)
         index = temp
     }
     return index
@@ -98,3 +97,5 @@ private fun gcd(a: Long, b: Long): Long {
     if (a == 0L) return b
     return gcd(b % a, a)
 }
+
+class Bus(var index: Long, var departureInterval: Long)
