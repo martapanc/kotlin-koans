@@ -9,6 +9,26 @@ fun readInputToList(input: String): List<Int> {
     return list
 }
 
+fun readInputToListExcludeX(input: String): List<Int> {
+    return input.split(",")
+        .filter { it != "x" }
+        .map { it.toInt() }
+}
+
+fun findFirstAvailableBus(timestamp: Long, inputList: List<Int>): Int {
+    val minWaitTime = mutableMapOf<Int, Int>()
+    for (arrivalInterval in inputList) {
+        val waitTime = ((timestamp / arrivalInterval) + 1) * arrivalInterval - timestamp
+        minWaitTime[waitTime.toInt()] = arrivalInterval
+    }
+
+    val min = minWaitTime.keys.minOrNull()
+    if (min != null) {
+        return min * minWaitTime[min]!!
+    }
+    return -1
+}
+
 // 1068781 = 152682 * 7
 // 1068782 = 82214 * 13
 // 1068785 = 18115 * 59

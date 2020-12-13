@@ -6,8 +6,10 @@ import org.junit.jupiter.api.Assertions.*
 
 internal class Day13KtTest {
 
-    private val input = readInputToList("37,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,41,x,x,x,x,x,x,x,x,x,587,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,13,19,x,x,x,23,x,x,x,x,x,29,x,733,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,17")
-    private val input0 = readInputToList("7,13,x,x,59,x,31,19")
+    private val inputRaw = "37,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,41,x,x,x,x,x,x,x,x,x,587,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,13,19,x,x,x,23,x,x,x,x,x,29,x,733,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,17"
+    private val input0Raw = "7,13,x,x,59,x,31,19"
+    private val input = readInputToList(inputRaw)
+    private val input0 = readInputToList(input0Raw)
     private val input1 = readInputToList("17,x,13,19")
     private val input2 = readInputToList("67,7,59,61")
     private val input3 = readInputToList("67,x,7,59,61")
@@ -17,7 +19,14 @@ internal class Day13KtTest {
     @Test
     fun testReadInputToList() {
         println(input0)
+        println(readInputToListExcludeX(inputRaw))
         println(input)
+    }
+
+    @Test
+    fun findFirstAvailableBus() {
+        assertEquals(295, findFirstAvailableBus(939, readInputToListExcludeX(input0Raw)))
+        assertEquals(2935, findFirstAvailableBus(1005526, readInputToListExcludeX(inputRaw)))
     }
 
     @Test
