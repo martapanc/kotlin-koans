@@ -20,7 +20,6 @@ fun findEarliestTimestamp(inputList: List<Int>, min: Int, max: Int, indices: Lis
     val listOfMultiplesOfFirstNumber = mutableListOf<Long>()
     val listOfMultiplesOfSecondNumber = mutableListOf<Long>()
     val listOfMultiplesOfThirdNumber = mutableListOf<Long>()
-//    val listOfMultiplesOfFourthNumber = mutableListOf<Long>()
     val firstNum = inputList[0]
     val secondNum = inputList[1]
     val thirdNum = inputList[4]
@@ -33,7 +32,6 @@ fun findEarliestTimestamp(inputList: List<Int>, min: Int, max: Int, indices: Lis
     }
 
     val candidates = mutableListOf<Long>()
-
     for (first in listOfMultiplesOfFirstNumber) {
         if (listOfMultiplesOfSecondNumber.contains(first + 1)
             && listOfMultiplesOfThirdNumber.contains(first + 4)
@@ -51,35 +49,24 @@ fun findEarliestTimestamp(inputList: List<Int>, min: Int, max: Int, indices: Lis
     return candidates[0]
 }
 
-// 100000000000000 / 37  = 2702702702702
-// 100000000000000 / 41  = 2439024390243
-// 100000000000000 / 587 =  170357751277
-// 100000000000000 / 13  = 7692 307 692 307
-// 100000000000000 / 733 =  136 425 648 021
+// This takes a lot - run at your own risk
 fun findEarliestTimestamp2(inputList: List<Int>): Long {
     val indices = inputList.filter { it != -1 }.map { inputList.indexOf(it) }
 
-    val listOfMultiplesOfFirstNumber = mutableListOf<Long>()
-    val listOfMultiplesOfSecondNumber = mutableListOf<Long>()
-    val listOfMultiplesOfThirdNumber = mutableListOf<Long>()
-    for (i in 2702702736321..2702702802702) {
-        listOfMultiplesOfFirstNumber.add((inputList[indices[0]] * i))
-    }
-    for (i in 2439024390243..2439024490243) {
-        listOfMultiplesOfSecondNumber.add((inputList[indices[1]] * i))
-    }
-    for (i in 170357751277..170357851277) {
-        listOfMultiplesOfThirdNumber.add((inputList[indices[2]] * i))
-    }
-
     val candidates = mutableListOf<Long>()
-    for (first in listOfMultiplesOfFirstNumber) {
-        if (listOfMultiplesOfSecondNumber.contains(first + indices[1])
-            && listOfMultiplesOfThirdNumber.contains(first + indices[2])
+    for (i in 2702702736321..27027027027027) {
+        val product = inputList[indices[0]] * i
+        if ((product + indices[1]) % inputList[indices[1]] == 0L
+            && (product + indices[2]) % inputList[indices[2]] == 0L
+            && (product + indices[3]) % inputList[indices[3]] == 0L
+            && (product + indices[4]) % inputList[indices[4]] == 0L
+            && (product + indices[5]) % inputList[indices[5]] == 0L
+            && (product + indices[6]) % inputList[indices[6]] == 0L
+            && (product + indices[7]) % inputList[indices[7]] == 0L
+            && (product + indices[8]) % inputList[indices[8]] == 0L
         ) {
-            candidates.add(first)
+            candidates.add(product)
         }
     }
-
-    return -1
+    return candidates[0]
 }
