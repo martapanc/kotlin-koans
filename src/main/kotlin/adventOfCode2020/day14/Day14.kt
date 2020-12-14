@@ -28,21 +28,24 @@ fun runInitProgramme(map: Map<String, List<String>>): Long {
         for (instruction in mask.value) {
             val split = instruction.split(" = ")
             val memAddress = split[0].replace("mem[", "").replace("]", "").toInt()
-
-            var binaryInstruction = Integer.toBinaryString(split[1].toInt())
-            for (i in 0 until (mask.key.length - binaryInstruction.length)) {
-                binaryInstruction = "0$binaryInstruction"
-            }
-
+            var binaryInstruction = addLeadingZeros(split, mask)
             for ((index, char) in mask.key.withIndex()) {
                 if (char != 'X') {
-                    binaryInstruction = binaryInstruction.replaceRange(index..index, char.toString())
+                    binaryInstruction = binaryInstruction?.replaceRange(index..index, char.toString())
                 }
             }
-            memoryMap[memAddress] = binaryToDecimal(binaryInstruction)
+            memoryMap[memAddress] = binaryToDecimal(binaryInstruction!!)
         }
     }
     return memoryMap.values.sum()
+}
+
+private fun addLeadingZeros(split: List<String>, mask: Map.Entry<String, List<String>>): String? {
+    var binaryInstruction = Integer.toBinaryString(split[1].toInt())
+    for (i in 0 until (mask.key.length - binaryInstruction.length)) {
+        binaryInstruction = "0$binaryInstruction"
+    }
+    return binaryInstruction
 }
 
 fun binaryToDecimal(input: String): Long {
