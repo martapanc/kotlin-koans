@@ -95,7 +95,7 @@ private fun getVisibleSeatsContent(seat: Map.Entry<Pair<Int, Int>, Char>, map: M
     return visibleSeatsContent
 }
 
-private fun mapToString(finalMap: Map<Pair<Int, Int>, Char>): String {
+fun mapToString(finalMap: Map<Pair<Int, Int>, Char>): String {
     var mapString = ""
     for (value in finalMap.values) { mapString += value }
     return mapString

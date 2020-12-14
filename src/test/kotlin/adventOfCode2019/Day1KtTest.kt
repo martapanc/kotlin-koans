@@ -1,5 +1,9 @@
 package adventOfCode2019
 
+import adventOfCode2019.day1.computeFuel
+import adventOfCode2019.day1.computeTotalFuel
+import adventOfCode2019.day1.computerRecursiveTotalFuel
+import adventOfCode2019.day1.readInputFileToList
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
