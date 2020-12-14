@@ -28,7 +28,7 @@ fun runInitProgramme(map: Map<String, List<String>>): Long {
         for (instruction in mask.value) {
             val split = instruction.split(" = ")
             val memAddress = split[0].replace("mem[", "").replace("]", "").toInt()
-            var binaryInstruction = addLeadingZeros(split, mask)
+            var binaryInstruction = convertAndAddLeadingZeros(split[1], mask.key.length)
             for ((index, char) in mask.key.withIndex()) {
                 if (char != 'X') {
                     binaryInstruction = binaryInstruction?.replaceRange(index..index, char.toString())
@@ -40,9 +40,48 @@ fun runInitProgramme(map: Map<String, List<String>>): Long {
     return memoryMap.values.sum()
 }
 
-private fun addLeadingZeros(split: List<String>, mask: Map.Entry<String, List<String>>): String? {
-    var binaryInstruction = Integer.toBinaryString(split[1].toInt())
-    for (i in 0 until (mask.key.length - binaryInstruction.length)) {
+fun runInitProgramme2(map: Map<String, List<String>>): Long {
+    val memoryMap = mutableMapOf<Long, Long>()
+    for (mask in map.entries) {
+        for (instruction in mask.value) {
+            val split = instruction.split(" = ")
+            val memAddress = split[0].replace("mem[", "").replace("]", "").toInt()
+            var binaryAddress = convertAndAddLeadingZeros(memAddress.toString(), mask.key.length)
+            for ((index, char) in mask.key.withIndex()) {
+                if (char != '0') {
+                    binaryAddress = binaryAddress?.replaceRange(index..index, char.toString())
+                }
+            }
+
+            val xCount = countXInBinaryString(binaryAddress!!)
+            for (replacements in generateListOfBinaries(xCount)) {
+                var count = 0
+                var tempBinaryAddress = binaryAddress
+                while (count < xCount) {
+                    tempBinaryAddress = tempBinaryAddress?.replaceFirst('X', replacements[count])
+                    count++
+                }
+                memoryMap[binaryToDecimal(tempBinaryAddress!!)] = split[1].toLong()
+            }
+        }
+    }
+    return memoryMap.values.sum()
+}
+
+fun generateListOfBinaries(num: Int): List<String> {
+    return (0 until 2.0.pow(num.toDouble()).toInt()).map { convertAndAddLeadingZeros(it.toString(), num)!! }
+}
+
+fun countXInBinaryString(string: String): Int {
+    var xCount = 0
+    for (char in string)
+        if (char == 'X') xCount++
+    return xCount
+}
+
+private fun convertAndAddLeadingZeros(string: String, length: Int): String? {
+    var binaryInstruction = Integer.toBinaryString(string.toInt())
+    for (i in 0 until (length - binaryInstruction.length)) {
         binaryInstruction = "0$binaryInstruction"
     }
     return binaryInstruction
