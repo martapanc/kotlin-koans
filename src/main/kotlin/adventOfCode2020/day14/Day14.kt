@@ -27,14 +27,9 @@ fun runInitProgramme(map: Map<String, List<String>>): Long {
     for (mask in map.entries) {
         for (instruction in mask.value) {
             val split = instruction.split(" = ")
-            val memAddress = split[0].replace("mem[", "").replace("]", "").toInt()
             var binaryInstruction = convertAndAddLeadingZeros(split[1], mask.key.length)
-            for ((index, char) in mask.key.withIndex()) {
-                if (char != 'X') {
-                    binaryInstruction = binaryInstruction?.replaceRange(index..index, char.toString())
-                }
-            }
-            memoryMap[memAddress] = binaryToDecimal(binaryInstruction!!)
+            binaryInstruction = replaceBitsUsingMask('X', mask, binaryInstruction)
+            memoryMap[readMemoryAddressNumber(split)] = binaryToDecimal(binaryInstruction!!)
         }
     }
     return memoryMap.values.sum()
@@ -45,13 +40,8 @@ fun runInitProgramme2(map: Map<String, List<String>>): Long {
     for (mask in map.entries) {
         for (instruction in mask.value) {
             val split = instruction.split(" = ")
-            val memAddress = split[0].replace("mem[", "").replace("]", "").toInt()
-            var binaryAddress = convertAndAddLeadingZeros(memAddress.toString(), mask.key.length)
-            for ((index, char) in mask.key.withIndex()) {
-                if (char != '0') {
-                    binaryAddress = binaryAddress?.replaceRange(index..index, char.toString())
-                }
-            }
+            var binaryAddress = convertAndAddLeadingZeros(readMemoryAddressNumber(split).toString(), mask.key.length)
+            binaryAddress = replaceBitsUsingMask('0', mask, binaryAddress)
 
             val xCount = countXInBinaryString(binaryAddress!!)
             for (replacements in generateListOfBinaries(xCount)) {
@@ -68,6 +58,20 @@ fun runInitProgramme2(map: Map<String, List<String>>): Long {
     return memoryMap.values.sum()
 }
 
+private fun replaceBitsUsingMask(neutralChar: Char, mask: Map.Entry<String, List<String>>, binaryString: String?): String? {
+    var tempBinary = binaryString
+    for ((index, char) in mask.key.withIndex()) {
+        if (char != neutralChar) {
+            tempBinary = tempBinary?.replaceRange(index..index, char.toString())
+        }
+    }
+    return tempBinary
+}
+
+private fun readMemoryAddressNumber(split: List<String>) =
+    split[0].replace("mem[", "").replace("]", "").toInt()
+
+// Generate list of combinations of N bits (e.g. 2 => ["00", "01", "10", "11"])
 fun generateListOfBinaries(num: Int): List<String> {
     return (0 until 2.0.pow(num.toDouble()).toInt()).map { convertAndAddLeadingZeros(it.toString(), num)!! }
 }
@@ -87,6 +91,7 @@ private fun convertAndAddLeadingZeros(string: String, length: Int): String? {
     return binaryInstruction
 }
 
+// Generate decimal representation of large binary numbers, for which a Long is not enough
 fun binaryToDecimal(input: String): Long {
     var result = 0L
     val reversed = input.reversed()
