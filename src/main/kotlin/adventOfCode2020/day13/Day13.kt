@@ -4,7 +4,11 @@ package adventOfCode2020.day13
 fun readInputToList(input: String): List<Int> {
     val list = mutableListOf<Int>()
     for (v in input.split(",")) {
-        if (v == "x") { list.add(-1) } else { list.add(v.toInt()) }
+        if (v == "x") {
+            list.add(-1)
+        } else {
+            list.add(v.toInt())
+        }
     }
     return list
 }
@@ -31,24 +35,21 @@ fun findFirstAvailableBus(timestamp: Long, inputList: List<Int>): Int {
 
 // This loops through the available buses and their arrival times finding multiples of the interval, but uses the LCM to update the interval,
 // based on the multiplier found at every loop (which saves a lot of iterations), until a common multiple is found
-fun findEarliestTimestampMathEdition(inputList: List<Int>): Long {
-    val busList = mutableListOf<Bus>()
-    inputList
-        .filter { it != -1 }
-        .mapTo(busList) { Bus(inputList.indexOf(it).toLong(), it.toLong()) }
+fun findEarliestTimestamp(inputList: List<Int>): Long {
+    val shuttleList = mutableListOf<Shuttle>()
+    inputList.filter { it != -1 }
+        .mapTo(shuttleList) { Shuttle(inputList.indexOf(it).toLong(), it.toLong()) }
 
-    var index = busList[0].index
-    var interval = busList[0].departureInterval
-    var temp = 0L
-    for (bus in busList.subList(1, busList.size)) {
+    var index = shuttleList[0].index
+    var interval = shuttleList[0].departureInterval
+    for (shuttle in shuttleList.subList(1, shuttleList.size)) {
         for (i in index until Long.MAX_VALUE step interval) {
-            temp = i
-            if ((i + bus.index) % bus.departureInterval == 0L) {
+            if ((i + shuttle.index) % shuttle.departureInterval == 0L) {
+                index = i
+                interval = lcm(interval, shuttle.departureInterval)
                 break
             }
         }
-        interval = lcm(interval, bus.departureInterval)
-        index = temp
     }
     return index
 }
@@ -62,4 +63,4 @@ private fun gcd(a: Long, b: Long): Long {
     return gcd(b % a, a)
 }
 
-class Bus(var index: Long, var departureInterval: Long)
+class Shuttle(var index: Long, var departureInterval: Long)
