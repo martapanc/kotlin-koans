@@ -19,7 +19,7 @@ internal class Day15KtTest {
 
     @Test
     fun testSpeakNumbers() {
-        val limit: Long = 2020
+        val limit = 2020
         assertEquals(436, speakNumbers(input0, limit))
         assertEquals(1, speakNumbers(input1, limit))
         assertEquals(10, speakNumbers(input2, limit))
@@ -28,7 +28,13 @@ internal class Day15KtTest {
 
     @Test
     fun testSpeakNumbers2() {
-        val limit: Long = 30000000
+        var limit = 2020
+        assertEquals(436, speakNumbersV2(input0, limit))
+        assertEquals(1, speakNumbersV2(input1, limit))
+        assertEquals(10, speakNumbersV2(input2, limit))
+        assertEquals(1194, speakNumbersV2(input, limit))
+
+        limit = 30000000
         assertEquals(175594, speakNumbersV2(input0, limit))
         assertEquals(2578, speakNumbersV2(input1, limit))
         assertEquals(3544142, speakNumbersV2(input2, limit))
