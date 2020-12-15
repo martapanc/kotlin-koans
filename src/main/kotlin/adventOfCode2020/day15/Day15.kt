@@ -21,7 +21,7 @@ fun speakNumbers(list: MutableList<Int>, limit: Int): Int {
     return list.last()
 }
 
-// Use a map to keep track of the last index a number appeared
+// Use a map to keep track of the last index at which a number appeared
 fun speakNumbersV2(list: MutableList<Int>, limit: Int): Int {
     val numbersSeenToIndex = mutableMapOf<Int, Int>()
     for ((index, num) in list.withIndex()) {
