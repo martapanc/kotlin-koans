@@ -62,10 +62,10 @@ fun computeTicketScanningErrorRate(ticketList: List<List<Int>>, ranges: Map<Stri
 }
 
 fun computeDepartureValuesChecksum(myTicket: List<Int>, ticketList: List<List<Int>>, ranges: Map<String, TicketField>,
-                                   checksumIndices: List<Int>): Int {
-    val departureValuesChecksum = 1;
+                                   checksumIndices: List<String>): Long {
+    var departureValuesChecksum = 1L
     val validTickets = computeTicketScanningErrorRate(ticketList, ranges).validTickets
-    val fieldIndexToPossibleNames = mutableMapOf<Int, List<String>>()
+    var fieldIndexToPossibleNames = mutableMapOf<Int, List<String>>()
 
     for (i in validTickets[0].indices) {
         val listOfValuesAtPositionX = mutableListOf<Int>()
@@ -89,5 +89,38 @@ fun computeDepartureValuesChecksum(myTicket: List<Int>, ticketList: List<List<In
         }
         fieldIndexToPossibleNames[i] = listOfValidFields
     }
+
+    var mapCopy = fieldIndexToPossibleNames.toMutableMap()
+    var sumOfVariableFields = fieldIndexToPossibleNames.values.sumBy { it.size }
+
+    while (sumOfVariableFields > fieldIndexToPossibleNames.size) {
+        val namesFoundList = fieldIndexToPossibleNames.values
+            .filter { it.size == 1 }
+            .map { it[0] }
+
+        for (field in fieldIndexToPossibleNames.entries) {
+            for (nameFound in namesFoundList) {
+                if (field.value.size != 1 && field.value.contains(nameFound)) {
+                    val list = mapCopy[field.key]!!.toMutableList()
+                    list.remove(nameFound)
+                    mapCopy[field.key] = list
+                }
+            }
+        }
+
+        fieldIndexToPossibleNames = mapCopy
+        sumOfVariableFields = fieldIndexToPossibleNames.values.sumBy { it.size }
+        mapCopy = fieldIndexToPossibleNames.toMutableMap()
+    }
+
+    val orderOfValues = mutableMapOf<String, Long>()
+    for (i in fieldIndexToPossibleNames.entries) {
+        orderOfValues[i.value[0]] = myTicket[i.key].toLong()
+    }
+
+    for (field in checksumIndices) {
+        departureValuesChecksum *= orderOfValues[field]!!
+    }
+
     return departureValuesChecksum
 }
