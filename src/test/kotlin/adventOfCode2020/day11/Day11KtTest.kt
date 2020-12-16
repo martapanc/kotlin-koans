@@ -5,14 +5,14 @@ import kotlin.test.assertEquals
 
 internal class Day11KtTest {
 
-    private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day11/input")
+    private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day11/input_fields")
     private val input0 = readInputToMap("src/main/kotlin/adventOfCode2020/day11/input0")
 
 
     @Test
     fun testReadInputToMap() {
 //        println(input0)
-//        println(input)
+//        println(input_fields)
         printSeatMap(input0, 9, 9)
         printSeatMap(input, 90, 93)
     }

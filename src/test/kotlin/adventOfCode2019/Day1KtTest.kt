@@ -33,7 +33,7 @@ internal class Day1KtTest {
 
     @Test
     fun testReadInputFileToList() {
-        print(readInputFileToList("src/main/kotlin/adventOfCode/input.txt"))
+        print(readInputFileToList("src/main/kotlin/adventOfCode/input_fields.txt"))
     }
 
     @Test

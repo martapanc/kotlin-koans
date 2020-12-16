@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.*
 
 internal class Day14KtTest {
 
-    private val input = readInputToList("src/main/kotlin/adventOfCode2020/day14/input")
+    private val input = readInputToList("src/main/kotlin/adventOfCode2020/day14/input_fields")
     private val input0 = readInputToList("src/main/kotlin/adventOfCode2020/day14/input0")
     private val input1 = readInputToList("src/main/kotlin/adventOfCode2020/day14/input1")
 

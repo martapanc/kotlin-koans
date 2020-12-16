@@ -21,7 +21,7 @@ fun findFirstNumberNotTheSumOfPreviousKNumbers(list: List<Long>, previousK: Int)
 }
 
 // Exclude cases where key == difference (e.g. number=40 and with 20 in the previous K)
-// and where difference < 0, since the input has only positive integers
+// and where difference < 0, since the input_fields has only positive integers
 private fun buildMapFromNumberToDifference(i: Int, previousK: Int, list: List<Long>, number: Long):
         MutableMap<Long, Long> {
     val mapOfPreviousFive = mutableMapOf<Long, Long>()

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.*
 
 internal class Day7KtTest {
 
-    private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day7/input")
+    private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day7/input_fields")
     private val input0 = readInputToMap("src/main/kotlin/adventOfCode2020/day7/input0")
     private val input2= readInputToMap("src/main/kotlin/adventOfCode2020/day7/input2")
     private val start = "shiny gold"

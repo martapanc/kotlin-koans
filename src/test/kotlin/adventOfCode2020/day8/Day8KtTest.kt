@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 internal class Day8KtTest {
 
-    private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input")
+    private val input = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input_fields")
     private val input0 = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input0")
     private val input0Modif = readInputToMap("src/main/kotlin/adventOfCode2020/day8/input0_modif")
 

@@ -21,7 +21,7 @@ internal class Day2KtTest {
     @Test
     fun testCountValidPasswords() {
         val input0 = readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input0")
-        val input = readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input")
+        val input = readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input_fields")
         assertEquals(2, countValidPasswords(input0, ::isValidPassword))
         assertEquals(569, countValidPasswords(input, ::isValidPassword))
     }
@@ -37,7 +37,7 @@ internal class Day2KtTest {
     @Test
     fun testCountValidPasswords2() {
         assertEquals(1, countValidPasswords(readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input0"), ::isValidPassword2))
-        assertEquals(346, countValidPasswords(readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input"), ::isValidPassword2))
+        assertEquals(346, countValidPasswords(readInputFileToList("src/main/kotlin/adventOfCode2020/day2/input_fields"), ::isValidPassword2))
     }
 
     @Test

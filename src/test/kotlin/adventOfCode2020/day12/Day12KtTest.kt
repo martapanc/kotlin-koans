@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 internal class Day12KtTest {
 
-    private val input = readInputToList("src/main/kotlin/adventOfCode2020/day12/input")
+    private val input = readInputToList("src/main/kotlin/adventOfCode2020/day12/input_fields")
     private val input0 = readInputToList("src/main/kotlin/adventOfCode2020/day12/input0")
 
     @Test
