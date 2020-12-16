@@ -44,13 +44,7 @@ fun computeTicketScanningErrorRate(ticketList: List<List<Int>>, ranges: Map<Stri
     }
     for (ticket in ticketList) {
         for (value in ticket) {
-            var valueBelongsToValidRange = false
-            for (range in validRanges) {
-                if (value in range.first..range.second) {
-                    valueBelongsToValidRange = true
-                    break
-                }
-            }
+            val valueBelongsToValidRange = validRanges.any { value in it.first..it.second }
             if (!valueBelongsToValidRange) {
                 ticketScanningErrorRate += value
             }

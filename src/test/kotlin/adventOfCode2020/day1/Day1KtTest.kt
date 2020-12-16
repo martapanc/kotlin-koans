@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions.*
 internal class Day1KtTest {
 
     private val testInputMap = readInputFileToMap("src/main/kotlin/adventOfCode2020/day1/input0")
-    private val inputMap = readInputFileToMap("src/main/kotlin/adventOfCode2020/day1/input_fields")
+    private val inputMap = readInputFileToMap("src/main/kotlin/adventOfCode2020/day1/input")
 
     @Test
     fun testReadInputFileToMap() {

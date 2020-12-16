@@ -5,10 +5,10 @@ import kotlin.test.assertEquals
 
 internal class Day9KtTest {
 
-    private val input = readInputToList("src/main/kotlin/adventOfCode2020/day9/input_fields")
+    private val input = readInputToList("src/main/kotlin/adventOfCode2020/day9/input")
     private val input0 = readInputToList("src/main/kotlin/adventOfCode2020/day9/input0")
     //removed all numbers after N and some previous larger numbers:
-    private val inputEdit = readInputToList("src/main/kotlin/adventOfCode2020/day9/input_edit")
+    private val inputEdit = readInputToList("src/main/kotlin/adventOfCode2020/day9/input")
 
     @Test
     fun readInputToList() {
