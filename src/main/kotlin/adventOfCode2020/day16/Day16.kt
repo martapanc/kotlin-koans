@@ -30,8 +30,7 @@ fun readInputTicketsToList(path: String): List<List<Int>> {
     File(path).inputStream().bufferedReader().forEachLine { lineList.add(it) }
     for (line in lineList) {
         val currList = mutableListOf<Int>()
-        val numbers = line.split(",")
-        numbers.mapTo(currList) { it.toInt() }
+        line.split(",").mapTo(currList) { it.toInt() }
         list.add(currList)
     }
     return list
@@ -61,27 +60,33 @@ fun computeTicketScanningErrorRate(ticketList: List<List<Int>>, ranges: Map<Stri
     return TicketValidation(validTicketsList, ticketScanningErrorRate)
 }
 
-fun computeDepartureValuesChecksum(myTicket: List<Int>, ticketList: List<List<Int>>, ranges: Map<String, TicketField>,
-                                   checksumIndices: List<String>): Long {
-    var departureValuesChecksum = 1L
+fun computeDepartureValuesChecksum(
+    myTicket: List<Int>, ticketList: List<List<Int>>, ranges: Map<String, TicketField>,
+    checksumIndices: List<String>
+): Long {
     val validTickets = computeTicketScanningErrorRate(ticketList, ranges).validTickets
-    var fieldIndexToPossibleNames = mutableMapOf<Int, List<String>>()
+    var indexToPossibleNames = buildMapOfPossibleFieldsPerIndex(validTickets, ranges)
+    indexToPossibleNames = reducePossibleNamesBasedOnCertainOnes(indexToPossibleNames)
+    return matchExactTicketAndComputeChecksum(indexToPossibleNames, myTicket, checksumIndices)
+}
+
+private fun buildMapOfPossibleFieldsPerIndex(
+    validTickets: List<List<Int>>,
+    ranges: Map<String, TicketField>
+): MutableMap<Int, List<String>> {
+    val fieldIndexToPossibleNames = mutableMapOf<Int, List<String>>()
 
     for (i in validTickets[0].indices) {
-        val listOfValuesAtPositionX = mutableListOf<Int>()
-        for (ticket in validTickets) {
-            listOfValuesAtPositionX.add(ticket[i])
-        }
-
-        val listOfValidFields = mutableListOf<String>()
-        listOfValidFields.addAll(ranges.keys)
+        val listOfValuesAtPositionX = validTickets.map { it[i] }
+        val listOfValidFields = ranges.keys.toMutableList()
         for (value in listOfValuesAtPositionX) {
             if (listOfValidFields.size == 1) {
                 break
             }
             for (range in ranges.values) {
                 if (value !in range.range1.first..range.range1.second
-                    && value !in range.range2.first..range.range2.second) {
+                    && value !in range.range2.first..range.range2.second
+                ) {
                     listOfValidFields.remove(range.name)
                     break
                 }
@@ -89,16 +94,20 @@ fun computeDepartureValuesChecksum(myTicket: List<Int>, ticketList: List<List<In
         }
         fieldIndexToPossibleNames[i] = listOfValidFields
     }
+    return fieldIndexToPossibleNames
+}
 
-    var mapCopy = fieldIndexToPossibleNames.toMutableMap()
-    var sumOfVariableFields = fieldIndexToPossibleNames.values.sumBy { it.size }
+private fun reducePossibleNamesBasedOnCertainOnes(indexToPossibleNames: MutableMap<Int, List<String>>): MutableMap<Int, List<String>> {
+    var reducedPossibleNames = indexToPossibleNames
+    var mapCopy = reducedPossibleNames.toMutableMap()
+    var sumOfVariableFields = reducedPossibleNames.values.sumBy { it.size }
 
-    while (sumOfVariableFields > fieldIndexToPossibleNames.size) {
-        val namesFoundList = fieldIndexToPossibleNames.values
+    while (sumOfVariableFields > reducedPossibleNames.size) {
+        val namesFoundList = reducedPossibleNames.values
             .filter { it.size == 1 }
             .map { it[0] }
 
-        for (field in fieldIndexToPossibleNames.entries) {
+        for (field in reducedPossibleNames.entries) {
             for (nameFound in namesFoundList) {
                 if (field.value.size != 1 && field.value.contains(nameFound)) {
                     val list = mapCopy[field.key]!!.toMutableList()
@@ -107,20 +116,25 @@ fun computeDepartureValuesChecksum(myTicket: List<Int>, ticketList: List<List<In
                 }
             }
         }
-
-        fieldIndexToPossibleNames = mapCopy
-        sumOfVariableFields = fieldIndexToPossibleNames.values.sumBy { it.size }
-        mapCopy = fieldIndexToPossibleNames.toMutableMap()
+        reducedPossibleNames = mapCopy
+        sumOfVariableFields = reducedPossibleNames.values.sumBy { it.size }
+        mapCopy = reducedPossibleNames.toMutableMap()
     }
+    return reducedPossibleNames
+}
 
+private fun matchExactTicketAndComputeChecksum(
+    indexToPossibleNames: MutableMap<Int, List<String>>,
+    myTicket: List<Int>,
+    checksumIndices: List<String>
+): Long {
+    var departureValuesChecksum = 1L
     val orderOfValues = mutableMapOf<String, Long>()
-    for (i in fieldIndexToPossibleNames.entries) {
+    for (i in indexToPossibleNames.entries) {
         orderOfValues[i.value[0]] = myTicket[i.key].toLong()
     }
-
     for (field in checksumIndices) {
         departureValuesChecksum *= orderOfValues[field]!!
     }
-
     return departureValuesChecksum
 }
