@@ -19,7 +19,7 @@
 - [Day 14](https://adventofcode.com/2020/day/14) (Docking Data): [code](src/main/kotlin/adventOfCode2020/day14/Day14.kt) - [tests](src/test/kotlin/adventOfCode2020/day14/Day14KtTest.kt) 
 - [Day 15](https://adventofcode.com/2020/day/15) (Rambunctious Recitation): [code](src/main/kotlin/adventOfCode2020/day15/Day15.kt) - [tests](src/test/kotlin/adventOfCode2020/day15/Day15KtTest.kt) 
 - [Day 16](https://adventofcode.com/2020/day/16) (Ticket Translation): [code](src/main/kotlin/adventOfCode2020/day16/Day16.kt) - [tests](src/test/kotlin/adventOfCode2020/day16/Day16KtTest.kt)
-- [Day 17](https://adventofcode.com/2020/day/17) (Conway Cubes, a.k.a. Now I know how Cooper from Interstellar must have felt in the Tesseract): [code](src/main/kotlin/adventOfCode2020/day17/Day17.kt) - [tests](src/test/kotlin/adventOfCode2020/day17/Day17KtTest.kt) 
+- [Day 17](https://adventofcode.com/2020/day/17) (Conway Cubes, a.k.a. Now I know how Cooper must have felt in Interstellar): [code](src/main/kotlin/adventOfCode2020/day17/Day17.kt) - [tests](src/test/kotlin/adventOfCode2020/day17/Day17KtTest.kt) 
 - [Day 18](https://adventofcode.com/2020/day/18)
 - [Day 19](https://adventofcode.com/2020/day/19)
 - [Day 20](https://adventofcode.com/2020/day/20)
