@@ -20,9 +20,7 @@ fun readInputToMap4d(path: String): Map<Coord4d, Char> {
 }
 
 fun run4dCycles(map: Map<Coord4d, Char>, cycleNumber: Int = 6): Int {
-    printHorrorThingBackToFront(map)
     var finalMap = computeCycle4d(map)
-    printHorrorThingBackToFront(finalMap)
     var i = 1
     while (i++ < cycleNumber) {
         finalMap = computeCycle4d(finalMap)

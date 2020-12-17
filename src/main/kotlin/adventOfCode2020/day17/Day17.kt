@@ -116,13 +116,11 @@ fun getMinAndMax(map: Map<Coord3d, Char>, dimension: Char): Pair<Int, Int> {
         'x' -> min = map.keys.mapTo(mutableSetOf()) { it.x }.minOrNull()!!
         'y' -> min = map.keys.mapTo(mutableSetOf()) { it.y }.minOrNull()!!
         'z' -> min = map.keys.mapTo(mutableSetOf()) { it.z }.minOrNull()!!
-        'w' -> min = map.keys.mapTo(mutableSetOf()) { it.z }.minOrNull()!!
     }
     when (dimension) {
         'x' -> max = map.keys.mapTo(mutableSetOf()) { it.x }.maxOrNull()!!
         'y' -> max = map.keys.mapTo(mutableSetOf()) { it.y }.maxOrNull()!!
         'z' -> max = map.keys.mapTo(mutableSetOf()) { it.z }.maxOrNull()!!
-        'w' -> max = map.keys.mapTo(mutableSetOf()) { it.z }.maxOrNull()!!
     }
     return Pair(min, max)
 }
