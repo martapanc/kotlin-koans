@@ -10,7 +10,7 @@ internal class Day17KtTest {
     private val input0 = readInputToMap("src/main/kotlin/adventOfCode2020/day17/input0")
 
     @Test
-    fun readInputToMap() {
+    fun testReadInputToMap() {
         println(input0)
         println(input)
     }
@@ -18,5 +18,6 @@ internal class Day17KtTest {
     @Test
     fun testRunCycles() {
         assertEquals(112, runCycles(input0, 6))
+        assertEquals(322, runCycles(input, 6))
     }
 }

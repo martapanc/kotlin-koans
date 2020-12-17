@@ -1,9 +1,8 @@
 package adventOfCode2020.day17
 
-import adventOfCode2020.day11.computeRound
 import java.io.File
 
-data class Coord (var x: Int, var y: Int, var z: Int)
+data class Coord(var x: Int, var y: Int, var z: Int)
 
 fun readInputToMap(path: String): Map<Coord, Char> {
     val lineList = mutableListOf<String>()
@@ -20,35 +19,55 @@ fun readInputToMap(path: String): Map<Coord, Char> {
     return inputMap
 }
 
-fun runCycles(map: Map<Coord, Char>, cycleNumber: Int) : Int {
+fun runCycles(map: Map<Coord, Char>, cycleNumber: Int): Int {
+    printThingBackToFront(map)
     var finalMap = computeCycle(map)
+    printThingBackToFront(finalMap)
     var finalMapString = mapToString(finalMap)
-    var i = 0
+    var i = 1
     while (i < cycleNumber) {
         finalMap = computeCycle(finalMap)
+        printThingBackToFront(finalMap)
         finalMapString = mapToString(finalMap)
         i++
     }
-    return finalMapString.count{ it == '#'}
+    return finalMapString.count { it == '#' }
 }
 
 // cube active && exactly 2 or 3 of its neighbors are also active, the cube remains active. Otherwise, the cube becomes inactive.
 // cube inactive && exactly 3 of its neighbors are active, the cube becomes active. Otherwise, the cube remains inactive.
 fun computeCycle(inputMap: Map<Coord, Char>): Map<Coord, Char> {
     val finalMap = mutableMapOf<Coord, Char>()
-    for (cell in inputMap.entries) {
+    val inputMapCopy = extendInputMap(inputMap)
+    for (cell in inputMapCopy.entries) {
         when (cell.value) {
             '#' -> {
-                if (are2Or3NeighborsActive(cell.key, inputMap)) finalMap[cell.key] = '#'
+                if (are2Or3NeighborsActive(cell.key, inputMapCopy)) finalMap[cell.key] = '#'
                 else finalMap[cell.key] = '.'
             }
             '.' -> {
-                if (are3NeighborsActive(cell.key, inputMap)) finalMap[cell.key] = '#'
+                if (are3NeighborsActive(cell.key, inputMapCopy)) finalMap[cell.key] = '#'
                 else finalMap[cell.key] = '.'
             }
         }
     }
     return finalMap
+}
+
+private fun extendInputMap(inputMap: Map<Coord, Char>): MutableMap<Coord, Char> {
+    val inputMapCopy = inputMap.toMutableMap()
+    val (minX, maxX) = getMinAndMax(inputMap, 'x')
+    val (minY, maxY) = getMinAndMax(inputMap, 'y')
+    val (minZ, maxZ) = getMinAndMax(inputMap, 'z')
+    for (z in (minZ - 1)..(maxZ + 1))
+        for (y in (minY - 1)..(maxY + 1))
+            for (x in (minX - 1)..(maxX + 1)) {
+                val cell = inputMapCopy[Coord(x, y, z)]
+                if (cell == null) {
+                    inputMapCopy[Coord(x, y, z)] = '.'
+                }
+            }
+    return inputMapCopy
 }
 
 private fun are2Or3NeighborsActive(cell: Coord, map: Map<Coord, Char>): Boolean {
@@ -77,6 +96,40 @@ fun getNeighbors(cell: Coord, map: Map<Coord, Char>): List<Char> {
 
 fun mapToString(finalMap: Map<Coord, Char>): String {
     var mapString = ""
-    for (value in finalMap.values) { mapString += value }
+    for (value in finalMap.values) {
+        mapString += value
+    }
     return mapString
+}
+
+fun printThingBackToFront(map: Map<Coord, Char>) {
+    val (minX, maxX) = getMinAndMax(map, 'x')
+    val (minY, maxY) = getMinAndMax(map, 'y')
+    val (minZ, maxZ) = getMinAndMax(map, 'z')
+    for (z in minZ..maxZ) {
+        println("z=$z")
+        for (y in minY..maxY) {
+            for (x in minX..maxX) {
+                print(map[Coord(x, y, z)])
+            }
+            println()
+        }
+        println("\n")
+    }
+}
+
+private fun getMinAndMax(map: Map<Coord, Char>, dimension: Char): Pair<Int, Int> {
+    var min = -1
+    var max = -1
+    when (dimension) {
+        'x' -> min = map.keys.mapTo(mutableSetOf()) { it.x }.minOrNull()!!
+        'y' -> min = map.keys.mapTo(mutableSetOf()) { it.y }.minOrNull()!!
+        'z' -> min = map.keys.mapTo(mutableSetOf()) { it.z }.minOrNull()!!
+    }
+    when (dimension) {
+        'x' -> max = map.keys.mapTo(mutableSetOf()) { it.x }.maxOrNull()!!
+        'y' -> max = map.keys.mapTo(mutableSetOf()) { it.y }.maxOrNull()!!
+        'z' -> max = map.keys.mapTo(mutableSetOf()) { it.z }.maxOrNull()!!
+    }
+    return Pair(min, max)
 }
