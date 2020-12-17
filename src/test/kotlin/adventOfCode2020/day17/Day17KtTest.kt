@@ -17,7 +17,12 @@ internal class Day17KtTest {
 
     @Test
     fun testRunCycles() {
-        assertEquals(112, runCycles(input0, 6))
-        assertEquals(322, runCycles(input, 6))
+        assertEquals(112, runCycles(input0))
+        assertEquals(322, runCycles(input))
+    }
+
+    @Test
+    fun testRunCyclesPart2() {
+        assertEquals(848, run4dCycles(input0))
     }
 }

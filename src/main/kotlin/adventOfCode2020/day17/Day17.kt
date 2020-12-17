@@ -19,23 +19,15 @@ fun readInputToMap(path: String): Map<Coord, Char> {
     return inputMap
 }
 
-fun runCycles(map: Map<Coord, Char>, cycleNumber: Int): Int {
-    printThingBackToFront(map)
+fun runCycles(map: Map<Coord, Char>, cycleNumber: Int = 6): Int {
     var finalMap = computeCycle(map)
-    printThingBackToFront(finalMap)
-    var finalMapString = mapToString(finalMap)
     var i = 1
-    while (i < cycleNumber) {
+    while (i++ < cycleNumber) {
         finalMap = computeCycle(finalMap)
-        printThingBackToFront(finalMap)
-        finalMapString = mapToString(finalMap)
-        i++
     }
-    return finalMapString.count { it == '#' }
+    return mapToString(finalMap).count { it == '#' }
 }
 
-// cube active && exactly 2 or 3 of its neighbors are also active, the cube remains active. Otherwise, the cube becomes inactive.
-// cube inactive && exactly 3 of its neighbors are active, the cube becomes active. Otherwise, the cube remains inactive.
 fun computeCycle(inputMap: Map<Coord, Char>): Map<Coord, Char> {
     val finalMap = mutableMapOf<Coord, Char>()
     val inputMapCopy = extendInputMap(inputMap)
@@ -62,8 +54,7 @@ private fun extendInputMap(inputMap: Map<Coord, Char>): MutableMap<Coord, Char> 
     for (z in (minZ - 1)..(maxZ + 1))
         for (y in (minY - 1)..(maxY + 1))
             for (x in (minX - 1)..(maxX + 1)) {
-                val cell = inputMapCopy[Coord(x, y, z)]
-                if (cell == null) {
+                if (inputMapCopy[Coord(x, y, z)] == null) {
                     inputMapCopy[Coord(x, y, z)] = '.'
                 }
             }
@@ -118,18 +109,20 @@ fun printThingBackToFront(map: Map<Coord, Char>) {
     }
 }
 
-private fun getMinAndMax(map: Map<Coord, Char>, dimension: Char): Pair<Int, Int> {
+fun getMinAndMax(map: Map<Coord, Char>, dimension: Char): Pair<Int, Int> {
     var min = -1
     var max = -1
     when (dimension) {
         'x' -> min = map.keys.mapTo(mutableSetOf()) { it.x }.minOrNull()!!
         'y' -> min = map.keys.mapTo(mutableSetOf()) { it.y }.minOrNull()!!
         'z' -> min = map.keys.mapTo(mutableSetOf()) { it.z }.minOrNull()!!
+        'w' -> min = map.keys.mapTo(mutableSetOf()) { it.z }.minOrNull()!!
     }
     when (dimension) {
         'x' -> max = map.keys.mapTo(mutableSetOf()) { it.x }.maxOrNull()!!
         'y' -> max = map.keys.mapTo(mutableSetOf()) { it.y }.maxOrNull()!!
         'z' -> max = map.keys.mapTo(mutableSetOf()) { it.z }.maxOrNull()!!
+        'w' -> max = map.keys.mapTo(mutableSetOf()) { it.z }.maxOrNull()!!
     }
     return Pair(min, max)
 }
