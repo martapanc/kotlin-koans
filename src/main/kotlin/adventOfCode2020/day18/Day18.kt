@@ -12,7 +12,8 @@ fun readInput(path: String): List<String> {
     return list
 }
 
-fun runOperations(inputList: List<String>): Long {
+fun runOperations(inputList: List<String>, order: OperationOrder): Long {
+    val operationOrderFunction = if (order == OperationOrder.LEFT_TO_RIGHT) ::computeLeftToRight else ::computeAdditionBeforeMultiplication
     var totalSum = 0L
     for (operation in inputList) {
         val stack = ArrayDeque<String>()
@@ -26,17 +27,17 @@ fun runOperations(inputList: List<String>): Long {
                     lastElem = stack.last()
                 }
                 stack.removeLast()
-                stack.add(computeOperationLeftToRight(bracketContent.trim()).toString())
+                stack.add(operationOrderFunction(bracketContent.trim()).toString())
             } else {
                 stack.add(char)
             }
         }
-        totalSum += computeOperationLeftToRight(operationStackToString(stack))
+        totalSum += operationOrderFunction(operationStackToString(stack))
     }
     return totalSum
 }
 
-fun computeOperationLeftToRight(operation: String): Long {
+fun computeLeftToRight(operation: String): Long {
     var accumulator = 0L
     val stack = ArrayDeque<String>()
     val split = operation.split(" ")
@@ -60,8 +61,21 @@ fun computeOperationLeftToRight(operation: String): Long {
     return accumulator
 }
 
+fun computeAdditionBeforeMultiplication(operation: String): Long {
+    var accumulator = 0L
+    val stack = ArrayDeque<String>()
+    val split = operation.split(" ")
+    var i = 0
+    while (i < split.size) {
+
+    }
+    return accumulator
+}
+
 fun operationStackToString(stack: ArrayDeque<String>): String {
     var string = ""
     stack.forEach { elem -> string += "$elem " }
     return string.trim()
 }
+
+enum class OperationOrder { LEFT_TO_RIGHT, ADDITION_BEFORE_MULTIPLICATION}

@@ -15,17 +15,35 @@ internal class Day18KtTest {
     }
 
     @Test
-    fun testRunOperations() {
-        assertEquals(35, runOperations(listOf("( 2 + 3 ) * 7")))
-        assertEquals(35, runOperations(listOf("2 + 3 * 7")))
-        assertEquals(23, runOperations(listOf("3 * 7 + 2")))
-        assertEquals(58, runOperations(listOf("5 + 3 * 7 + 2")))
-        assertEquals(72, runOperations(listOf("( 5 + 3 ) * ( 7 + 2 )")))
-        assertEquals(580, runOperations(listOf("( ( 5 + 3 ) * 7 ) + 2 * 10")))
-        assertEquals(437, runOperations(listOf("5 + ( 8 * 3 + 9 + 3 * 4 * 3 )")))
-        assertEquals(12240, runOperations(listOf("5 * 9 * ( 7 * 3 * 3 + 9 * 3 + ( 8 + 6 * 4 ) )")))
-        assertEquals(13632, runOperations(listOf("( ( 2 + 4 * 9 ) * ( 6 + 9 * 8 + 6 ) + 6 ) + 2 + 4 * 2")))
-        assertEquals(148, runOperations(input0))
-        assertEquals(45283905029161, runOperations(input))
+    fun testRunOperationsLeftToRight() {
+        val order = OperationOrder.LEFT_TO_RIGHT
+        assertEquals(35, runOperations(listOf("( 2 + 3 ) * 7"), order))
+        assertEquals(35, runOperations(listOf("2 + 3 * 7"), order))
+        assertEquals(23, runOperations(listOf("3 * 7 + 2"), order))
+        assertEquals(58, runOperations(listOf("5 + 3 * 7 + 2"), order))
+        assertEquals(72, runOperations(listOf("( 5 + 3 ) * ( 7 + 2 )"), order))
+        assertEquals(580, runOperations(listOf("( ( 5 + 3 ) * 7 ) + 2 * 10"), order))
+        assertEquals(437, runOperations(listOf("5 + ( 8 * 3 + 9 + 3 * 4 * 3 )"), order))
+        assertEquals(12240, runOperations(listOf("5 * 9 * ( 7 * 3 * 3 + 9 * 3 + ( 8 + 6 * 4 ) )"), order))
+        assertEquals(13632, runOperations(listOf("( ( 2 + 4 * 9 ) * ( 6 + 9 * 8 + 6 ) + 6 ) + 2 + 4 * 2"), order))
+        assertEquals(148, runOperations(input0, order))
+        assertEquals(45283905029161, runOperations(input, order))
+    }
+
+    @Test
+    fun testRunOperationsAdditionBeforeMultiplication() {
+        val order = OperationOrder.ADDITION_BEFORE_MULTIPLICATION
+        assertEquals(35, runOperations(listOf("( 2 + 3 ) * 7"), order))
+        assertEquals(35, runOperations(listOf("2 + 3 * 7"), order))
+        assertEquals(27, runOperations(listOf("3 * 7 + 2"), order))
+        assertEquals(72, runOperations(listOf("5 + 3 * 7 + 2"), order))
+        assertEquals(72, runOperations(listOf("( 5 + 3 ) * ( 7 + 2 )"), order))
+        assertEquals(580, runOperations(listOf("( ( 5 + 3 ) * 7 ) + 2 * 10"), order))
+        assertEquals(46, runOperations(listOf("2 * 3 + ( 4 * 5 )"), order))
+        assertEquals(1445, runOperations(listOf("5 + ( 8 * 3 + 9 + 3 * 4 * 3 )"), order))
+        assertEquals(669060, runOperations(listOf("5 * 9 * ( 7 * 3 * 3 + 9 * 3 + ( 8 + 6 * 4 ) )"), order))
+        assertEquals(23340, runOperations(listOf("( ( 2 + 4 * 9 ) * ( 6 + 9 * 8 + 6 ) + 6 ) + 2 + 4 * 2"), order))
+        assertEquals(148, runOperations(input0, order))
+        assertEquals(45283905029161, runOperations(input, order))
     }
 }
