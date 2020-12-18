@@ -63,11 +63,45 @@ fun computeLeftToRight(operation: String): Long {
 
 fun computeAdditionBeforeMultiplication(operation: String): Long {
     var accumulator = 0L
-    val stack = ArrayDeque<String>()
-    val split = operation.split(" ")
+    var stack = ArrayDeque<String>()
+    var split = operation.split(" ")
     var i = 0
-    while (i < split.size) {
+    if (operation.contains("+"))
+        while (i < split.size) {
+            val current = split[i]
+            if (current == "+") {
+                val prevNumber = stack.last().toLong()
+                accumulator = prevNumber + split[i + 1].toLong()
+                stack.removeLast()
+                stack.add(accumulator.toString())
+                i += 2
+            } else {
+                stack.add(current)
+                i++
+            }
+        }
 
+    if (operation.contains("*")) {
+        var newOperation = operation
+        if (stack.size != 0) {
+            newOperation = operationStackToString(stack)
+            stack = ArrayDeque<String>()
+        }
+        split = newOperation.split(" ")
+        i = 0
+        while (i < split.size) {
+            val current = split[i]
+            if (current == "*") {
+                val prevNumber = stack.last().toLong()
+                accumulator = prevNumber * split[i + 1].toLong()
+                stack.removeLast()
+                stack.add(accumulator.toString())
+                i += 2
+            } else {
+                stack.add(current)
+                i++
+            }
+        }
     }
     return accumulator
 }
