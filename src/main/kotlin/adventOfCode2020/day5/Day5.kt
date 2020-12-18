@@ -5,9 +5,8 @@ import java.io.InputStream
 import kotlin.math.pow
 
 fun readInputToList(path: String): List<String> {
-    val inputStream: InputStream = File(path).inputStream()
     val lineList = mutableListOf<String>()
-    inputStream.bufferedReader().forEachLine { lineList.add(it) }
+    File(path).inputStream().bufferedReader().forEachLine { lineList.add(it) }
     return lineList.toList();
 }
 

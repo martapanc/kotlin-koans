@@ -1,12 +1,13 @@
 package adventOfCode2020.day18
 
+import adventOfCode2020.day5.readInputToList
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class Day18KtTest {
 
-    private val input = readInput("src/main/kotlin/adventOfCode2020/day18/input")
-    private val input0 = readInput("src/main/kotlin/adventOfCode2020/day18/input0")
+    private val input = readInputToList("src/main/kotlin/adventOfCode2020/day18/input")
+    private val input0 = readInputToList("src/main/kotlin/adventOfCode2020/day18/input0")
 
     @Test
     fun readInput() {

@@ -1,17 +1,5 @@
 package adventOfCode2020.day18
 
-import java.io.File
-
-fun readInput(path: String): List<String> {
-    val list = mutableListOf<String>()
-    val lineList = mutableListOf<String>()
-    File(path).inputStream().bufferedReader().forEachLine { lineList.add(it) }
-    for (line in lineList) {
-        list.add(line)
-    }
-    return list
-}
-
 fun runOperations(inputList: List<String>, order: OperationOrder): Long {
     val operationOrderFunction = if (order == OperationOrder.LEFT_TO_RIGHT) ::computeLeftToRight else ::computeAdditionBeforeMultiplication
     var totalSum = 0L
@@ -52,11 +40,9 @@ fun computeLeftToRight(operation: String): Long {
             }
             stack.removeLast()
             stack.add(accumulator.toString())
-            i += 2
-        } else {
-            stack.add(current)
             i++
-        }
+        } else stack.add(current)
+        i++
     }
     return accumulator
 }
@@ -74,20 +60,18 @@ fun computeAdditionBeforeMultiplication(operation: String): Long {
                 accumulator = prevNumber + split[i + 1].toLong()
                 stack.removeLast()
                 stack.add(accumulator.toString())
-                i += 2
-            } else {
-                stack.add(current)
                 i++
-            }
+            } else stack.add(current)
+            i++
         }
 
     if (operation.contains("*")) {
-        var newOperation = operation
+        var reducedOperation = operation
         if (stack.size != 0) {
-            newOperation = operationStackToString(stack)
-            stack = ArrayDeque<String>()
+            reducedOperation = operationStackToString(stack)
+            stack = ArrayDeque()
         }
-        split = newOperation.split(" ")
+        split = reducedOperation.split(" ")
         i = 0
         while (i < split.size) {
             val current = split[i]
@@ -96,11 +80,9 @@ fun computeAdditionBeforeMultiplication(operation: String): Long {
                 accumulator = prevNumber * split[i + 1].toLong()
                 stack.removeLast()
                 stack.add(accumulator.toString())
-                i += 2
-            } else {
-                stack.add(current)
                 i++
-            }
+            } else stack.add(current)
+            i++
         }
     }
     return accumulator
@@ -112,4 +94,4 @@ fun operationStackToString(stack: ArrayDeque<String>): String {
     return string.trim()
 }
 
-enum class OperationOrder { LEFT_TO_RIGHT, ADDITION_BEFORE_MULTIPLICATION}
+enum class OperationOrder { LEFT_TO_RIGHT, ADDITION_BEFORE_MULTIPLICATION }
