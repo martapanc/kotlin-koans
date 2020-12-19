@@ -6,9 +6,13 @@ import kotlin.test.assertEquals
 internal class Day19KtTest {
 
     private val inputRules = readRulesToMap("src/main/kotlin/adventOfCode2020/day19/input_rules")
+    private val inputRulesV2 = readRulesToMap("src/main/kotlin/adventOfCode2020/day19/input_rules_2")
     private val inputMessages = readMessagesToList("src/main/kotlin/adventOfCode2020/day19/input_messages")
     private val input0Rules = readRulesToMap("src/main/kotlin/adventOfCode2020/day19/input0_rules")
     private val input0Messages = readMessagesToList("src/main/kotlin/adventOfCode2020/day19/input0_messages")
+    private val input2Rules = readRulesToMap("src/main/kotlin/adventOfCode2020/day19/input2_rules")
+    private val input2RulesV2 = readRulesToMap("src/main/kotlin/adventOfCode2020/day19/input2_rules_2")
+    private val input2Messages = readMessagesToList("src/main/kotlin/adventOfCode2020/day19/input2_messages")
 
     @Test
     fun testReadInputFiles() {
@@ -27,6 +31,7 @@ internal class Day19KtTest {
     @Test
     fun testCountValidMessages() {
         assertEquals(2, countValidMessages(input0Messages, findRegex(input0Rules)))
+        assertEquals(3, countValidMessages(input2Messages, findRegex(input2Rules)))
         assertEquals(132, countValidMessages(inputMessages, findRegex(inputRules)))
     }
 }

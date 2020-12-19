@@ -43,12 +43,5 @@ fun recursivelyReplace(rule: String, map: Map<String, String>): String {
 }
 
 fun countValidMessages(messages: List<String>, regexString: String): Int {
-    var count = 0
-    for (message in messages) {
-        val regex = Regex(regexString)
-        if (regex.matches(message)) {
-            count++
-        }
-    }
-    return count
+    return messages.count { it.matches(Regex(regexString)) }
 }
