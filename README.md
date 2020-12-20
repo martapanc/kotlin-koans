@@ -22,7 +22,7 @@
 - [Day 17](https://adventofcode.com/2020/day/17) (Conway Cubes, a.k.a. Now I know how Cooper must have felt in Interstellar): [code](src/main/kotlin/adventOfCode2020/day17/Day17.kt) - [tests](src/test/kotlin/adventOfCode2020/day17/Day17KtTest.kt) 
 - [Day 18](https://adventofcode.com/2020/day/18) (Operation Order): [code](src/main/kotlin/adventOfCode2020/day18/Day18.kt) - [tests](src/test/kotlin/adventOfCode2020/day18/Day18KtTest.kt)
 - [Day 19](https://adventofcode.com/2020/day/19) (Monster Message): [code](src/main/kotlin/adventOfCode2020/day19/Day19.kt) - [tests](src/test/kotlin/adventOfCode2020/day19/Day19KtTest.kt)
-- [Day 20](https://adventofcode.com/2020/day/20)
+- [Day 20](https://adventofcode.com/2020/day/20) (Jurassic Jigsaw): [code](src/main/kotlin/adventOfCode2020/day20/Day20.kt) - [tests](src/test/kotlin/adventOfCode2020/day20/Day20KtTest.kt)
 - [Day 21](https://adventofcode.com/2020/day/21)
 - [Day 22](https://adventofcode.com/2020/day/22)
 - [Day 23](https://adventofcode.com/2020/day/23)
