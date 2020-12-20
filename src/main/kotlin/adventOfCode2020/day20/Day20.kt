@@ -28,13 +28,47 @@ fun readInputToList(path: String): List<JigsawTile> {
     return list
 }
 
-fun findCornersCheckproduct(tilesList: List<JigsawTile>): Long {
+fun findCornersCheckProduct(tilesList: List<JigsawTile>): Long {
     var checkProduct: Long = 1
     findTileNeighbors(tilesList).entries
         .asSequence()
         .filter { it.value.size == 2 }
         .forEach { checkProduct *= it.key }
     return checkProduct
+}
+
+fun drawFirstLine(tilesList: List<JigsawTile>) {
+    val tilesAndNeighbors: Map<Int, List<NeighborEdge>> = findTileNeighbors(tilesList)
+    val tileIdToTile = mutableMapOf<Int, JigsawTile>()
+    for (tile in tilesList) tileIdToTile[tile.tileId] = tile
+
+    val topLeftId = 2273
+    val topLeftTile: JigsawTile = tileIdToTile[topLeftId]!!
+    val rightNeighbor: NeighborEdge = (tilesAndNeighbors[topLeftId] ?: error(""))[1]
+
+    for (tile in tilesAndNeighbors) {
+        if (tile.value.contains(rightNeighbor) ||
+            tile.value.contains(NeighborEdge(rightNeighbor.tileId, rightNeighbor.edge.reversed()))) {
+            print(tile.key)
+        }
+    }
+
+    val second = 1543
+    val secondTile: JigsawTile = tileIdToTile[second]!!
+
+    println()
+}
+
+fun createCompletePuzzle(tilesList: List<JigsawTile>) {
+    val tilesAndNeighbors = findTileNeighbors(tilesList)
+//    val cornerTiles = tilesAndNeighbors.filter { it.value.size == 2 }
+//    val borderTiles = tilesAndNeighbors.filter { it.value.size == 3 }
+
+    val tileIdToTile = mutableMapOf<Int, JigsawTile>()
+    for (tile in tilesList) tileIdToTile[tile.tileId] = tile
+
+//    printTile(rotateOrFlip(tileIdToTile[1823]!!, flip = 'h'))
+    printTile(rotateOrFlip(tileIdToTile[3373]!!, rotate = true, deg=90, flip = '0'))
 }
 
 fun findTileNeighbors(tilesList: List<JigsawTile>): Map<Int, List<NeighborEdge>> {
@@ -51,6 +85,7 @@ fun findTileNeighbors(tilesList: List<JigsawTile>): Map<Int, List<NeighborEdge>>
                     tileNeighborCounts[tile.tileId] = neighborsList
                 }
         }
+    println(tileNeighborCounts)
     return tileNeighborCounts
 }
 
@@ -61,11 +96,94 @@ private fun getListOfBorders(array: MutableMap<Coord, Char>): List<String> {
     var rightMost = ""
     (0..9).forEach { i ->
         topHorizontal += array[Coord(i, 0)]
+        rightMost += array[Coord(9, i)]
         bottomHorizontal += array[Coord(i, 9)]
         leftMost += array[Coord(0, i)]
-        rightMost += array[Coord(9, i)]
     }
     return listOf(topHorizontal, bottomHorizontal, leftMost, rightMost)
+}
+
+fun cheating(tilesList: List<JigsawTile>) {
+    var borderCount = 0
+    var innerCount = 0
+    for (tile in tilesList) {
+        val totalCount = tile.array.count{ it.value == '#'}
+        var currBorderCount = 0
+        for ((index, border) in tile.borderList.withIndex()) {
+            currBorderCount += if (index == 1 || index == 2) {
+                border.reversed().substring(0, border.length - 1).count { it == '#' }
+            } else {
+                border.substring(0, border.length - 1).count { it == '#' }
+            }
+        }
+        borderCount += currBorderCount
+        innerCount += (totalCount - currBorderCount)
+    }
+}
+
+fun rotateOrFlip(tile: JigsawTile, rotate: Boolean = false, deg: Int = 0, flip: Char = '0'): JigsawTile {
+    var array = tile.array
+    var editedArray = mutableMapOf<Coord, Char>()
+
+    if (rotate) {
+        when (deg) {
+            90 -> editedArray = rotate90DegClockwise(array).toMutableMap()
+            180 -> {
+                editedArray = rotate90DegClockwise(array).toMutableMap()
+                editedArray = rotate90DegClockwise(editedArray).toMutableMap()
+            }
+            270 -> {
+                editedArray = rotate90DegClockwise(array).toMutableMap()
+                editedArray = rotate90DegClockwise(editedArray).toMutableMap()
+                editedArray = rotate90DegClockwise(editedArray).toMutableMap()
+            }
+        }
+        array = editedArray
+    }
+
+    if (flip == 'v') {
+        editedArray = flipVertically(array).toMutableMap()
+    }
+    if (flip == 'h') {
+        editedArray = flipHorizontally(array).toMutableMap()
+    }
+
+    return JigsawTile(tile.tileId, editedArray, tile.borderList)
+}
+
+private fun rotate90DegClockwise(array: Map<Coord, Char>): Map<Coord, Char> {
+    val rotatedArray = mutableMapOf<Coord, Char>()
+    for (coord in array.entries) {
+        rotatedArray[Coord(9 - coord.key.y, coord.key.x)] = array[coord.key] ?: error("")
+    }
+    return rotatedArray
+}
+
+private fun flipVertically(array: Map<Coord, Char>): Map<Coord, Char> {
+    val flippedArray = mutableMapOf<Coord, Char>()
+    for (coord in array.entries) {
+        flippedArray[Coord(9 - coord.key.x, coord.key.y)] = array[coord.key] ?: error("")
+    }
+    return flippedArray
+}
+
+private fun flipHorizontally(array: Map<Coord, Char>): Map<Coord, Char> {
+    val flippedArray = mutableMapOf<Coord, Char>()
+    for (coord in array.entries) {
+        flippedArray[Coord(coord.key.x, 9 - coord.key.y)] = array[coord.key] ?: error("")
+    }
+    return flippedArray
+}
+
+fun printTile(tile: JigsawTile) {
+    println("Tile " + tile.tileId + ":")
+    for (y in 0..9) {
+        for (x in 0..9) {
+            print(tile.array[Coord(x, y)])
+        }
+        println()
+    }
+    println()
 }
 
 data class JigsawTile(var tileId: Int, var array: Map<Coord, Char>, var borderList: List<String>)

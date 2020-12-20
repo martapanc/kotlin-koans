@@ -16,7 +16,29 @@ internal class Day20KtTest {
 
     @Test
     fun findCornerTiles() {
-        assertEquals(20899048083289, findCornersCheckproduct(input0))
-        assertEquals(18262194216271, findCornersCheckproduct(input))
+        assertEquals(18262194216271, findCornersCheckProduct(input))
+        assertEquals(20899048083289, findCornersCheckProduct(input0))
+    }
+
+    @Test
+    fun createCompletePuzzle() {
+//        createCompletePuzzle(input0)
+        createCompletePuzzle(input)
+    }
+
+    @Test
+    fun rotateTile90DegreesClockwise() {
+//        printTile(rotateOrFlip(input0[0], rotate = true, deg = 90, flip = '0'))
+//        printTile(rotateOrFlip(input0[0], rotate = true, deg = 180, flip = '0'))
+//        printTile(rotateOrFlip(input0[0], rotate = true, deg = 270, flip = '0'))
+//        printTile(rotateOrFlip(input0[0], rotate = false, deg = 0, flip = 'v'))
+//        printTile(rotateOrFlip(input0[0], rotate = false, deg = 0, flip = 'h'))
+        printTile(rotateOrFlip(input0[0], rotate = true, deg = 90, flip = 'h'))
+        printTile(rotateOrFlip(input0[0], rotate = true, deg = 90, flip = 'v'))
+    }
+
+    @Test
+    fun drawFirstLine() {
+        drawFirstLine(input)
     }
 }
