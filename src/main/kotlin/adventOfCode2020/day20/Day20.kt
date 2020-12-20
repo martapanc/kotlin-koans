@@ -67,8 +67,8 @@ fun createCompletePuzzle(tilesList: List<JigsawTile>) {
     val tileIdToTile = mutableMapOf<Int, JigsawTile>()
     for (tile in tilesList) tileIdToTile[tile.tileId] = tile
 
-//    printTile(rotateOrFlip(tileIdToTile[1823]!!, flip = 'h'))
-    printTile(rotateOrFlip(tileIdToTile[3373]!!, rotate = true, deg=90, flip = '0'))
+//    printTile(rotateOrFlip(tileIdToTile[1549]!!, flip = 'v'))
+    printTile(rotateOrFlip(tileIdToTile[2243]!!, rotate = true, deg=90, flip = 'z'))
 }
 
 fun findTileNeighbors(tilesList: List<JigsawTile>): Map<Int, List<NeighborEdge>> {
