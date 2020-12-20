@@ -20,7 +20,9 @@ fun readInputToList(path: String): List<JigsawTile> {
                 tileId = line.replace("Tile ", "").replace(":", "").toInt()
             }
             else -> {
-                for ((index, x) in (0..9).withIndex()) { array[Coord(x, y)] = line[index] }
+                for ((index, x) in (0..9).withIndex()) {
+                    array[Coord(x, y)] = line[index]
+                }
                 y++
             }
         }
@@ -35,7 +37,8 @@ fun findCornerTiles(tilesList: List<JigsawTile>): Long {
             for (candidateTile in tilesList) {
                 if (candidateTile.tileId != tile.tileId) {
                     if (candidateTile.borderList.contains(border) ||
-                        candidateTile.borderList.contains(border.reversed())) {
+                        candidateTile.borderList.contains(border.reversed())
+                    ) {
                         val list = tileNeighborCounts[tile.tileId]
                         val neighborsList = list?.toMutableList() ?: mutableListOf()
                         neighborsList.add(candidateTile.tileId)
@@ -46,11 +49,10 @@ fun findCornerTiles(tilesList: List<JigsawTile>): Long {
         }
     }
     var checkProduct: Long = 1
-    for (tile in tileNeighborCounts.entries) {
-        if (tile.value.size == 2) {
-            checkProduct *= tile.key
-        }
-    }
+    tileNeighborCounts.entries
+        .asSequence()
+        .filter { it.value.size == 2 }
+        .forEach { checkProduct *= it.key }
     return checkProduct
 }
 
