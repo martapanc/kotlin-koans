@@ -16,9 +16,7 @@ fun readInputToList(path: String): List<JigsawTile> {
                 array = mutableMapOf()
                 y = 0
             }
-            line.startsWith("Tile") -> {
-                tileId = line.replace("Tile ", "").replace(":", "").toInt()
-            }
+            line.startsWith("Tile") -> tileId = line.replace("Tile ", "").replace(":", "").toInt()
             else -> {
                 for ((index, x) in (0..9).withIndex()) {
                     array[Coord(x, y)] = line[index]
@@ -30,30 +28,30 @@ fun readInputToList(path: String): List<JigsawTile> {
     return list
 }
 
-fun findCornerTiles(tilesList: List<JigsawTile>): Long {
-    val tileNeighborCounts = mutableMapOf<Int, List<Int>>()
-    for (tile in tilesList) {
-        for (border in tile.borderList) {
-            for (candidateTile in tilesList) {
-                if (candidateTile.tileId != tile.tileId) {
-                    if (candidateTile.borderList.contains(border) ||
-                        candidateTile.borderList.contains(border.reversed())
-                    ) {
-                        val list = tileNeighborCounts[tile.tileId]
-                        val neighborsList = list?.toMutableList() ?: mutableListOf()
-                        neighborsList.add(candidateTile.tileId)
-                        tileNeighborCounts[tile.tileId] = neighborsList
-                    }
-                }
-            }
-        }
-    }
+fun findCornersCheckproduct(tilesList: List<JigsawTile>): Long {
     var checkProduct: Long = 1
-    tileNeighborCounts.entries
+    findTileNeighbors(tilesList).entries
         .asSequence()
         .filter { it.value.size == 2 }
         .forEach { checkProduct *= it.key }
     return checkProduct
+}
+
+fun findTileNeighbors(tilesList: List<JigsawTile>): Map<Int, List<NeighborEdge>> {
+    val tileNeighborCounts = mutableMapOf<Int, List<NeighborEdge>>()
+    for (tile in tilesList)
+        tile.borderList.forEach { border ->
+            for (candidateTile in tilesList)
+                if (candidateTile.tileId != tile.tileId &&
+                    (candidateTile.borderList.contains(border) || candidateTile.borderList.contains(border.reversed()))
+                ) {
+                    val list = tileNeighborCounts[tile.tileId]
+                    val neighborsList = list?.toMutableList() ?: mutableListOf()
+                    neighborsList.add(NeighborEdge(candidateTile.tileId, border))
+                    tileNeighborCounts[tile.tileId] = neighborsList
+                }
+        }
+    return tileNeighborCounts
 }
 
 private fun getListOfBorders(array: MutableMap<Coord, Char>): List<String> {
@@ -61,7 +59,7 @@ private fun getListOfBorders(array: MutableMap<Coord, Char>): List<String> {
     var bottomHorizontal = ""
     var leftMost = ""
     var rightMost = ""
-    for (i in 0..9) {
+    (0..9).forEach { i ->
         topHorizontal += array[Coord(i, 0)]
         bottomHorizontal += array[Coord(i, 9)]
         leftMost += array[Coord(0, i)]
@@ -71,5 +69,6 @@ private fun getListOfBorders(array: MutableMap<Coord, Char>): List<String> {
 }
 
 data class JigsawTile(var tileId: Int, var array: Map<Coord, Char>, var borderList: List<String>)
+data class NeighborEdge(var tileId: Int, var edge: String)
 
 data class Coord(var x: Int, var y: Int)

@@ -16,7 +16,7 @@ internal class Day20KtTest {
 
     @Test
     fun findCornerTiles() {
-        assertEquals(20899048083289, findCornerTiles(input0))
-        assertEquals(18262194216271, findCornerTiles(input))
+        assertEquals(20899048083289, findCornersCheckproduct(input0))
+        assertEquals(18262194216271, findCornersCheckproduct(input))
     }
 }
