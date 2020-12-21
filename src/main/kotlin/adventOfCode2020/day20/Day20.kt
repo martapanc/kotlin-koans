@@ -1,6 +1,8 @@
 package adventOfCode2020.day20
 
+import adventOfCode2020.day17.Coord3d
 import java.io.File
+import kotlin.math.sqrt
 
 fun readInputToList(path: String): List<JigsawTile> {
     val lineList = mutableListOf<String>()
@@ -48,7 +50,8 @@ fun drawFirstLine(tilesList: List<JigsawTile>) {
 
     for (tile in tilesAndNeighbors) {
         if (tile.value.contains(rightNeighbor) ||
-            tile.value.contains(NeighborEdge(rightNeighbor.tileId, rightNeighbor.edge.reversed()))) {
+            tile.value.contains(NeighborEdge(rightNeighbor.tileId, rightNeighbor.edge.reversed()))
+        ) {
             print(tile.key)
         }
     }
@@ -68,7 +71,7 @@ fun createCompletePuzzle(tilesList: List<JigsawTile>) {
     for (tile in tilesList) tileIdToTile[tile.tileId] = tile
 
 //    printTile(rotateOrFlip(tileIdToTile[1549]!!, flip = 'v'))
-    printTile(rotateOrFlip(tileIdToTile[2243]!!, rotate = true, deg=90, flip = 'z'))
+    printTile(rotateOrFlip(tileIdToTile[2243]!!, rotate = true, deg = 90, flip = 'z'))
 }
 
 fun findTileNeighbors(tilesList: List<JigsawTile>): Map<Int, List<NeighborEdge>> {
@@ -107,7 +110,7 @@ fun cheating(tilesList: List<JigsawTile>) {
     var borderCount = 0
     var innerCount = 0
     for (tile in tilesList) {
-        val totalCount = tile.array.count{ it.value == '#'}
+        val totalCount = tile.array.count { it.value == '#' }
         var currBorderCount = 0
         for ((index, border) in tile.borderList.withIndex()) {
             currBorderCount += if (index == 1 || index == 2) {
@@ -154,7 +157,7 @@ fun rotateOrFlip(tile: JigsawTile, rotate: Boolean = false, deg: Int = 0, flip: 
 private fun rotate90DegClockwise(array: Map<Coord, Char>): Map<Coord, Char> {
     val rotatedArray = mutableMapOf<Coord, Char>()
     for (coord in array.entries) {
-        rotatedArray[Coord(9 - coord.key.y, coord.key.x)] = array[coord.key] ?: error("")
+        rotatedArray[Coord(sqrt(array.keys.size.toDouble()).toInt() - coord.key.y, coord.key.x)] = array[coord.key] ?: error("")
     }
     return rotatedArray
 }
@@ -184,6 +187,115 @@ fun printTile(tile: JigsawTile) {
         println()
     }
     println()
+}
+
+
+fun readImageInput(path: String): Map<Coord, Char> {
+    val lineList = mutableListOf<String>()
+    File(path).inputStream().bufferedReader().forEachLine { lineList.add(it) }
+    val inputMap = mutableMapOf<Coord, Char>()
+    var x = 0
+    for ((y, line) in lineList.withIndex()) {
+        line.forEach { char ->
+            inputMap[Coord(x, y)] = char
+//            print(char)
+            x++
+        }
+        x = 0
+//        println()
+    }
+    return inputMap
+}
+//                  #
+//#    ##    ##    ###
+// #  #  #  #  #  #
+// #  #  #  #  #  #
+//#    ##    ##    ###
+//                  #
+// #
+//###    ##    ##    #
+//   #  #  #  #  #  #
+//   #  #  #  #  #  #
+//###    ##    ##    #
+// #
+
+fun flipSeaMonster(coords: List<Coord>, horizontally: Boolean): List<Coord> {
+    val flippedSeaMonster = mutableListOf<Coord>()
+    for (c in coords) {
+        if (horizontally) {
+            flippedSeaMonster.add(Coord(19 - c.x, c.y))
+        } else {
+            flippedSeaMonster.add(Coord(c.x, 2 - c.y))
+        }
+    }
+    printSeaMonster(flippedSeaMonster)
+    return flippedSeaMonster
+}
+
+fun findSeaMonsters(map: Map<Coord, Char>, inputSize: Int): Int {
+    var rotatedMap = map
+    rotatedMap = rotate90DegClockwise(rotatedMap)
+    rotatedMap = rotate90DegClockwise((rotatedMap))
+    rotatedMap = rotate90DegClockwise((rotatedMap))
+    printInputPuzzle(rotatedMap)
+    var monsterCount = 0
+    var seaMonsterCoords = listOf(
+        Coord(0, 1), Coord(1, 2), Coord(4, 2), Coord(5, 1),
+        Coord(6, 1), Coord(7, 2), Coord(10, 2), Coord(11, 1),
+        Coord(12, 1), Coord(13, 2), Coord(16, 2), Coord(17, 1),
+        Coord(18, 1), Coord(19, 1), Coord(18, 0)
+    )
+    printSeaMonster(seaMonsterCoords)
+
+    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
+
+//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, false)
+//
+//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
+//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, false)
+//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
+
+
+    for (y in 0 until inputSize) {
+        for (x in 0..(inputSize - 2)) {
+            var seaMonsterMatch = true
+            for (c in seaMonsterCoords) {
+                if (rotatedMap[Coord(x + c.x, y + c.y)] != '#') {
+                    seaMonsterMatch = false
+                    break
+                }
+            }
+            if (seaMonsterMatch) {
+                println("Monster found at ($x, $y)")
+                monsterCount++
+            }
+
+        }
+    }
+    return monsterCount
+}
+
+fun printSeaMonster(list: List<Coord>) {
+    for (y in 0..6) {
+        for (x in 0..19) {
+            if (list.contains(Coord(x, y))) {
+                print("#")
+            } else {
+                print(" ")
+            }
+        }
+        println()
+    }
+}
+
+fun printInputPuzzle(map: Map<Coord, Char>) {
+    for (y in 0 until 96) {
+        for (x in 0 until 96) {
+            print(map[Coord(x, y)])
+        }
+        println()
+    }
+    println("")
 }
 
 data class JigsawTile(var tileId: Int, var array: Map<Coord, Char>, var borderList: List<String>)
