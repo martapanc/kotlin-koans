@@ -1,6 +1,5 @@
 package adventOfCode2020.day20
 
-import adventOfCode2020.day17.Coord3d
 import java.io.File
 import kotlin.math.sqrt
 
@@ -11,7 +10,7 @@ fun readInputToList(path: String): List<JigsawTile> {
     var array = mutableMapOf<Coord, Char>()
     var tileId = 0
     var y = 0
-    for (line in lineList) {
+    for (line in lineList)
         when {
             line == "" -> {
                 list.add(JigsawTile(tileId, array, getListOfBorders(array)))
@@ -26,7 +25,6 @@ fun readInputToList(path: String): List<JigsawTile> {
                 y++
             }
         }
-    }
     return list
 }
 
@@ -37,41 +35,6 @@ fun findCornersCheckProduct(tilesList: List<JigsawTile>): Long {
         .filter { it.value.size == 2 }
         .forEach { checkProduct *= it.key }
     return checkProduct
-}
-
-fun drawFirstLine(tilesList: List<JigsawTile>) {
-    val tilesAndNeighbors: Map<Int, List<NeighborEdge>> = findTileNeighbors(tilesList)
-    val tileIdToTile = mutableMapOf<Int, JigsawTile>()
-    for (tile in tilesList) tileIdToTile[tile.tileId] = tile
-
-    val topLeftId = 2273
-    val topLeftTile: JigsawTile = tileIdToTile[topLeftId]!!
-    val rightNeighbor: NeighborEdge = (tilesAndNeighbors[topLeftId] ?: error(""))[1]
-
-    for (tile in tilesAndNeighbors) {
-        if (tile.value.contains(rightNeighbor) ||
-            tile.value.contains(NeighborEdge(rightNeighbor.tileId, rightNeighbor.edge.reversed()))
-        ) {
-            print(tile.key)
-        }
-    }
-
-    val second = 1543
-    val secondTile: JigsawTile = tileIdToTile[second]!!
-
-    println()
-}
-
-fun createCompletePuzzle(tilesList: List<JigsawTile>) {
-    val tilesAndNeighbors = findTileNeighbors(tilesList)
-//    val cornerTiles = tilesAndNeighbors.filter { it.value.size == 2 }
-//    val borderTiles = tilesAndNeighbors.filter { it.value.size == 3 }
-
-    val tileIdToTile = mutableMapOf<Int, JigsawTile>()
-    for (tile in tilesList) tileIdToTile[tile.tileId] = tile
-
-//    printTile(rotateOrFlip(tileIdToTile[1549]!!, flip = 'v'))
-    printTile(rotateOrFlip(tileIdToTile[2243]!!, rotate = true, deg = 90, flip = 'z'))
 }
 
 fun findTileNeighbors(tilesList: List<JigsawTile>): Map<Int, List<NeighborEdge>> {
@@ -106,28 +69,29 @@ private fun getListOfBorders(array: MutableMap<Coord, Char>): List<String> {
     return listOf(topHorizontal, bottomHorizontal, leftMost, rightMost)
 }
 
-fun cheating(tilesList: List<JigsawTile>) {
+fun countHashesExcludingBorders(tilesList: List<JigsawTile>): Int {
     var borderCount = 0
     var innerCount = 0
     for (tile in tilesList) {
         val totalCount = tile.array.count { it.value == '#' }
-        var currBorderCount = 0
-        for ((index, border) in tile.borderList.withIndex()) {
-            currBorderCount += if (index == 1 || index == 2) {
-                border.reversed().substring(0, border.length - 1).count { it == '#' }
-            } else {
-                border.substring(0, border.length - 1).count { it == '#' }
+        val currBorderCount = tile.borderList
+            .mapIndexed { index, border ->
+                if (index == 1 || index == 2) {
+                    border.reversed().substring(0, border.length - 1).count { it == '#' }
+                } else {
+                    border.substring(0, border.length - 1).count { it == '#' }
+                }
             }
-        }
+            .sum()
         borderCount += currBorderCount
         innerCount += (totalCount - currBorderCount)
     }
+    return innerCount
 }
 
 fun rotateOrFlip(tile: JigsawTile, rotate: Boolean = false, deg: Int = 0, flip: Char = '0'): JigsawTile {
     var array = tile.array
     var editedArray = mutableMapOf<Coord, Char>()
-
     if (rotate) {
         when (deg) {
             90 -> editedArray = rotate90DegClockwise(array).toMutableMap()
@@ -143,21 +107,20 @@ fun rotateOrFlip(tile: JigsawTile, rotate: Boolean = false, deg: Int = 0, flip: 
         }
         array = editedArray
     }
-
     if (flip == 'v') {
         editedArray = flipVertically(array).toMutableMap()
     }
     if (flip == 'h') {
         editedArray = flipHorizontally(array).toMutableMap()
     }
-
     return JigsawTile(tile.tileId, editedArray, tile.borderList)
 }
 
 private fun rotate90DegClockwise(array: Map<Coord, Char>): Map<Coord, Char> {
     val rotatedArray = mutableMapOf<Coord, Char>()
     for (coord in array.entries) {
-        rotatedArray[Coord(sqrt(array.keys.size.toDouble()).toInt() - coord.key.y, coord.key.x)] = array[coord.key] ?: error("")
+        rotatedArray[Coord(sqrt(array.keys.size.toDouble()).toInt() - coord.key.y, coord.key.x)] =
+            array[coord.key] ?: error("")
     }
     return rotatedArray
 }
@@ -178,18 +141,6 @@ private fun flipHorizontally(array: Map<Coord, Char>): Map<Coord, Char> {
     return flippedArray
 }
 
-fun printTile(tile: JigsawTile) {
-    println("Tile " + tile.tileId + ":")
-    for (y in 0..9) {
-        for (x in 0..9) {
-            print(tile.array[Coord(x, y)])
-        }
-        println()
-    }
-    println()
-}
-
-
 fun readImageInput(path: String): Map<Coord, Char> {
     val lineList = mutableListOf<String>()
     File(path).inputStream().bufferedReader().forEachLine { lineList.add(it) }
@@ -198,26 +149,12 @@ fun readImageInput(path: String): Map<Coord, Char> {
     for ((y, line) in lineList.withIndex()) {
         line.forEach { char ->
             inputMap[Coord(x, y)] = char
-//            print(char)
             x++
         }
         x = 0
-//        println()
     }
     return inputMap
 }
-//                  #
-//#    ##    ##    ###
-// #  #  #  #  #  #
-// #  #  #  #  #  #
-//#    ##    ##    ###
-//                  #
-// #
-//###    ##    ##    #
-//   #  #  #  #  #  #
-//   #  #  #  #  #  #
-//###    ##    ##    #
-// #
 
 fun flipSeaMonster(coords: List<Coord>, horizontally: Boolean): List<Coord> {
     val flippedSeaMonster = mutableListOf<Coord>()
@@ -228,16 +165,20 @@ fun flipSeaMonster(coords: List<Coord>, horizontally: Boolean): List<Coord> {
             flippedSeaMonster.add(Coord(c.x, 2 - c.y))
         }
     }
-    printSeaMonster(flippedSeaMonster)
     return flippedSeaMonster
 }
 
-fun findSeaMonsters(map: Map<Coord, Char>, inputSize: Int): Int {
+fun findSeaMonsters(
+    map: Map<Coord, Char>,
+    inputSize: Int,
+    rotateTimes: Int = 0,
+    flipHorizontally: Boolean = false
+): Int {
     var rotatedMap = map
-    rotatedMap = rotate90DegClockwise(rotatedMap)
-    rotatedMap = rotate90DegClockwise((rotatedMap))
-    rotatedMap = rotate90DegClockwise((rotatedMap))
-    printInputPuzzle(rotatedMap)
+    var i = 0
+    while (i++ < rotateTimes) {
+        rotatedMap = rotate90DegClockwise(rotatedMap)
+    }
     var monsterCount = 0
     var seaMonsterCoords = listOf(
         Coord(0, 1), Coord(1, 2), Coord(4, 2), Coord(5, 1),
@@ -245,18 +186,10 @@ fun findSeaMonsters(map: Map<Coord, Char>, inputSize: Int): Int {
         Coord(12, 1), Coord(13, 2), Coord(16, 2), Coord(17, 1),
         Coord(18, 1), Coord(19, 1), Coord(18, 0)
     )
-    printSeaMonster(seaMonsterCoords)
-
-    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
-
-//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, false)
-//
-//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
-//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, false)
-//    seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
-
-
-    for (y in 0 until inputSize) {
+    if (flipHorizontally) {
+        seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
+    }
+    for (y in 0 until inputSize)
         for (x in 0..(inputSize - 2)) {
             var seaMonsterMatch = true
             for (c in seaMonsterCoords) {
@@ -265,37 +198,9 @@ fun findSeaMonsters(map: Map<Coord, Char>, inputSize: Int): Int {
                     break
                 }
             }
-            if (seaMonsterMatch) {
-                println("Monster found at ($x, $y)")
-                monsterCount++
-            }
-
+            if (seaMonsterMatch) monsterCount++
         }
-    }
     return monsterCount
-}
-
-fun printSeaMonster(list: List<Coord>) {
-    for (y in 0..6) {
-        for (x in 0..19) {
-            if (list.contains(Coord(x, y))) {
-                print("#")
-            } else {
-                print(" ")
-            }
-        }
-        println()
-    }
-}
-
-fun printInputPuzzle(map: Map<Coord, Char>) {
-    for (y in 0 until 96) {
-        for (x in 0 until 96) {
-            print(map[Coord(x, y)])
-        }
-        println()
-    }
-    println("")
 }
 
 data class JigsawTile(var tileId: Int, var array: Map<Coord, Char>, var borderList: List<String>)

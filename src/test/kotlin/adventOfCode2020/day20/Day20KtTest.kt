@@ -25,30 +25,25 @@ internal class Day20KtTest {
     }
 
     @Test
-    fun createCompletePuzzle() {
-//        createCompletePuzzle(input0)
-        createCompletePuzzle(input)
-    }
-
-    @Test
     fun rotateTile90DegreesClockwise() {
-        printTile(rotateOrFlip(input0[0], rotate = true, deg = 90, flip = '0'))
-        printTile(rotateOrFlip(input0[0], rotate = true, deg = 180, flip = '0'))
-        printTile(rotateOrFlip(input0[0], rotate = true, deg = 270, flip = '0'))
-        printTile(rotateOrFlip(input0[0], rotate = false, deg = 0, flip = 'v'))
-        printTile(rotateOrFlip(input0[0], rotate = false, deg = 0, flip = 'h'))
-        printTile(rotateOrFlip(input0[0], rotate = true, deg = 90, flip = 'h'))
-        printTile(rotateOrFlip(input0[0], rotate = true, deg = 90, flip = 'v'))
-    }
-
-    @Test
-    fun drawFirstLine() {
-        drawFirstLine(input)
+        rotateOrFlip(input0[0], rotate = true, deg = 90, flip = '0')
+        rotateOrFlip(input0[0], rotate = true, deg = 180, flip = '0')
+        rotateOrFlip(input0[0], rotate = true, deg = 270, flip = '0')
+        rotateOrFlip(input0[0], rotate = false, deg = 0, flip = 'v')
+        rotateOrFlip(input0[0], rotate = false, deg = 0, flip = 'h')
+        rotateOrFlip(input0[0], rotate = true, deg = 90, flip = 'h')
+        rotateOrFlip(input0[0], rotate = true, deg = 90, flip = 'v')
     }
 
     @Test
     fun findSeaMonsters() {
-//        assertEquals(2, findSeaMonsters(inputPuzzle0, 24))
-        assertEquals(41, findSeaMonsters(inputPuzzle, 96))
+        assertEquals(2, findSeaMonsters(inputPuzzle0, 24))
+        assertEquals(41, findSeaMonsters(inputPuzzle, 96, 3, true))
+    }
+
+    @Test
+    fun countHashesExcludingBorders() {
+        assertEquals(303, countHashesExcludingBorders(input0))
+        assertEquals(2638, countHashesExcludingBorders(input))
     }
 }
