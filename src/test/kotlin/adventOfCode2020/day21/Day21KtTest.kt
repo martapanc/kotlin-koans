@@ -15,7 +15,13 @@ internal class Day21KtTest {
 
     @Test
     fun compute() {
-        assertEquals(5, compute(input0))
-        assertEquals(1913, compute(input))
+        assertEquals(5, countTimesSafeIngredientsAppear(input0))
+        assertEquals(1913, countTimesSafeIngredientsAppear(input))
+    }
+
+    @Test
+    fun listIngredientsByAlphabeticalAllergen() {
+        assertEquals("mxmxvkd,sqjhc,fvjkl", listIngredientsByAlphabeticalAllergen(input0))
+        assertEquals("gpgrb,tjlz,gtjmd,spbxz,pfdkkzp,xcfpc,txzv,znqbr", listIngredientsByAlphabeticalAllergen(input))
     }
 }

@@ -23,9 +23,26 @@ fun readInputToMap(path: String): Day21Input {
     return Day21Input(recipesWithAllergens, canContain, recipes)
 }
 
-fun compute(input: Day21Input): Int {
-    val recipesWithAllergens = input.recipesWithAllergens
+fun countTimesSafeIngredientsAppear(input: Day21Input): Int {
     val canContain = input.canContain.toMutableMap()
+    val recipes = reduceCanContain(input, canContain)
+
+    var count = 0
+    canContain.entries
+        .filter { it.value.size == 0 }
+        .forEach { entry ->
+            repeat(recipes.filter {
+                it.first.contains(entry.key)
+            }.size) { count++ }
+        }
+    return count
+}
+
+private fun reduceCanContain(
+    input: Day21Input,
+    canContain: MutableMap<String, MutableSet<String>>
+): List<Pair<List<String>, List<String>>> {
+    val recipesWithAllergens = input.recipesWithAllergens
     val recipes = input.recipes
 
     for ((ingredients, allergens) in recipes)
@@ -39,17 +56,34 @@ fun compute(input: Day21Input): Int {
                         }
                     }
                 }
-
-    var count = 0
-    canContain.entries
-        .filter { it.value.size == 0 }
-        .forEach { entry ->
-            repeat(recipes.filter {
-                it.first.contains(entry.key)
-            }.size) { count++ }
-        }
-    return count
+    return recipes
 }
+
+fun listIngredientsByAlphabeticalAllergen(input: Day21Input): String {
+    val canContain = input.canContain.toMutableMap()
+    val recipes = reduceCanContain(input, canContain)
+
+    val allergens = mutableMapOf<String, Set<String>>()
+    for (entry in canContain) {
+        if (entry.value.size != 0) {
+            allergens[entry.key] = entry.value
+        }
+    }
+
+    return ""
+}
+// gpgrb = dairy
+// tjlz = eggs
+// gtjmd = fish
+// spbxz = nuts
+// pfdkkzp = peanuts
+// xcfpc = shellfish
+// txzv = soy
+// znqbr = wheat
+
+// gpgrb,tjlz,gtjmd,spbxz,pfdkkzp,xcfpc,txzv,znqbr
+
+
 
 data class Day21Input(
     var recipesWithAllergens: Map<String, MutableSet<Int>>,
