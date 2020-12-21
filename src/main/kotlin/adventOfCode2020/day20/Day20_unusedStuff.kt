@@ -1,5 +1,7 @@
 package adventOfCode2020.day20
 
+import kotlin.math.sqrt
+
 fun drawFirstLine(tilesList: List<JigsawTile>) {
     val tilesAndNeighbors: Map<Int, List<NeighborEdge>> = findTileNeighbors(tilesList)
     val tileIdToTile = mutableMapOf<Int, JigsawTile>()
@@ -62,8 +64,9 @@ fun printSeaMonster(list: List<Coord>) {
 }
 
 fun printInputPuzzle(map: Map<Coord, Char>) {
-    for (y in 0 until 96) {
-        for (x in 0 until 96) print(map[Coord(x, y)])
+    val side = sqrt(map.size.toDouble()).toInt()
+    for (y in 0 until side) {
+        for (x in 0 until side) print(map[Coord(x, y)])
         println()
     }
     println("")

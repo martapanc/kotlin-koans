@@ -189,6 +189,7 @@ fun findSeaMonsters(
     if (flipHorizontally) {
         seaMonsterCoords = flipSeaMonster(seaMonsterCoords, true)
     }
+    val mapCopy = rotatedMap.toMutableMap()
     for (y in 0 until inputSize)
         for (x in 0..(inputSize - 2)) {
             var seaMonsterMatch = true
@@ -198,8 +199,14 @@ fun findSeaMonsters(
                     break
                 }
             }
-            if (seaMonsterMatch) monsterCount++
+            if (seaMonsterMatch) {
+                monsterCount++
+                for (c in seaMonsterCoords) {
+                    mapCopy[Coord(x + c.x, y + c.y)] = '@'
+                }
+            }
         }
+    printInputPuzzle(mapCopy)
     return monsterCount
 }
 
