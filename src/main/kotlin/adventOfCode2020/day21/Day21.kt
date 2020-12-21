@@ -15,12 +15,10 @@ fun readInputToMap(path: String): Day21Input {
         val allergens = split[1].trim().split(", ")
         recipes.add(Pair(ingredients, allergens))
         for (all in allergens) {
-            for (ing in ingredients) {
+            for (ing in ingredients)
                 canContain.getOrPut(ing, ::mutableSetOf) += all
-            }
             recipesWithAllergens.getOrPut(all, ::mutableSetOf) += i
         }
-
     }
     return Day21Input(recipesWithAllergens, canContain, recipes)
 }
@@ -30,32 +28,26 @@ fun compute(input: Day21Input): Int {
     val canContain = input.canContain.toMutableMap()
     val recipes = input.recipes
 
-    for ((ingreds, allergies) in recipes) {
-        for (i in ingreds) {
-            for (a in allergies) {
-                if ((canContain[i] ?: error("")).contains(a)) {
-                    for (id in recipesWithAllergens[a] ?: error("")) {
-                        if (!recipes[id].first.contains(i)) {
-                            canContain[i]!!.remove(a)
+    for ((ingredients, allergens) in recipes)
+        for (ingredient in ingredients)
+            for (allergen in allergens)
+                if ((canContain[ingredient] ?: error("")).contains(allergen)) {
+                    for (recipeId in recipesWithAllergens[allergen] ?: error("")) {
+                        if (!recipes[recipeId].first.contains(ingredient)) {
+                            canContain[ingredient]!!.remove(allergen)
                             break
                         }
                     }
                 }
-            }
-        }
-    }
 
     var count = 0
-    for (entry in canContain.entries) {
-        if (entry.value.size == 0) {
-            for (ingredients in recipes) {
-                if (ingredients.first.contains(entry.key)) {
-                    count++
-                }
-            }
+    canContain.entries
+        .filter { it.value.size == 0 }
+        .forEach { entry ->
+            repeat(recipes.filter {
+                it.first.contains(entry.key)
+            }.size) { count++ }
         }
-    }
-
     return count
 }
 
