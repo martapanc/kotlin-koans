@@ -21,4 +21,11 @@ internal class Day22KtTest {
         assertEquals(306, playGame(input0))
         assertEquals(33631, playGame(input))
     }
+
+    @Test
+    fun playGameV2() {
+        assertEquals(291, playGameV2(input0))
+        assertEquals(105, playGameV2(Pair(listOf(43, 19), listOf(2, 29, 14))))
+        assertEquals(33469, playGameV2(input))
+    }
 }
