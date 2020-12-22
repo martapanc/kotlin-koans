@@ -24,7 +24,7 @@
 - [Day 19](https://adventofcode.com/2020/day/19) (Monster Message): [code](src/main/kotlin/adventOfCode2020/day19/Day19.kt) - [tests](src/test/kotlin/adventOfCode2020/day19/Day19KtTest.kt) - visualisation: <img src="src/main/kotlin/adventOfCode2020/day19/meme_of_the_day.jpg" alt="Visualisation of Day 19" width="100"/>
 - [Day 20](https://adventofcode.com/2020/day/20) (Jurassic Jigsaw): [code](src/main/kotlin/adventOfCode2020/day20/Day20.kt) - [tests](src/test/kotlin/adventOfCode2020/day20/Day20KtTest.kt) - [visualisation](https://refined-github-html-preview.kidonng.workers.dev/martapanc/kotlin-koans/raw/master/src/main/kotlin/adventOfCode2020/day20/render/sea.html)
 - [Day 21](https://adventofcode.com/2020/day/21) (Allergen Assessment): [code](src/main/kotlin/adventOfCode2020/day21/Day21.kt) - [tests](src/test/kotlin/adventOfCode2020/day21/Day21KtTest.kt)
-- [Day 22](https://adventofcode.com/2020/day/22) (Crab Combat): [code](src/main/kotlin/adventOfCode2020/day22/Day22.kt) - [tests](src/test/kotlin/adventOfCode2020/day22/Day22KtTest.kt) - visualisation: <img src="src/main/kotlin/adventOfCode2020/day22/fight-crab.jpg" alt="Visualisation of Day 22" width="100"/>
+- [Day 22](https://adventofcode.com/2020/day/22) (Crab Combat): [code](src/main/kotlin/adventOfCode2020/day22/Day22.kt) - [tests](src/test/kotlin/adventOfCode2020/day22/Day22KtTest.kt) - visualisation: <img src="src/main/kotlin/adventOfCode2020/day22/fight-crab.jpg" alt="Visualisation of Day 22" width="140"/>
 - [Day 23](https://adventofcode.com/2020/day/23)
 - [Day 24](https://adventofcode.com/2020/day/24)
 - [Day 25](https://adventofcode.com/2020/day/25)
