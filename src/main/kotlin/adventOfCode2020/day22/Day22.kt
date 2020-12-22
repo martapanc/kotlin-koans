@@ -46,12 +46,12 @@ fun playGame(decks: Pair<List<Int>, List<Int>>): Long {
 }
 
 fun playGameV2(decks: Pair<List<Int>, List<Int>>): Long {
-    return findWinnerScore(playRecursiveGame(decks).winningDeck, listOf())
+    return findWinnerScore(playRecursiveGame(decks.first, decks.second).winningDeck, listOf())
 }
 
-fun playRecursiveGame(decks: Pair<List<Int>, List<Int>>): RecursiveGameWin {
-    val playerOne = decks.first.toMutableList()
-    val playerTwo = decks.second.toMutableList()
+fun playRecursiveGame(first: List<Int>, second: List<Int>): RecursiveGameWin {
+    val playerOne = first.toMutableList()
+    val playerTwo = second.toMutableList()
     val playerOneDeckHistory = mutableListOf<String>()
     val playerTwoDeckHistory = mutableListOf<String>()
     while (playerOne.size != 0 && playerTwo.size != 0) {
@@ -64,10 +64,8 @@ fun playRecursiveGame(decks: Pair<List<Int>, List<Int>>): RecursiveGameWin {
         val onePlays = playerOne.removeAt(0)
         val twoPlays = playerTwo.removeAt(0)
         if (playerOne.size >= onePlays && playerTwo.size >= twoPlays) {
-            val recursiveGameWin = playRecursiveGame(
-                Pair(playerOne.subList(0, onePlays), playerTwo.subList(0, twoPlays))
-            )
-            if (recursiveGameWin.winningPlayerNum == 1) {
+            val recursiveGame = playRecursiveGame(playerOne.subList(0, onePlays), playerTwo.subList(0, twoPlays))
+            if (recursiveGame.winningPlayerNum == 1) {
                 playerOne.add(onePlays)
                 playerOne.add(twoPlays)
             } else {
