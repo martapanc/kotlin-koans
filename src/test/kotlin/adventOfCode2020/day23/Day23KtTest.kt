@@ -17,6 +17,7 @@ internal class Day23KtTest {
 
     @Test
     fun playGameP2() {
-        assertEquals(149245887792, playGameP2(input))
+        assertEquals(149245887792, playGamePart2(input0))
+        assertEquals(12757828710, playGamePart2(input))
     }
 }

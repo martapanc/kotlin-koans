@@ -33,7 +33,7 @@ fun playGame(input: List<Int>, moves: Int = 100): String {
     return listAfter1ToString(list)
 }
 
-fun playGameP2(input: List<Int>, moves: Long = 10000000): Long {
+fun playGameV2(input: List<Int>, moves: Long = 100): Long {
     var list = addCupsToList(input)
     var currentCup = input[0]
     for (move in (1..moves)) {
@@ -61,6 +61,59 @@ fun playGameP2(input: List<Int>, moves: Long = 10000000): Long {
     return list[list.indexOf(1) + 1].toLong() * list[list.indexOf(1) + 2]
 }
 
+fun playGamePart2(input: List<Int>, moves: Long = 10000000): Long {
+    val list = addCupsToList(input)
+    val cupsList = generateLinkedList(list)
+    val valueToCupMap = mutableMapOf<Int, Cup>()
+    for (cup in cupsList) {
+        valueToCupMap[cup.value] = cup
+    }
+    var currentCup = cupsList[0]
+    val minCup = 1
+    val maxCup = list.size
+
+    for (i in (1..moves)) {
+        val pick1 = currentCup.right!!
+        val pick2 = pick1.right!!
+        val pick3 = pick2.right!!
+        val pickupValues = listOf(pick1.value, pick2.value, pick3.value)
+
+        currentCup.right = pick3.right
+        currentCup.right!!.left = currentCup
+
+        var dropValue = currentCup.value - 1
+        while (dropValue in pickupValues || dropValue > maxCup || dropValue < minCup) {
+            dropValue -= 1
+            if (dropValue < minCup) {
+                dropValue = maxCup
+            }
+        }
+        val dropCup = valueToCupMap[dropValue]
+        pick3.right = dropCup!!.right
+        pick3.right!!.left = pick3
+        dropCup.right = pick1
+        pick1.left = dropCup
+
+        currentCup = currentCup.right!!
+    }
+
+    val cupOnRightOfCupOne = valueToCupMap[1]!!.right
+    return cupOnRightOfCupOne!!.value.toLong() * cupOnRightOfCupOne.right!!.value
+}
+
+private fun generateLinkedList(list: List<Int>): MutableList<Cup> {
+    val cupsList = mutableListOf<Cup>()
+    cupsList.add(Cup(list[0]))
+    for (i in 0 until list.size - 1) {
+        cupsList.add(Cup(list[i + 1]))
+        cupsList[i].right = cupsList[i + 1]
+        cupsList[i + 1].left = cupsList[i]
+    }
+    cupsList[0].left = cupsList.last()
+    cupsList.last().right = cupsList[0]
+    return cupsList
+}
+
 private fun rotateListToHaveCurrentAtTheStart(index: Int, list: List<Int>): MutableList<Int> {
     val listWithCurrentAtStart = mutableListOf<Int>().circular()
     (index until list.size + index).mapTo(listWithCurrentAtStart) { list[it] }
@@ -80,4 +133,13 @@ private fun addCupsToList(input: List<Int>): MutableList<Int> {
     val newInputList = input.toMutableList()
     newInputList += 10..1000000
     return newInputList
+}
+
+data class Cup(var value: Int, var left: Cup? = null, var right: Cup? = null) {
+    override fun toString(): String {
+        return "{" + value +
+                ", left=" + left?.value +
+                ", right=" + right?.value +
+                '}'
+    }
 }
