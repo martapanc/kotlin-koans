@@ -2,7 +2,7 @@ package adventOfCode2020.day23
 
 import com.ginsberg.cirkle.circular
 
-fun playGame(input: List<Int>, moves: Int): String {
+fun playGame(input: List<Int>, moves: Int = 100): String {
     var list = input.toMutableList().circular()
     var currentCup = input[0]
     for (move in (1..moves)) {
@@ -33,6 +33,34 @@ fun playGame(input: List<Int>, moves: Int): String {
     return listAfter1ToString(list)
 }
 
+fun playGameP2(input: List<Int>, moves: Long = 10000000): Long {
+    var list = addCupsToList(input)
+    var currentCup = input[0]
+    for (move in (1..moves)) {
+        val pickUp = listOf(list.removeAt(1), list.removeAt(1), list.removeAt(1))
+        val nextCup = list[list.indexOf(currentCup) + 1]
+
+        var candidate = currentCup - 1
+        while (!list.contains(candidate)) {
+            if (candidate <= 0) {
+                candidate = 1000000
+            } else {
+                candidate -= 1
+            }
+        }
+        val indexToDropPickups = list.indexOf(candidate) + 1
+
+        for (pu in pickUp.reversed()) {
+            list.add(indexToDropPickups, pu)
+        }
+        list.remove(currentCup)
+        list.add(currentCup)
+        currentCup = nextCup
+    }
+
+    return list[list.indexOf(1) + 1].toLong() * list[list.indexOf(1) + 2]
+}
+
 private fun rotateListToHaveCurrentAtTheStart(index: Int, list: List<Int>): MutableList<Int> {
     val listWithCurrentAtStart = mutableListOf<Int>().circular()
     (index until list.size + index).mapTo(listWithCurrentAtStart) { list[it] }
@@ -46,4 +74,10 @@ private fun listAfter1ToString(list: List<Int>): String {
         string += newList[n]
     }
     return string
+}
+
+private fun addCupsToList(input: List<Int>): MutableList<Int> {
+    val newInputList = input.toMutableList()
+    newInputList += 10..1000000
+    return newInputList
 }
