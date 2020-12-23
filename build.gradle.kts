@@ -11,7 +11,7 @@ repositories {
 }
 dependencies {
     testImplementation(kotlin("test-junit5"))
-    implementation(kotlin("kotlin-stdlib"))
+    implementation("com.ginsberg:cirkle:1.0.1")
 }
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
