@@ -33,17 +33,18 @@ fun playGame(input: List<Int>, moves: Int = 100): String {
     return listAfter1ToString(list)
 }
 
-fun playGameV2(input: List<Int>, moves: Long = 100): Long {
-    var list = addCupsToList(input)
+fun playGameV2(input: List<Int>, moves: Long = 100): String {
+    val list = input.toMutableList()
     var currentCup = input[0]
-    for (move in (1..moves)) {
+    val maxCup = input.size
+
+    for (m in (1..moves)) {
         val pickUp = listOf(list.removeAt(1), list.removeAt(1), list.removeAt(1))
         val nextCup = list[list.indexOf(currentCup) + 1]
-
         var candidate = currentCup - 1
         while (!list.contains(candidate)) {
             if (candidate <= 0) {
-                candidate = 1000000
+                candidate = maxCup
             } else {
                 candidate -= 1
             }
@@ -57,8 +58,7 @@ fun playGameV2(input: List<Int>, moves: Long = 100): Long {
         list.add(currentCup)
         currentCup = nextCup
     }
-
-    return list[list.indexOf(1) + 1].toLong() * list[list.indexOf(1) + 2]
+    return listAfter1ToString(list)
 }
 
 fun playGamePart2(input: List<Int>, moves: Long = 10000000): Long {
@@ -72,12 +72,11 @@ fun playGamePart2(input: List<Int>, moves: Long = 10000000): Long {
     val minCup = 1
     val maxCup = list.size
 
-    for (i in (1..moves)) {
+    for (m in (1..moves)) {
         val pick1 = currentCup.right!!
         val pick2 = pick1.right!!
         val pick3 = pick2.right!!
         val pickupValues = listOf(pick1.value, pick2.value, pick3.value)
-
         currentCup.right = pick3.right
         currentCup.right!!.left = currentCup
 
@@ -93,7 +92,6 @@ fun playGamePart2(input: List<Int>, moves: Long = 10000000): Long {
         pick3.right!!.left = pick3
         dropCup.right = pick1
         pick1.left = dropCup
-
         currentCup = currentCup.right!!
     }
 
@@ -121,7 +119,7 @@ private fun rotateListToHaveCurrentAtTheStart(index: Int, list: List<Int>): Muta
 }
 
 private fun listAfter1ToString(list: List<Int>): String {
-    val newList = rotateListToHaveCurrentAtTheStart(list.indexOf(1), list)
+    val newList = rotateListToHaveCurrentAtTheStart(list.indexOf(1), list.circular())
     var string = ""
     for (n in 1 until newList.size) {
         string += newList[n]
