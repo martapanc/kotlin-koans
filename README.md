@@ -26,5 +26,5 @@
 - [Day 21](https://adventofcode.com/2020/day/21) (Allergen Assessment): [code](src/main/kotlin/adventOfCode2020/day21/Day21.kt) - [tests](src/test/kotlin/adventOfCode2020/day21/Day21KtTest.kt)
 - [Day 22](https://adventofcode.com/2020/day/22) (Crab Combat): [code](src/main/kotlin/adventOfCode2020/day22/Day22.kt) - [tests](src/test/kotlin/adventOfCode2020/day22/Day22KtTest.kt) - visualisation: <img src="src/main/kotlin/adventOfCode2020/day22/fight-crab.jpg" alt="Visualisation of Day 22" width="140"/>
 - [Day 23](https://adventofcode.com/2020/day/23) (Crab Cups): [code](src/main/kotlin/adventOfCode2020/day23/Day23.kt) - [tests](src/test/kotlin/adventOfCode2020/day23/Day23KtTest.kt) 
-- [Day 24](https://adventofcode.com/2020/day/24)
+- [Day 24](https://adventofcode.com/2020/day/24) (Lobby Layout): [code](src/main/kotlin/adventOfCode2020/day24/Day24.kt) - [tests](src/test/kotlin/adventOfCode2020/day24/Day24KtTest.kt)
 - [Day 25](https://adventofcode.com/2020/day/25)
