@@ -25,6 +25,10 @@ fun readInputToList(path: String): List<List<HexNeighbors>> {
 }
 
 fun findTilesAndCountBlackOnes(input: List<List<HexNeighbors>>): Int {
+    return getTiles(input).values.count { it == TileColor.BLACK }
+}
+
+private fun getTiles(input: List<List<HexNeighbors>>): Map<Coord, TileColor> {
     val tilesMap = mutableMapOf<Coord, TileColor>()
     tilesMap[Coord(0, 0)] = TileColor.WHITE
 
@@ -46,8 +50,45 @@ fun findTilesAndCountBlackOnes(input: List<List<HexNeighbors>>): Int {
             tilesMap[currentTile] = TileColor.BLACK
         }
     }
+    return tilesMap
+}
 
+fun playGameOfTiles(input: List<List<HexNeighbors>>, days: Int): Int {
+    var tilesMap = extendTileMap(getTiles(input))
+    for (day in 1..days) {
+        val mapCopy = tilesMap.toMutableMap()
+        for (tile in tilesMap.entries) {
+            val blackNeighbors = getNeighborTiles(tile.key, tilesMap).count { it == TileColor.BLACK }
+            when (tile.value) {
+                TileColor.BLACK -> {
+                    if (blackNeighbors == 0 || blackNeighbors > 2) {
+                        mapCopy[tile.key] = TileColor.WHITE
+                    } else mapCopy[tile.key] = TileColor.BLACK
+                }
+                TileColor.WHITE -> {
+                    if (blackNeighbors == 2) {
+                        mapCopy[tile.key] = TileColor.BLACK
+                    } else mapCopy[tile.key] = TileColor.WHITE
+                }
+            }
+        }
+        tilesMap = extendTileMap(mapCopy)
+    }
     return tilesMap.values.count { it == TileColor.BLACK }
+}
+
+private fun extendTileMap(tilesMap: Map<Coord, TileColor>): MutableMap<Coord, TileColor> {
+    val extendedMap = tilesMap.toMutableMap()
+    val minX = tilesMap.keys.mapTo(mutableSetOf()) { it.x }.minOrNull()!!
+    val maxX = tilesMap.keys.mapTo(mutableSetOf()) { it.x }.maxOrNull()!!
+    val minY = tilesMap.keys.mapTo(mutableSetOf()) { it.y }.minOrNull()!!
+    val maxY = tilesMap.keys.mapTo(mutableSetOf()) { it.y }.maxOrNull()!!
+    for (y in minY - 1..maxY + 1)
+        for (x in minX - 1..maxX + 1)
+            if (tilesMap[Coord(x, y)] == null) {
+                extendedMap[Coord(x, y)] = TileColor.WHITE
+            }
+    return extendedMap
 }
 
 private fun getDeltaMap(): MutableMap<HexNeighbors, Coord> {
@@ -59,6 +100,20 @@ private fun getDeltaMap(): MutableMap<HexNeighbors, Coord> {
     deltaMap[HexNeighbors.SW] = Coord(-1, -1)
     deltaMap[HexNeighbors.W] = Coord(-1, 0)
     return deltaMap
+}
+
+private fun getNeighborTiles(tile: Coord, map: Map<Coord, TileColor>): List<TileColor> {
+    val deltaCoords = getDeltaMap().values
+    val neighbors = mutableListOf<TileColor>()
+    for (delta in deltaCoords) {
+        val neighborCoord = Coord(tile.x + delta.x, tile.y + delta.y)
+        var neighborTile = map[neighborCoord]
+        if (neighborTile == null) {
+            neighborTile = TileColor.WHITE
+        }
+        neighbors.add(neighborTile)
+    }
+    return neighbors
 }
 
 enum class HexNeighbors { E, NE, SE, W, NW, SW }

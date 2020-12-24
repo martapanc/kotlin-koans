@@ -20,4 +20,15 @@ internal class Day24KtTest {
         assertEquals(10, findTilesAndCountBlackOnes(input0))
         assertEquals(549, findTilesAndCountBlackOnes(input))
     }
+
+    @Test
+    fun playTilesOfLife() {
+        assertEquals(10, playGameOfTiles(input0, 0))
+        assertEquals(15, playGameOfTiles(input0, 1))
+        assertEquals(12, playGameOfTiles(input0, 2))
+        assertEquals(25, playGameOfTiles(input0, 3))
+        assertEquals(2208, playGameOfTiles(input0, 100))
+
+        assertEquals(4147, playGameOfTiles(input, 100))
+    }
 }
