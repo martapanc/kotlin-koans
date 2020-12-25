@@ -1,37 +1,34 @@
 package adventOfCode2020.day25
 
-fun findEncryptionKey(doorPubKey: Int, cardPubKey: Int, subjectNum: Int = 7): Long {
-    val constant = 20201227
-    var doorLoopNum = 0
-    var cardLoopNum = 0
+const val constant = 20201227
+const val subjectNum = 7
 
-    var doorComputedPubKey = 1
-    var cardComputedPubKey = 1
+fun findEncryptionKey(doorPubKey: Int, cardPubKey: Int): Long {
+    val cardLoopNum = findLoopNumber(cardPubKey)
+    val doorLoopNum = findLoopNumber(doorPubKey)
 
-    while (cardComputedPubKey != cardPubKey) {
-        cardComputedPubKey *= subjectNum
-        cardComputedPubKey %= constant
-        cardLoopNum++
-    }
-    while (doorComputedPubKey != doorPubKey) {
-        doorComputedPubKey *= subjectNum
-        doorComputedPubKey %= constant
-        doorLoopNum++
-    }
-
-    var computedEncryptionKey = 1L
-    for (i in 0 until cardLoopNum) {
-        computedEncryptionKey *= doorPubKey
-        computedEncryptionKey %= constant
-    }
-
-    var computerEncryptionKeyCheck = 1L
-    for (i in 0 until doorLoopNum) {
-        computerEncryptionKeyCheck *= cardPubKey
-        computerEncryptionKeyCheck %= constant
-    }
-
-    if (computedEncryptionKey == computerEncryptionKeyCheck)
-        return computedEncryptionKey
+    val encryptionKey = transform(doorPubKey, cardLoopNum)
+    if (encryptionKey == transform(cardPubKey, doorLoopNum))
+        return encryptionKey
     return -1
+}
+
+private fun findLoopNumber(cardPubKey: Int): Int {
+    var computedPubKey = 1
+    var loopNum = 0
+    while (computedPubKey != cardPubKey) {
+        computedPubKey *= subjectNum
+        computedPubKey %= constant
+        loopNum++
+    }
+    return loopNum
+}
+
+private fun transform(subjectNum: Int, loopNumber: Int): Long {
+    var computedKey = 1L
+    for (i in 0 until loopNumber) {
+        computedKey *= subjectNum
+        computedKey %= constant
+    }
+    return computedKey
 }
